@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
-from database import get_db
+from database import get_db, init_db
 
 
 class LeadScorer:
@@ -52,11 +52,19 @@ class LeadScorer:
         return df
 
     def train(self):
-        conn = get_db()
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM leads")
-        rows = [dict(r) for r in cur.fetchall()]
-        conn.close()
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM leads")
+            rows = [dict(r) for r in cur.fetchall()]
+            conn.close()
+        except Exception:
+            init_db()
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM leads")
+            rows = [dict(r) for r in cur.fetchall()]
+            conn.close()
 
         if len(rows) < 5:
             return

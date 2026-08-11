@@ -4,7 +4,8 @@ import json
 from dotenv import load_dotenv
 
 load_dotenv()
-DATABASE_PATH = os.getenv("DATABASE_PATH", "./salesgenie.db")
+_DEFAULT_DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "salesgenie.db")
+DATABASE_PATH = os.getenv("DATABASE_PATH", _DEFAULT_DB_PATH)
 
 
 def get_db():
