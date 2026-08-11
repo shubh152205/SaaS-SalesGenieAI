@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![SalesGenie AI Banner](screenshots/dashboard_overview.png)
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React 18](https://img.shields.io/badge/React-18.2.0-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
