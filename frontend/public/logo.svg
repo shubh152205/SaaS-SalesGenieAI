@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#0b1120" rx="32" />
+  <circle cx="200" cy="170" r="130" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.35" />
+  <g stroke="#2563eb" stroke-width="2.5" opacity="0.9">
+    <line x1="200" y1="74" x2="143" y2="107" />
+    <line x1="200" y1="74" x2="257" y2="107" />
+    <line x1="143" y1="107" x2="110" y2="173" />
+    <line x1="257" y1="107" x2="290" y2="173" />
+    <line x1="110" y1="173" x2="128" y2="242" />
+    <line x1="290" y1="173" x2="272" y2="242" />
+    <line x1="128" y1="242" x2="161" y2="293" />
+    <line x1="272" y1="242" x2="239" y2="293" />
+    <line x1="200" y1="74" x2="170" y2="161" />
+    <line x1="200" y1="74" x2="230" y2="161" />
+    <line x1="143" y1="107" x2="170" y2="161" />
+    <line x1="257" y1="107" x2="230" y2="161" />
+    <line x1="110" y1="173" x2="170" y2="161" />
+    <line x1="290" y1="173" x2="230" y2="161" />
+    <line x1="170" y1="161" x2="230" y2="161" />
+    <line x1="170" y1="161" x2="200" y2="224" />
+    <line x1="230" y1="161" x2="200" y2="224" />
+    <line x1="110" y1="173" x2="200" y2="224" />
+    <line x1="290" y1="173" x2="200" y2="224" />
+    <line x1="128" y1="242" x2="200" y2="224" />
+    <line x1="272" y1="242" x2="200" y2="224" />
+    <line x1="161" y1="293" x2="200" y2="224" />
+    <line x1="239" y1="293" x2="200" y2="224" />
+  </g>
+  <line x1="200" y1="80" x2="200" y2="220" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4" />
+  <circle cx="200" cy="74" r="6" fill="#38bdf8" />
+  <circle cx="200" cy="74" r="3.5" fill="#ffffff" />
+  <circle cx="143" cy="107" r="6" fill="#38bdf8" />
+  <circle cx="143" cy="107" r="3.5" fill="#ffffff" />
+  <circle cx="257" cy="107" r="6" fill="#38bdf8" />
+  <circle cx="257" cy="107" r="3.5" fill="#ffffff" />
+  <circle cx="170" cy="161" r="6" fill="#38bdf8" />
+  <circle cx="170" cy="161" r="3.5" fill="#ffffff" />
+  <circle cx="230" cy="161" r="6" fill="#38bdf8" />
+  <circle cx="230" cy="161" r="3.5" fill="#ffffff" />
+  <circle cx="110" cy="173" r="6" fill="#38bdf8" />
+  <circle cx="110" cy="173" r="3.5" fill="#ffffff" />
+  <circle cx="290" cy="173" r="6" fill="#38bdf8" />
+  <circle cx="290" cy="173" r="3.5" fill="#ffffff" />
+  <circle cx="128" cy="242" r="6" fill="#38bdf8" />
+  <circle cx="128" cy="242" r="3.5" fill="#ffffff" />
+  <circle cx="272" cy="242" r="6" fill="#38bdf8" />
+  <circle cx="272" cy="242" r="3.5" fill="#ffffff" />
+  <circle cx="161" cy="293" r="6" fill="#38bdf8" />
+  <circle cx="161" cy="293" r="3.5" fill="#ffffff" />
+  <circle cx="239" cy="293" r="6" fill="#38bdf8" />
+  <circle cx="239" cy="293" r="3.5" fill="#ffffff" />
+  <circle cx="200" cy="224" r="11" fill="#ef4444" />
+  <circle cx="200" cy="224" r="8" fill="#f43f5e" />
+  <circle cx="200" cy="224" r="3.5" fill="#ffffff" />
+  <text x="200" y="348" text-anchor="middle" fill="#ffffff" font-family="'Outfit', sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5">SalesGenie AI</text>
+  <text x="200" y="372" text-anchor="middle" fill="#38bdf8" font-family="'Outfit', sans-serif" font-weight="700" font-size="10" letter-spacing="3">THE AI BRAIN SPARK</text>
+</svg>

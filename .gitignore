@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+*/node_modules/
+__pycache__/
+*/__pycache__/
+*/**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Testing & Cache
+.pytest_cache/
+*/.pytest_cache/
+.coverage
+htmlcov/
+.cache
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Logs & Temp files
+*.log
+logs/
+.DS_Store
+.~lock.*
+*.tmp
+
+# Environment Variables
+.env.local
+.env.*.local
+
+# External demo reference
+demo.tailadmin.com/
