@@ -288,17 +288,10 @@ backend/tests/test_engine.py::test_full_pipeline_sync PASSED              [100%]
 
 ## 📽️ PowerPoint Presentation Deck (B2B SaaS Domain)
 
-## 📽️ Interactive Web & Slide Presentation Decks
+A full 12-slide Widescreen PowerPoint Presentation & **Interactive Animated Web Deck** are included in the repository:
 
-SalesGenie AI includes two high-fidelity presentation options designed to showcase the platform to mentors, enterprise clients, and stakeholders:
-
-### 1. 🌐 Interactive React Web Presentation Deck
-Built using the **CollectiveOS** SaaS design language, featuring keyboard shortcuts (`←`/`→`, `Space`, `F`, `N`, `G`, `T`), speaker notes drawer, slide overview grid, light/dark mode parity, and interactive live screenshot switchers.
-- ⚡ **Web Route:** Accessible at `/presentation` or `/deck` in the running web app.
-- 📄 **Standalone Offline HTML:** [`presentation.html`](presentation.html) (double-click to open in any browser).
-
-### 2. 📊 Widescreen PowerPoint Presentation
-- 📄 **Presentation File:** [`SalesGenie_AI_Final_Presentation.pptx`](SalesGenie_AI_Final_Presentation.pptx)
+- 🌐 **Interactive Animated Web Presentation:** [`presentation.html`](presentation.html) *(Collective OS luxury design, 3D animated transitions, speaker notes, live ML simulation widgets)*
+- 📄 **PowerPoint Presentation File:** [`SalesGenie_AI_Final_Presentation.pptx`](SalesGenie_AI_Final_Presentation.pptx)
 - 📝 **Slide Transcript & Speech Notes:** [`salesgenie_ppt_presentation_deck.md`](salesgenie_ppt_presentation_deck.md)
 - 🛠️ **Generator Script:** `python3 generate_presentation.py`
 
@@ -324,7 +317,6 @@ Built using the **CollectiveOS** SaaS design language, featuring keyboard shortc
 salesgenie/
 ├── .gitignore                           # Excludes dependencies, pycache, and logs
 ├── README.md                            # Comprehensive platform documentation (SaaS Domain)
-├── presentation.html                    # Standalone interactive CollectiveOS Web Pitch Deck
 ├── SalesGenie_AI_Final_Presentation.pptx# 12-slide Light Theme PowerPoint Presentation (SaaS)
 ├── capture_screenshots.js               # Puppeteer script for 2x Retina Light Mode screenshots
 ├── generate_presentation.py             # Python-PPTX widescreen presentation generator
@@ -363,22 +355,21 @@ salesgenie/
     ├── package.json                     # Frontend dependencies
     └── src/
         ├── App.jsx                      # Main router & layout provider
-        ├── index.css                    # CollectiveOS theme styling & design tokens
+        ├── index.css                    # TailAdmin theme styling & design tokens
         ├── api/
         │   └── client.js                # Axios HTTP client with Bearer auth interceptor
         ├── context/
         │   ├── AuthContext.jsx          # JWT authentication state management
         │   └── ThemeContext.jsx         # Light / Dark theme context provider
         ├── components/
-        │   ├── Navbar.jsx               # Navigation bar with theme toggle, pitch deck & profile
-        │   └── Sidebar.jsx              # Navigation menu with real-time indicators & deck link
+        │   ├── Navbar.jsx               # Navigation bar with theme toggle & user profile
+        │   └── Sidebar.jsx              # Navigation menu with real-time indicators
         └── pages/
             ├── Dashboard.jsx            # Executive KPI suite & Recharts trends
             ├── LeadIntelligence.jsx     # B2B SaaS Lead Directory & ML intent scores
             ├── DealPipeline.jsx         # 5-Stage Kanban board
             ├── AIOutreach.jsx           # NVIDIA NIM email, cadence & InMail generator
             ├── MeetingIntelligence.jsx  # Audio upload, live recording & NLP sentiment
-            ├── WebPresentation.jsx      # CollectiveOS Interactive Presentation Deck
             ├── AuthPage.jsx             # 1-Click Instant Demo Login screen
             └── Settings.jsx             # ML hyperparameters & database status
 ```

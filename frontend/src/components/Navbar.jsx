@@ -63,19 +63,8 @@ const Navbar = ({
       </div>
 
       {/* Center / Right: Search Bar, Actions, Theme Toggle, Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         
-        {/* Quick Action: Web Presentation Pitch Deck */}
-        <button
-          onClick={() => navigate('/presentation')}
-          className="btn btn-secondary btn-sm"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-          title="Open Web Presentation Deck"
-        >
-          <Sparkles size={14} style={{ color: '#F59E0B' }} />
-          <span>Pitch Deck</span>
-        </button>
-
         {/* Quick Action Button: New AI Outreach */}
         <button
           onClick={() => navigate('/outreach')}

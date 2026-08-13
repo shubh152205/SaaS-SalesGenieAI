@@ -251,26 +251,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             </div>
           )}
 
-          {/* 6. Web Presentation Deck */}
-          <NavLink
-            to="/presentation"
-            className={({ isActive }) => `menu-item ${isActive ? 'menu-item-active' : ''}`}
-            title="Interactive Pitch Deck"
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <Sparkles size={19} style={{ color: '#F59E0B' }} />
-              </div>
-              {!collapsed && <span>Web Presentation Deck</span>}
-            </div>
-            {!collapsed && (
-              <span className="badge badge-warning" style={{ fontSize: '0.65rem', padding: '1px 6px' }}>
-                12 SLIDES
-              </span>
-            )}
-          </NavLink>
-
-          {/* 7. Settings */}
+          {/* 6. Settings */}
           <NavLink
             to="/settings"
             className={({ isActive }) => `menu-item ${isActive ? 'menu-item-active' : ''}`}

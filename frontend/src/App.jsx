@@ -11,8 +11,6 @@ import MeetingIntelligence from './pages/MeetingIntelligence';
 import Settings from './pages/Settings';
 import AuthPage from './pages/AuthPage';
 
-import WebPresentation from './pages/WebPresentation';
-
 const ProtectedLayout = ({ children }) => {
   const { token } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
@@ -35,8 +33,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/presentation" element={<WebPresentation />} />
-      <Route path="/deck" element={<WebPresentation />} />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       
       <Route

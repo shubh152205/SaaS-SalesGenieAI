@@ -1,146 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* ── Collective OS Light Theme Palette (Warm Cream & Deep Charcoal) ── */
-  --bg-body: #F6F3EC;          /* Signature CollectiveOS Warm Oatmeal / Soft Cream Canvas */
-  --bg-card: #FFFFFF;          /* Crisp White Surface */
-  --bg-card-solid: #FFFFFF;
-  --bg-card-subtle: #FAFAF8;   /* Soft warm tinted panel */
-  --bg-sidebar: #FFFFFF;
-  --bg-header: rgba(255, 255, 255, 0.92);
-
-  /* Primary Charcoal & Neutral Colors */
-  --charcoal-900: #1C1A17;     /* Darkest Charcoal / Espresso */
-  --charcoal-800: #2D2D2F;     /* Signature CollectiveOS Primary Charcoal Button & Headings */
-  --charcoal-700: #3A3A3C;     /* Medium Charcoal */
-  --charcoal-600: #52525B;
-  --charcoal-500: #71717A;
-  --charcoal-400: #9A9A9A;     /* Muted Label Gray */
-  --charcoal-300: #D4D4D8;
-  --charcoal-200: #E7E5DF;     /* Soft warm border */
-  --charcoal-100: #F1EFEA;
-  --charcoal-50:  #FAF8F4;
-
-  /* Brand Accent Tokens (Modern SaaS Indigo & Cyan) */
-  --brand-25: #F5F7FF;
-  --brand-50: #EEF2FF;
-  --brand-100: #E0E7FF;
-  --brand-200: #C7D2FE;
-  --brand-300: #A5B4FC;
-  --brand-400: #818CF8;
-  --brand-500: #465FFF;
-  --brand-600: #384DEC;
-  --brand-700: #3141D0;
-  --brand-800: #2B37A8;
+  /* Primary Brand - TailAdmin Signature Indigo (#465fff) */
+  --brand-25: #f6f8ff;
+  --brand-50: #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-300: #a5b4fc;
+  --brand-400: #818cf8;
+  --brand-500: #465fff;
+  --brand-600: #384dec;
+  --brand-700: #3141d0;
+  --brand-800: #2b37a8;
   --brand-900: #273185;
 
-  /* Borders */
-  --border-subtle: rgba(229, 231, 235, 0.75);
-  --border-medium: rgba(209, 213, 219, 0.85);
-  --border-strong: rgba(156, 163, 175, 0.9);
-  --border-warm: #E7E5DF;
+  /* TailAdmin Light Mode Palette (Exact Match to demo.tailadmin.com) */
+  --bg-body: #f2f4f7;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f9fafb;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.95);
+  
+  --border-subtle: #eaecf0;
+  --border-medium: #d0d5dd;
+  --border-strong: #98a2b3;
 
-  /* Typography Text Colors (Light Mode) */
-  --text-main: #2D2D2F;
-  --text-muted: #52525B;
-  --text-dim: #9A9A9A;
-  --text-white: #FFFFFF;
+  --text-main: #101828;
+  --text-muted: #475467;
+  --text-dim: #98a2b3;
+  --text-white: #ffffff;
 
-  /* Collective OS Status Badges & Accents */
-  --success-50: #ECFDF5;
-  --success-100: #D1FAE5;
-  --success-500: #10B981;
-  --success-600: #059669;
-  --success-700: #047857;
+  /* TailAdmin Semantic Tokens (Light Mode) */
+  --success-50: #ecfdf3;
+  --success-100: #d1fadf;
+  --success-500: #12b76a;
+  --success-600: #027a48;
+  --success-700: #05603a;
 
-  --warning-50: #FFFBEB;
-  --warning-100: #FEF3C7;
-  --warning-500: #F59E0B;
-  --warning-600: #D97706;
-  --warning-700: #B45309;
+  --warning-50: #fffaeb;
+  --warning-100: #fef0c7;
+  --warning-500: #f79009;
+  --warning-600: #b54708;
+  --warning-700: #93370d;
 
-  --error-50: #FEF2F2;
-  --error-100: #FEE2E2;
-  --error-500: #EF4444;
-  --error-600: #DC2626;
-  --error-700: #B91C1C;
+  --error-50: #fef3f2;
+  --error-100: #fee4e2;
+  --error-500: #f04438;
+  --error-600: #b42318;
+  --error-700: #912018;
 
-  --info-50: #F0F9FF;
-  --info-100: #E0F2FE;
-  --info-500: #0284C7;
-  --info-600: #0369A1;
-  --info-700: #075985;
+  --info-50: #f0f9ff;
+  --info-100: #e0f2fe;
+  --info-500: #0ba5ec;
+  --info-600: #026aa2;
+  --info-700: #004e78;
 
-  /* Collective OS Extra Rounded Radii */
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 28px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 
-  /* Soft Ambient & Elevation Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.035), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-theme: 0 8px 30px rgba(0, 0, 0, 0.035);
-  --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.07);
-  --shadow-capsule: 0 4px 14px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --shadow-theme: 0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
 }
 
-/* ── Collective OS Dark Theme Palette (Warm Dark Espresso Charcoal) ── */
+/* TailAdmin Dark Mode Palette */
 .dark, :root.dark, body.dark {
-  --bg-body: #1C1A17;          /* Signature Warm Dark Espresso Canvas */
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-solid: #24221E;    /* Elevated Warm Dark Tile */
+  --bg-body: #0b1329;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-solid: #111c38;
   --bg-card-subtle: rgba(255, 255, 255, 0.02);
-  --bg-sidebar: #161513;
-  --bg-header: rgba(22, 21, 19, 0.94);
+  --bg-sidebar: #0b1329;
+  --bg-header: rgba(11, 19, 41, 0.88);
 
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.14);
   --border-strong: rgba(255, 255, 255, 0.22);
-  --border-warm: rgba(255, 255, 255, 0.08);
 
-  --text-main: #FFFFFF;
-  --text-muted: #D4D4D8;
-  --text-dim: #8E8E93;
-  --text-white: #FFFFFF;
+  --text-main: rgba(255, 255, 255, 0.94);
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
 
-  --charcoal-800: #FFFFFF;
-  --charcoal-700: #F4F4F5;
+  --success-50: rgba(16, 185, 129, 0.14);
+  --success-100: rgba(16, 185, 129, 0.22);
+  --success-500: #34d399;
+  --success-600: #10b981;
 
-  --success-50: rgba(16, 185, 129, 0.15);
-  --success-100: rgba(16, 185, 129, 0.25);
-  --success-500: #34D399;
-  --success-600: #10B981;
+  --warning-50: rgba(245, 158, 11, 0.14);
+  --warning-100: rgba(245, 158, 11, 0.22);
+  --warning-500: #fbbf24;
+  --warning-600: #f59e0b;
 
-  --warning-50: rgba(245, 158, 11, 0.15);
-  --warning-100: rgba(245, 158, 11, 0.25);
-  --warning-500: #FBBF24;
-  --warning-600: #F59E0B;
+  --error-50: rgba(239, 68, 68, 0.14);
+  --error-100: rgba(239, 68, 68, 0.22);
+  --error-500: #f87171;
+  --error-600: #ef4444;
 
-  --error-50: rgba(239, 68, 68, 0.15);
-  --error-100: rgba(239, 68, 68, 0.25);
-  --error-500: #F87171;
-  --error-600: #EF4444;
+  --info-50: rgba(6, 182, 212, 0.14);
+  --info-100: rgba(6, 182, 212, 0.22);
+  --info-500: #38bdf8;
+  --info-600: #0ea5e9;
 
-  --info-50: rgba(2, 132, 199, 0.15);
-  --info-100: rgba(2, 132, 199, 0.25);
-  --info-500: #38BDF8;
-  --info-600: #0284C7;
-
-  --shadow-theme: 0 8px 32px rgba(0, 0, 0, 0.45);
-  --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-capsule: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-theme: 0px 4px 20px 0px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Base Resets & Global Font Definition ── */
+/* Base Resets & Global Font Definition */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -150,7 +122,6 @@
 
 html {
   font-family: var(--font-sans);
-  scroll-behavior: smooth;
 }
 
 body {
@@ -162,27 +133,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* ── Editorial SaaS Typography Hierarchy (Plus Jakarta Sans) ── */
+/* Typography Hierarchy matching TailAdmin */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 700;
   color: var(--text-main);
-  letter-spacing: -0.025em;
-  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-.text-title-xxl { font-size: 2.25rem; font-weight: 800; line-height: 1.12; letter-spacing: -0.03em; }
-.text-title-xl  { font-size: 1.75rem; font-weight: 700; line-height: 1.2;  letter-spacing: -0.025em; }
-.text-title-lg  { font-size: 1.5rem;  font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
-.text-title-md  { font-size: 1.25rem; font-weight: 700; line-height: 1.3;  letter-spacing: -0.015em; }
-.text-title-sm  { font-size: 1.05rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
-.text-theme-sm  { font-size: 0.875rem; line-height: 1.45; }
-.text-theme-xs  { font-size: 0.75rem;  line-height: 1.4; }
+.text-title-xxl { font-size: 2.25rem; font-weight: 800; line-height: 1.15; }
+.text-title-xl { font-size: 1.75rem; font-weight: 700; line-height: 1.25; }
+.text-title-lg { font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+.text-title-md { font-size: 1.25rem; font-weight: 700; line-height: 1.35; }
+.text-title-sm { font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+.text-theme-sm { font-size: 0.875rem; line-height: 1.45; }
+.text-theme-xs { font-size: 0.75rem; line-height: 1.4; }
 
-/* ── App Layout ── */
+/* App Layout Grid */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -200,7 +170,7 @@ h1, h2, h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-wrapper.collapsed {
@@ -218,7 +188,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .page-container {
-  padding: 28px 36px 56px;
+  padding: 24px 32px 48px;
   max-width: 1680px;
   margin: 0 auto;
   width: 100%;
@@ -226,17 +196,17 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 1024px) {
   .page-container {
-    padding: 20px 16px 40px;
+    padding: 20px 16px 36px;
   }
 }
 
-/* ── Collective OS Top Header ── */
+/* TailAdmin Top Header */
 .app-header {
-  height: 74px;
-  padding: 0 36px;
+  height: 72px;
+  padding: 0 32px;
   background-color: var(--bg-header);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
@@ -253,42 +223,29 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ── Collective OS Bento Box Cards ── */
+/* TailAdmin Cards */
 .tail-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-2xl);
-  padding: 26px;
+  border-radius: var(--radius-xl);
+  padding: 24px;
   box-shadow: var(--shadow-theme);
   position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tail-card:hover {
-  box-shadow: var(--shadow-hover);
   border-color: var(--border-medium);
-  transform: translateY(-2px);
-}
-
-.tail-card-subtle {
-  background-color: var(--bg-card-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 20px;
 }
 
 .tail-card-glow {
-  border-color: rgba(45, 45, 47, 0.25);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-}
-.dark .tail-card-glow {
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  border-color: rgba(70, 95, 255, 0.35);
+  box-shadow: 0 0 25px -5px rgba(70, 95, 255, 0.2);
 }
 
-/* ── Sidebar Menu Components ── */
+/* Sidebar Menu Components */
 .sidebar-header {
-  padding: 22px 20px;
+  padding: 20px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -303,20 +260,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-md);
-  background: #1C1A17;
+  background: linear-gradient(135deg, var(--brand-500) 0%, #06b6d4 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(70, 95, 255, 0.3);
   flex-shrink: 0;
-}
-.dark .sidebar-logo-icon {
-  background: #FFFFFF;
-  color: #1C1A17;
 }
 
 .sidebar-nav-section-title {
@@ -325,48 +278,47 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-dim);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0 18px;
-  margin: 20px 0 8px;
+  padding: 0 16px;
+  margin: 18px 0 8px;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 11px 16px;
-  border-radius: var(--radius-full);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
   color: var(--text-muted);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  margin: 3px 12px;
+  transition: all 0.15s ease;
+  margin: 2px 10px;
   cursor: pointer;
   border: 1px solid transparent;
 }
 
 .menu-item:hover {
-  background-color: var(--bg-card-subtle);
-  color: var(--text-main);
-  transform: translateX(2px);
+  background-color: var(--brand-50);
+  color: var(--brand-500);
 }
 
 .dark .menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #FFFFFF;
+  background-color: rgba(70, 95, 255, 0.1);
+  color: #ffffff;
 }
 
 .menu-item-active {
-  background-color: #2D2D2F !important;
-  color: #FFFFFF !important;
+  background-color: var(--brand-50) !important;
+  color: var(--brand-500) !important;
+  border-color: rgba(70, 95, 255, 0.2) !important;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .dark .menu-item-active {
-  background-color: #FFFFFF !important;
-  color: #1C1A17 !important;
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+  background-color: rgba(70, 95, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-color: rgba(70, 95, 255, 0.35) !important;
 }
 
 .menu-item-icon {
@@ -375,135 +327,99 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   width: 20px;
   height: 20px;
-  color: inherit;
+  color: var(--brand-400);
   flex-shrink: 0;
 }
 
-/* ── Collective OS Capsule Buttons ── */
+/* TailAdmin Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 22px;
-  border-radius: var(--radius-full);
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 600;
   font-family: var(--font-sans);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
   text-decoration: none;
   white-space: nowrap;
-}
-
-.btn:hover {
-  transform: translateY(-1.5px);
 }
 
 .btn:active {
   transform: scale(0.98);
 }
 
-/* Primary Capsule Button (CollectiveOS Solid Charcoal in Light Mode / Crisp White in Dark Mode) */
 .btn-primary {
-  background: #2D2D2F;
-  color: #FFFFFF;
-  box-shadow: var(--shadow-capsule);
+  background: var(--brand-500);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(70, 95, 255, 0.3);
 }
 
 .btn-primary:hover {
-  background: #3A3A3C;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  background: var(--brand-600);
+  box-shadow: 0 4px 12px rgba(70, 95, 255, 0.4);
 }
 
-.dark .btn-primary {
-  background: #FFFFFF;
-  color: #1C1A17;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
-}
-
-.dark .btn-primary:hover {
-  background: #F4F4F5;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
-}
-
-/* Secondary Glass Capsule Button */
 .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.85);
-  border-color: var(--border-subtle);
+  background-color: var(--bg-card);
+  border-color: var(--border-medium);
   color: var(--text-main);
-  backdrop-filter: blur(8px);
 }
 
 .btn-secondary:hover {
-  background-color: #FFFFFF;
-  border-color: var(--border-medium);
-  color: var(--text-main);
-  box-shadow: var(--shadow-sm);
-}
-
-.dark .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: var(--border-subtle);
-  color: #FFFFFF;
+  background-color: var(--brand-50);
+  border-color: var(--brand-300);
+  color: var(--brand-500);
 }
 
 .dark .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: var(--border-medium);
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-strong);
+  color: #ffffff;
 }
 
-/* Accent Indigo Capsule */
-.btn-brand {
-  background: #465FFF;
-  color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(70, 95, 255, 0.28);
-}
-.btn-brand:hover {
-  background: #384DEC;
-  box-shadow: 0 6px 20px rgba(70, 95, 255, 0.38);
-}
-
-/* Accent Cyan / Waveform Capsule */
 .btn-cyan {
-  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
-  color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(6, 182, 212, 0.3);
 }
 
 .btn-cyan:hover {
-  background: linear-gradient(135deg, #0369A1 0%, #075985 100%);
-  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
 }
 
 .btn-sm {
-  padding: 7px 16px;
+  padding: 6px 12px;
   font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
 }
 
 .btn-lg {
-  padding: 13px 28px;
+  padding: 12px 24px;
   font-size: 1rem;
+  border-radius: var(--radius-lg);
 }
 
-/* ── Collective OS Pill Badges ── */
+/* Badges & Status Pills (High Contrast for Light & Dark) */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 12px;
+  gap: 4px;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: 0.02em;
 }
 
 .badge-brand {
   background-color: var(--brand-50);
-  color: var(--brand-600);
-  border: 1px solid rgba(70, 95, 255, 0.15);
+  color: var(--brand-500);
 }
 .dark .badge-brand {
   background-color: rgba(70, 95, 255, 0.15);
@@ -513,7 +429,6 @@ h1, h2, h3, h4, h5, h6 {
 .badge-success, .badge-complete {
   background-color: var(--success-50);
   color: var(--success-600);
-  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 .dark .badge-success, .dark .badge-complete {
   background-color: var(--success-50);
@@ -523,7 +438,6 @@ h1, h2, h3, h4, h5, h6 {
 .badge-warning, .badge-pending {
   background-color: var(--warning-50);
   color: var(--warning-600);
-  border: 1px solid rgba(245, 158, 11, 0.2);
 }
 .dark .badge-warning, .dark .badge-pending {
   background-color: var(--warning-50);
@@ -533,7 +447,6 @@ h1, h2, h3, h4, h5, h6 {
 .badge-error, .badge-hot {
   background-color: var(--error-50);
   color: var(--error-600);
-  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 .dark .badge-error, .dark .badge-hot {
   background-color: var(--error-50);
@@ -543,49 +456,36 @@ h1, h2, h3, h4, h5, h6 {
 .badge-cyan, .badge-qualified {
   background-color: var(--info-50);
   color: var(--info-600);
-  border: 1px solid rgba(2, 132, 199, 0.2);
 }
 .dark .badge-cyan, .dark .badge-qualified {
   background-color: var(--info-50);
   color: var(--info-500);
 }
 
-.badge-neutral {
-  background-color: var(--bg-card-subtle);
-  color: var(--text-main);
-  border: 1px solid var(--border-subtle);
-}
-
-/* ── Form Controls & Inputs (Collective OS Style) ── */
+/* Form Controls */
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .input-label {
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-main);
-  letter-spacing: -0.01em;
 }
 
 .tail-input, .input-field {
   width: 100%;
-  padding: 11px 16px;
+  padding: 10px 14px;
   background-color: var(--bg-card);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   outline: none;
-}
-
-.tail-input-pill {
-  border-radius: var(--radius-full) !important;
-  padding: 11px 20px !important;
 }
 
 .dark .tail-input, .dark .input-field {
@@ -594,17 +494,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tail-input:focus, .input-field:focus {
-  border-color: #2D2D2F;
-  box-shadow: 0 0 0 3px rgba(45, 45, 47, 0.1);
-}
-.dark .tail-input:focus, .dark .input-field:focus {
-  border-color: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px rgba(70, 95, 255, 0.15);
 }
 
 .select-field {
   width: 100%;
-  padding: 11px 16px;
+  padding: 10px 14px;
   background-color: var(--bg-card);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
@@ -613,34 +509,29 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.875rem;
   outline: none;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .dark .select-field {
-  background-color: #24221E;
+  background-color: #111c38;
   border-color: var(--border-subtle);
   color: var(--text-main);
 }
 
 .select-field:focus {
-  border-color: #2D2D2F;
-}
-.dark .select-field:focus {
-  border-color: #FFFFFF;
+  border-color: var(--brand-500);
 }
 
 .textarea-field {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 14px;
   background-color: var(--bg-card);
   border: 1px solid var(--border-medium);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 0.875rem;
   outline: none;
   resize: vertical;
-  transition: all 0.2s ease;
 }
 
 .dark .textarea-field {
@@ -649,21 +540,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .textarea-field:focus {
-  border-color: #2D2D2F;
-  box-shadow: 0 0 0 3px rgba(45, 45, 47, 0.1);
-}
-.dark .textarea-field:focus {
-  border-color: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px rgba(70, 95, 255, 0.15);
 }
 
-/* ── Collective OS Tables ── */
+/* TailAdmin Table Four Styles */
 .table-container {
   width: 100%;
   overflow-x: auto;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
-  background-color: var(--bg-card);
 }
 
 .tail-table {
@@ -674,7 +560,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tail-table thead tr {
-  background-color: var(--bg-card-subtle);
+  background-color: #f9fafb;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -684,21 +570,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tail-table th {
-  padding: 16px 22px;
+  padding: 14px 20px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--text-dim);
   white-space: nowrap;
 }
 
 .tail-table td {
-  padding: 18px 22px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-main);
   white-space: nowrap;
   vertical-align: middle;
+}
+
+/* Compact Table Variant for Multi-Column Split Views */
+.tail-table-compact th {
+  padding: 10px 14px;
+  font-size: 0.72rem;
+}
+
+.tail-table-compact td {
+  padding: 11px 14px;
+  font-size: 0.8125rem;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
 }
 
 .tail-table tbody tr {
@@ -706,31 +613,39 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tail-table tbody tr:hover {
-  background-color: var(--bg-card-subtle);
+  background-color: rgba(70, 95, 255, 0.03);
 }
 
 .dark .tail-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
-/* Compact Table Variant */
-.tail-table-compact th {
-  padding: 12px 16px;
-  font-size: 0.72rem;
+/* Custom Checkbox matching TailAdmin */
+.tail-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background-color: transparent;
 }
 
-.tail-table-compact td {
-  padding: 13px 16px;
-  font-size: 0.8125rem;
+.tail-checkbox.checked {
+  background-color: var(--brand-500);
+  border-color: var(--brand-500);
 }
 
-/* ── Status Pulse & Highlights ── */
+/* Pulse Dot */
 .pulse-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background-color: var(--success-500);
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.7);
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   display: inline-block;
   flex-shrink: 0;
@@ -738,17 +653,17 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes pulse-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 8px rgba(18, 183, 106, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 0 rgba(18, 183, 106, 0);
   }
 }
 
-/* ── Custom Scrollbar ── */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -767,33 +682,34 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(156, 163, 175, 0.5);
 }
 
-/* ── Layout Grids ── */
+/* Responsive Kanban Board Grid */
 .kanban-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   align-items: start;
 }
 
 @media (max-width: 1366px) {
   .kanban-grid {
-    grid-template-columns: repeat(5, minmax(210px, 1fr));
+    grid-template-columns: repeat(5, minmax(190px, 1fr));
     overflow-x: auto;
-    padding-bottom: 14px;
+    padding-bottom: 12px;
   }
 }
 
 @media (max-width: 900px) {
   .kanban-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 }
 
+/* Responsive Dashboard Analytics Grid */
 .analytics-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
-  gap: 26px;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
@@ -802,10 +718,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Responsive Lead Intelligence Grid */
 .lead-intelligence-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
-  gap: 24px;
+  gap: 20px;
   align-items: start;
 }
 
@@ -815,10 +732,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Responsive AI Outreach Grid */
 .outreach-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: 26px;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
@@ -827,14 +745,20 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Responsive Meeting Intelligence Grid */
 .meetings-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
-  gap: 26px;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
   .meetings-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(0.98); }
 }
