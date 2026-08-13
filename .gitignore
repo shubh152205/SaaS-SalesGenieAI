@@ -31,5 +31,10 @@ logs/
 .env.local
 .env.*.local
 
+# SQLite Database
+*.db
+*.db-wal
+*.db-shm
+
 # External demo reference
 demo.tailadmin.com/
