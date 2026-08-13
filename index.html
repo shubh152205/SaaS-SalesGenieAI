@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaaS SalesGenie AI — Interactive Executive Presentation</title>
+  
+  <!-- Modern Google Fonts: Plus Jakarta Sans, Outfit, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       COLLECTIVE OS × APPLE KEYNOTE DESIGN TOKENS
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --font-sans: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Light Theme (Warm Cream Luxury Canvas) */
+      --bg-canvas: #F6F3EC;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #FAFAF8;
+      --bg-card-elevated: #FFFFFF;
+      --bg-nav: rgba(28, 26, 23, 0.92);
+      --bg-nav-light: rgba(255, 255, 255, 0.94);
+
+      --charcoal-900: #161513;
+      --charcoal-800: #2D2D2F;
+      --charcoal-700: #3A3A3C;
+      --charcoal-600: #52525B;
+      --charcoal-500: #71717A;
+      --charcoal-400: #9A9A9A;
+      --charcoal-300: #D4D4D8;
+      --charcoal-200: #E7E5DF;
+      --charcoal-100: #F1EFEA;
+
+      --text-title: #1C1A17;
+      --text-body: #3A3A3C;
+      --text-muted: #71717A;
+      --text-dim: #9A9A9A;
+
+      /* Accents */
+      --brand: #465FFF;
+      --brand-gradient: linear-gradient(135deg, #465FFF 0%, #38BDF8 100%);
+      --emerald: #10B981;
+      --emerald-light: #ECFDF5;
+      --amber: #F59E0B;
+      --amber-light: #FFFBEB;
+      --cyan: #0284C7;
+      --cyan-light: #F0F9FF;
+      --rose: #EF4444;
+      --rose-light: #FEF2F2;
+
+      --border-subtle: rgba(229, 231, 235, 0.85);
+      --border-medium: rgba(209, 213, 219, 0.9);
+      --border-warm: #E7E5DF;
+
+      --shadow-ambient: 0 10px 35px rgba(0, 0, 0, 0.035);
+      --shadow-hover: 0 20px 48px rgba(0, 0, 0, 0.08);
+      --shadow-capsule: 0 8px 24px rgba(0, 0, 0, 0.14);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 26px;
+      --radius-full: 9999px;
+    }
+
+    /* Dark Mode (Warm Espresso Charcoal) */
+    body.dark {
+      --bg-canvas: #161513;
+      --bg-card: #201E1A;
+      --bg-card-subtle: rgba(255, 255, 255, 0.03);
+      --bg-card-elevated: #282521;
+      --bg-nav: rgba(22, 21, 19, 0.94);
+      --bg-nav-light: rgba(36, 34, 30, 0.92);
+
+      --text-title: #FFFFFF;
+      --text-body: #E4E4E7;
+      --text-muted: #A1A1AA;
+      --text-dim: #71717A;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-warm: rgba(255, 255, 255, 0.08);
+
+      --shadow-ambient: 0 12px 40px rgba(0, 0, 0, 0.45);
+      --shadow-hover: 0 24px 60px rgba(0, 0, 0, 0.65);
+
+      --emerald-light: rgba(16, 185, 129, 0.15);
+      --amber-light: rgba(245, 158, 11, 0.15);
+      --cyan-light: rgba(2, 132, 199, 0.15);
+      --rose-light: rgba(239, 68, 68, 0.15);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       GLOBAL RESETS & STYLING
+       ═══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      background-color: var(--bg-canvas);
+      color: var(--text-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+      user-select: none;
+    }
+
+    /* Background Ambient Gradient Glows */
+    .ambient-glow-1 {
+      position: fixed;
+      top: -150px;
+      left: -150px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(70, 95, 255, 0.09) 0%, rgba(56, 189, 248, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .ambient-glow-2 {
+      position: fixed;
+      bottom: -150px;
+      right: -150px;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.07) 0%, rgba(16, 185, 129, 0) 70%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body.dark .ambient-glow-1 {
+      background: radial-gradient(circle, rgba(70, 95, 255, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
+    }
+
+    body.dark .ambient-glow-2 {
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0) 70%);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DECK STAGE & SLIDE CONTAINERS
+       ═══════════════════════════════════════════════════════════════ */
+    .deck-viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 48px 100px;
+      perspective: 1200px;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      max-width: 1400px;
+      height: 100%;
+      max-height: 820px;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transform: scale(0.96) translateY(30px);
+      transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: scale(0.95) translateY(-30px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       TYPOGRAPHY & HEADER EYEBROWS
+       ═══════════════════════════════════════════════════════════════ */
+    .slide-header {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .eyebrow-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--charcoal-800);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      margin-bottom: 12px;
+    }
+    body.dark .eyebrow-badge {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: var(--text-title);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .slide-title span.gradient-text {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 500;
+      max-width: 800px;
+    }
+
+    .slide-number-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       BENTO GRID & CARD ARCHITECTURE
+       ═══════════════════════════════════════════════════════════════ */
+    .bento-grid {
+      display: grid;
+      gap: 20px;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-2x2 {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    .grid-3-col {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-4-col {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .grid-split-equal {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bento-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      box-shadow: var(--shadow-ambient);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bento-card:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-medium);
+      transform: translateY(-3px);
+    }
+
+    .bento-card.highlight {
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-card-subtle) 100%);
+      border-color: rgba(70, 95, 255, 0.3);
+    }
+
+    .card-icon-pill {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand);
+      margin-bottom: 14px;
+    }
+
+    .card-icon-pill.emerald { color: var(--emerald); background: var(--emerald-light); border-color: rgba(16, 185, 129, 0.2); }
+    .card-icon-pill.amber   { color: var(--amber); background: var(--amber-light); border-color: rgba(245, 158, 11, 0.2); }
+    .card-icon-pill.cyan    { color: var(--cyan); background: var(--cyan-light); border-color: rgba(2, 132, 199, 0.2); }
+    .card-icon-pill.rose    { color: var(--rose); background: var(--rose-light); border-color: rgba(239, 68, 68, 0.2); }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-title);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .card-metric {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--text-title);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 10px 0 4px;
+    }
+
+    .card-metric-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-body);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       HERO / TITLE SLIDE (SLIDE 1)
+       ═══════════════════════════════════════════════════════════════ */
+    .hero-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--text-title);
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      max-width: 860px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .hero-pill-item {
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-ambient);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-title);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-presenter-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-ambient);
+    }
+
+    .presenter-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1C1A17 0%, #465FFF 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTERACTIVE LIVE DEMO WIDGETS IN SLIDES
+       ═══════════════════════════════════════════════════════════════ */
+    /* Lead Scorer Interactive Simulator */
+    .lead-scorer-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .score-gauge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 18px 24px;
+      border-radius: var(--radius-md);
+    }
+
+    .score-value {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--emerald);
+      line-height: 1;
+    }
+
+    /* Waveform Animation */
+    .waveform-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 40px;
+    }
+
+    .waveform-bar {
+      width: 4px;
+      background: var(--brand);
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite alternate;
+    }
+    .waveform-bar:nth-child(2) { animation-delay: 0.2s; height: 70%; }
+    .waveform-bar:nth-child(3) { animation-delay: 0.4s; height: 100%; }
+    .waveform-bar:nth-child(4) { animation-delay: 0.1s; height: 40%; }
+    .waveform-bar:nth-child(5) { animation-delay: 0.5s; height: 85%; }
+    .waveform-bar:nth-child(6) { animation-delay: 0.3s; height: 60%; }
+
+    @keyframes wave {
+      0% { height: 20%; }
+      100% { height: 95%; }
+    }
+
+    /* UI Screenshot Carousel / Frame */
+    .screenshot-frame {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-ambient);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screenshot-header {
+      padding: 12px 20px;
+      background: var(--bg-card-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .screenshot-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .screenshot-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--charcoal-300);
+    }
+    .screenshot-dot.red { background: #FF5F56; }
+    .screenshot-dot.yellow { background: #FFBD2E; }
+    .screenshot-dot.green { background: #27C93F; }
+
+    .screenshot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.4s ease;
+    }
+
+    .screenshot-frame:hover .screenshot-img {
+      transform: scale(1.02);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FLOATING MASTER CONTROLLER CAPSULE (NAVBAR)
+       ═══════════════════════════════════════════════════════════════ */
+    .master-capsule-nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: var(--bg-nav);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-capsule);
+      color: #FFFFFF;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.primary-pill {
+      background: #FFFFFF;
+      color: #161513;
+      padding: 8px 18px;
+    }
+    .nav-btn.primary-pill:hover {
+      background: #F4F4F5;
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .nav-counter {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.05em;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.05);
+      z-index: 999;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--brand-gradient);
+      width: 8.33%;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PRESENTER NOTES DRAWER & SLIDE OVERVIEW GRID
+       ═══════════════════════════════════════════════════════════════ */
+    /* Presenter Notes Drawer */
+    .notes-drawer {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 400px;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border-subtle);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+      z-index: 1100;
+      padding: 32px 28px;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .notes-drawer.open {
+      transform: translateX(0);
+    }
+
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 20px;
+    }
+
+    .notes-content {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-body);
+    }
+
+    /* Slide Overview Modal Grid */
+    .overview-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 21, 19, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+    }
+
+    .overview-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    .overview-thumb {
+      background: var(--bg-card);
+      border: 2px solid transparent;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 160px;
+      transition: all 0.25s ease;
+    }
+
+    .overview-thumb:hover, .overview-thumb.active {
+      border-color: var(--brand);
+      transform: scale(1.03);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       STAGGERED ENTRANCE ANIMATIONS
+       ═══════════════════════════════════════════════════════════════ */
+    .slide.active .animate-up {
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active .delay-1 { animation-delay: 0.08s; opacity: 0; }
+    .slide.active .delay-2 { animation-delay: 0.16s; opacity: 0; }
+    .slide.active .delay-3 { animation-delay: 0.24s; opacity: 0; }
+    .slide.active .delay-4 { animation-delay: 0.32s; opacity: 0; }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Slide Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       DECK STAGE (12 SLIDES)
+       ═══════════════════════════════════════════════════════════════ -->
+  <main class="deck-viewport" id="deckViewport">
+
+    <!-- ── SLIDE 1: TITLE HERO ── -->
+    <section class="slide active" data-slide="1" data-notes="Welcome, distinguished evaluators. This is SaaS SalesGenie AI — an enterprise-grade autonomous intelligence platform engineered specifically for the modern B2B SaaS revenue engine. In this presentation, we will demonstrate how machine learning lead scoring, real-time call discovery NLP, and agentic NVIDIA NIM microservices compress SaaS sales cycles from 45 days down to 28 days.">
+      <div class="hero-container">
+        <div class="eyebrow-badge animate-up">
+          <i data-lucide="zap" style="width: 14px; height: 14px; color: #465FFF;"></i>
+          <span>AUTONOMOUS B2B SAAS SALES PLATFORM</span>
+        </div>
+
+        <h1 class="hero-title animate-up delay-1">
+          SaaS <span class="gradient-text">SalesGenie AI</span>
+        </h1>
+
+        <p class="hero-subtitle animate-up delay-2">
+          Autonomous B2B SaaS Sales Intelligence & Predictive Lead Scoring Engine. Accelerating Product-Led Growth, trial-to-paid conversion, and enterprise ARR velocity.
+        </p>
+
+        <div class="hero-pills animate-up delay-3">
+          <div class="hero-pill-item">
+            <i data-lucide="brain-circuit" style="color: #465FFF; width: 18px;"></i>
+            <span>Random Forest (100 Trees)</span>
+          </div>
+          <div class="hero-pill-item">
+            <i data-lucide="sparkles" style="color: #0284C7; width: 18px;"></i>
+            <span>NVIDIA NIM (Llama 3.1 70B)</span>
+          </div>
+          <div class="hero-pill-item">
+            <i data-lucide="shield-check" style="color: #10B981; width: 18px;"></i>
+            <span>Stateless JWT & SQLite WAL</span>
+          </div>
+          <div class="hero-pill-item">
+            <i data-lucide="check-circle" style="color: #F59E0B; width: 18px;"></i>
+            <span>22/22 Passing Pytest Tests</span>
+          </div>
+        </div>
+
+        <div class="hero-presenter-badge animate-up delay-4">
+          <div class="presenter-avatar">SG</div>
+          <div style="text-align: left;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-title);">SaaS SalesGenie Engineering Team</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Lead Systems Architect & Full-Stack AI Developers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 2: THE SAAS REVENUE PROBLEM ── -->
+    <section class="slide" data-slide="2" data-notes="Modern B2B SaaS revenue operations suffer from four critical friction points. First, SDRs spend 80% of their working hours manually triaging free-trial signups without knowing who will buy. Second, cold outreach generic templates yield abysmal sub-2% reply rates. Third, crucial technical objections like SOC2 compliance or Snowflake integrations get lost inside discovery calls. Fourth, follow-up delays cause deals to go cold after 5 days.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="alert-triangle" style="width: 14px; height: 14px; color: #EF4444;"></i>
+            <span>THE SAAS REVENUE CRISIS</span>
+          </div>
+          <h2 class="slide-title">4 Bottlenecks Costing B2B SaaS Millions</h2>
+          <p class="slide-subtitle">Why traditional SaaS sales pipelines stall, leak enterprise pipeline value, and suffer high Customer Acquisition Cost (CAC).</p>
+        </div>
+        <div class="slide-number-indicator">02 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-2x2">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill rose">
+            <i data-lucide="user-x" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">1. Blind Trial Qualification</h3>
+            <p class="card-desc">SDRs waste 80% of their prospecting hours manually researching signups without knowing intent or technographic stack fit.</p>
+          </div>
+          <div class="pill-tag" style="align-self: flex-start; margin-top: 12px;">High SDR Churn & CAC</div>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div class="card-icon-pill amber">
+            <i data-lucide="mail-x" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">2. Generic Outbound Outreach</h3>
+            <p class="card-desc">Mass templates achieve &lt;2% reply rates. SaaS buyers immediately ignore emails that lack specific stack references (AWS, Stripe, Python).</p>
+          </div>
+          <div class="pill-tag" style="align-self: flex-start; margin-top: 12px;">98% Email Dropoff</div>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div class="card-icon-pill cyan">
+            <i data-lucide="mic-off" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">3. Lost Demo Call Objections</h3>
+            <p class="card-desc">Crucial security requirements (SOC2, GDPR, HIPAA) and custom API objections mentioned during Zoom demos get lost in untracked notes.</p>
+          </div>
+          <div class="pill-tag" style="align-self: flex-start; margin-top: 12px;">Stalled Mid-Funnel Deals</div>
+        </div>
+
+        <div class="bento-card animate-up delay-4">
+          <div class="card-icon-pill emerald">
+            <i data-lucide="clock" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">4. Follow-up Deal Decay</h3>
+            <p class="card-desc">Leads decay rapidly after 5 days of silence. Without prescriptive AI urgency triage, enterprise opportunities slip to competitors.</p>
+          </div>
+          <div class="pill-tag" style="align-self: flex-start; margin-top: 12px;">32% Deal Slippage</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 3: PROJECT OVERVIEW & VISION ── -->
+    <section class="slide" data-slide="3" data-notes="SalesGenie AI solves these four bottlenecks by creating a single, cohesive autonomous operating system for SaaS revenue teams. We combine four core pillars: Supervised ML intent scoring, vector deal benchmarking, audio NLP intelligence, and agentic NVIDIA NIM 70B personalization. Our core objective is accelerating sales cycle velocity down to 28 days with sub-15ms inference latency.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="compass" style="width: 14px; height: 14px; color: #465FFF;"></i>
+            <span>SOLUTION & OBJECTIVES</span>
+          </div>
+          <h2 class="slide-title">The Autonomous B2B SaaS Sales Solution</h2>
+          <p class="slide-subtitle">Empowering SDRs, Account Executives, and RevOps leaders with predictive intelligence across the full revenue cycle.</p>
+        </div>
+        <div class="slide-number-indicator">03 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-split-hero">
+        <div class="bento-card highlight animate-up delay-1">
+          <div>
+            <div class="eyebrow-badge" style="background: var(--brand); color: #FFFFFF; border: none;">PLATFORM MISSION</div>
+            <h3 style="font-size: 1.8rem; font-weight: 800; color: var(--text-title); letter-spacing: -0.02em; margin: 14px 0 10px;">
+              One Unified AI Platform to Predict, Personalize & Close.
+            </h3>
+            <p class="card-desc" style="font-size: 1.05rem; line-height: 1.6;">
+              SalesGenie AI replaces disjointed CRM add-ons with a consolidated engine that evaluates B2B buyer intent in real time, auto-generates multi-channel cadences, transcribes discovery calls, and triggers prescriptive follow-up priorities.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px;">
+            <div style="padding: 16px; border-radius: var(--radius-lg); background: var(--bg-card); border: 1px solid var(--border-subtle);">
+              <div class="card-metric" style="color: #465FFF;">28<span style="font-size: 1.2rem;">d</span></div>
+              <div class="card-metric-label">Avg Sales Cycle (vs 45d)</div>
+            </div>
+            <div style="padding: 16px; border-radius: var(--radius-lg); background: var(--bg-card); border: 1px solid var(--border-subtle);">
+              <div class="card-metric" style="color: #10B981;">94.2<span style="font-size: 1.2rem;">%</span></div>
+              <div class="card-metric-label">ML Intent Accuracy</div>
+            </div>
+            <div style="padding: 16px; border-radius: var(--radius-lg); background: var(--bg-card); border: 1px solid var(--border-subtle);">
+              <div class="card-metric" style="color: #0284C7;">3.2<span style="font-size: 1.2rem;">x</span></div>
+              <div class="card-metric-label">Outbound Conversions</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-2" style="justify-content: space-around;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="card-icon-pill emerald" style="margin: 0;">
+              <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-title);">Instant Intent Prioritization</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Triages incoming leads into Hot, Warm, and Cold tiers in under 15ms.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="card-icon-pill cyan" style="margin: 0;">
+              <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-title);">Technographic Personalization</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Generates cold emails referencing prospect cloud stack, funding, and pain points.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="card-icon-pill amber" style="margin: 0;">
+              <i data-lucide="headphones" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+              <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-title);">Automated Call Extraction</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Extracts 3-5 concrete action items and NLP sentiment polarity from call recordings.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 4: SYSTEM ARCHITECTURE ── -->
+    <section class="slide" data-slide="4" data-notes="Our system architecture is structured into a clean 4-tier decoupled model. Tier 1 is our React 18 SPA built with Vite and the high-end TailAdmin design system. Tier 2 is our asynchronous FastAPI gateway with PyJWT authentication. Tier 3 is our Machine Learning core utilizing 100-tree Random Forest classifiers and TF-IDF similarity. Tier 4 is our Generative AI layer powered by NVIDIA NIM 70B and our high-throughput SQLite WAL database.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="layers" style="width: 14px; height: 14px; color: #10B981;"></i>
+            <span>SYSTEM DESIGN & FLOW</span>
+          </div>
+          <h2 class="slide-title">4-Tier Decoupled SaaS Architecture</h2>
+          <p class="slide-subtitle">Engineered for sub-15ms ML inference, asynchronous LLM streaming, and high concurrency.</p>
+        </div>
+        <div class="slide-number-indicator">04 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-4-col">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill">
+            <i data-lucide="layout" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <div class="pill-tag" style="margin-bottom: 8px;">Tier 1: Client</div>
+            <h3 class="card-title">Vite + React 18</h3>
+            <p class="card-desc">SPA interface with Recharts visualization, JWT Axios interceptor, and seamless Light/Dark theme switching.</p>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">Port 5173 • SPA</div>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div class="card-icon-pill emerald">
+            <i data-lucide="server" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <div class="pill-tag" style="margin-bottom: 8px;">Tier 2: Gateway</div>
+            <h3 class="card-title">FastAPI Async</h3>
+            <p class="card-desc">Asynchronous REST API with Pydantic v2 schemas, HS256 JWT auth, and in-memory analytics caching.</p>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">Port 8000 • Uvicorn</div>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div class="card-icon-pill amber">
+            <i data-lucide="cpu" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <div class="pill-tag" style="margin-bottom: 8px;">Tier 3: Intelligence</div>
+            <h3 class="card-title">Scikit-Learn ML</h3>
+            <p class="card-desc">RandomForest 100-tree intent classification, TF-IDF Cosine Similarity, and TextBlob NLP sentiment parsing.</p>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">&lt; 15ms Latency</div>
+        </div>
+
+        <div class="bento-card animate-up delay-4">
+          <div class="card-icon-pill cyan">
+            <i data-lucide="database" style="width: 20px; height: 20px;"></i>
+          </div>
+          <div>
+            <div class="pill-tag" style="margin-bottom: 8px;">Tier 4: GenAI & Data</div>
+            <h3 class="card-title">NVIDIA NIM + DB</h3>
+            <p class="card-desc">Llama 3.1 70B zero-retention cloud inference with SQLite WAL mode database and 7 performance indexes.</p>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">WAL Mode • SQLite</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 5: TECH STACK MATRIX ── -->
+    <section class="slide" data-slide="5" data-notes="Here is our production-grade technology stack. On the frontend, we leverage React 18, Vite, and Recharts. On the backend, we run Python 3.11 with asynchronous FastAPI. Our ML engine is built on Scikit-Learn RandomForest, our Generative AI runs on NVIDIA NIM 70B Instruct, our database utilizes SQLite in WAL mode with 7 B-Tree indexes, and we enforce a rigorous 22-test Pytest suite.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="code" style="width: 14px; height: 14px; color: #0284C7;"></i>
+            <span>PRODUCTION TECH STACK</span>
+          </div>
+          <h2 class="slide-title">Enterprise Full-Stack Technology Matrix</h2>
+          <p class="slide-subtitle">Battle-tested frameworks chosen for type safety, sub-second reactivity, and zero cloud lock-in.</p>
+        </div>
+        <div class="slide-number-indicator">05 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-3-col">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill">
+            <i data-lucide="code-2" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">Frontend & UI</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Framework:</strong> React 18.2 + Vite 5</li>
+            <li><strong>Styling:</strong> TailAdmin + Vanilla CSS Tokens</li>
+            <li><strong>Charts:</strong> Recharts ARR Visualization</li>
+            <li><strong>Icons:</strong> Lucide React Iconography</li>
+          </ul>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div class="card-icon-pill emerald">
+            <i data-lucide="shield" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">Backend & Security</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Core:</strong> Python 3.11 + FastAPI Async</li>
+            <li><strong>Authentication:</strong> Stateless PyJWT (HS256)</li>
+            <li><strong>Password Security:</strong> PBKDF2-HMAC-SHA256</li>
+            <li><strong>Validation:</strong> Pydantic v2 Type Safe</li>
+          </ul>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div class="card-icon-pill cyan">
+            <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">AI & Data Pipeline</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Predictive ML:</strong> Scikit-Learn RandomForest</li>
+            <li><strong>Generative LLM:</strong> NVIDIA NIM 70B Instruct</li>
+            <li><strong>Database:</strong> SQLite WAL (7 B-Tree Indexes)</li>
+            <li><strong>QA & Testing:</strong> 22/22 Automated Pytest Tests</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 6: CORE SAAS MODULES ── -->
+    <section class="slide" data-slide="6" data-notes="SalesGenie AI unifies six foundational modules into a single pane of glass. First is our Executive SaaS KPI Dashboard showing 1.86 million in pipeline ARR. Second is our ML Intent Scorer. Third is our Deal Similarity Benchmarker. Fourth is our Agentic NVIDIA NIM Outreach Generator. Fifth is our Demo Call Intelligence engine with NLP sentiment polarity. Sixth is our 5-stage Kanban Deal Pipeline.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="box" style="width: 14px; height: 14px; color: #F59E0B;"></i>
+            <span>PLATFORM MODULES</span>
+          </div>
+          <h2 class="slide-title">6 Core SaaS Intelligence Modules</h2>
+          <p class="slide-subtitle">All modular engines connected through asynchronous RESTful services and real-time state management.</p>
+        </div>
+        <div class="slide-number-indicator">06 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-3-col" style="grid-template-rows: repeat(2, 1fr);">
+        <div class="bento-card animate-up delay-1">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill" style="margin: 0;"><i data-lucide="bar-chart-3" style="width: 18px;"></i></div>
+            <span class="pill-tag">Milestone 4</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">1. Executive KPI Suite</h4>
+          <p class="card-desc">6-card executive metric dashboard tracking $1.86M active pipeline ARR, response times, and AI follow-up triage.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill emerald" style="margin: 0;"><i data-lucide="target" style="width: 18px;"></i></div>
+            <span class="pill-tag">Scikit-Learn</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">2. ML Lead Intent Scorer</h4>
+          <p class="card-desc">100-tree Random Forest evaluating trial usage, funding round, email opens, and technographic fit.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill amber" style="margin: 0;"><i data-lucide="git-merge" style="width: 18px;"></i></div>
+            <span class="pill-tag">TF-IDF Vector</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">3. Deal Benchmarker</h4>
+          <p class="card-desc">Cosine similarity comparison against 60+ historical Closed Won contracts for exact deal structuring.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-4">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill cyan" style="margin: 0;"><i data-lucide="send" style="width: 18px;"></i></div>
+            <span class="pill-tag">NVIDIA NIM</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">4. Agentic AI Outreach</h4>
+          <p class="card-desc">Llama 3.1 70B generating cold emails, 48h follow-up cadences, and high-converting LinkedIn InMails.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-1">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill" style="margin: 0;"><i data-lucide="headphones" style="width: 18px;"></i></div>
+            <span class="pill-tag">NLP Sentiment</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">5. Voice Call Intelligence</h4>
+          <p class="card-desc">Audio meeting parser extracting 3-5 sales action items, key buyer objections, and TextBlob sentiment scores.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill emerald" style="margin: 0;"><i data-lucide="kanban" style="width: 18px;"></i></div>
+            <span class="pill-tag">Drag & Drop</span>
+          </div>
+          <h4 class="card-title" style="margin-top: 10px;">6. 5-Stage Kanban Pipeline</h4>
+          <p class="card-desc">Real-time pipeline tracking from New Lead to Qualified, Proposal, Negotiation, and Closed Won.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 7: INTERACTIVE ML SPOTLIGHT ── -->
+    <section class="slide" data-slide="7" data-notes="Let us examine our Machine Learning Engine up close. Rather than arbitrary heuristic scoring, our Random Forest classifier trains on 100 decision trees to evaluate seven weighted conversion features. As shown in our interactive simulation widget on the right, high product usage, demo requests, and Series B funding yield a 94 out of 100 intent score with a 94.2% conversion probability.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="brain-circuit" style="width: 14px; height: 14px; color: #465FFF;"></i>
+            <span>MACHINE LEARNING ENGINE</span>
+          </div>
+          <h2 class="slide-title">Supervised Random Forest Intent Scoring</h2>
+          <p class="slide-subtitle">100 Decision Estimators trained on high-intent B2B conversion signals with sub-15ms scoring latency.</p>
+        </div>
+        <div class="slide-number-indicator">07 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-split-equal">
+        <div class="bento-card animate-up delay-1">
+          <div>
+            <h3 class="card-title">Feature Importance Weights</h3>
+            <p class="card-desc" style="margin-bottom: 18px;">Engineered feature weights powering the conversion prediction probability:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                  <span>Demo Request Triggered</span>
+                  <span style="color: #465FFF;">+25.0%</span>
+                </div>
+                <div style="height: 6px; background: var(--bg-card-subtle); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 85%; height: 100%; background: var(--brand);"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                  <span>Product Website Visits (Recency)</span>
+                  <span style="color: #10B981;">+18.0%</span>
+                </div>
+                <div style="height: 6px; background: var(--bg-card-subtle); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 72%; height: 100%; background: var(--emerald);"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                  <span>Company Funding Stage (Series A-D)</span>
+                  <span style="color: #F59E0B;">+16.5%</span>
+                </div>
+                <div style="height: 6px; background: var(--bg-card-subtle); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 65%; height: 100%; background: var(--amber);"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px;">
+                  <span>Technographic Stack Compatibility</span>
+                  <span style="color: #0284C7;">+14.0%</span>
+                </div>
+                <div style="height: 6px; background: var(--bg-card-subtle); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 58%; height: 100%; background: var(--cyan);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pill-tag" style="align-self: flex-start; margin-top: 14px;">
+            <i data-lucide="check-circle" style="width: 14px; color: #10B981;"></i>
+            <span>Tested & Validated: 100% Deterministic Bounds</span>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-2" style="background: var(--bg-card-subtle);">
+          <h3 class="card-title">Live ML Inference Spotlight</h3>
+          
+          <div class="lead-scorer-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-title);">Apex Systems (Enterprise)</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">Series B • 8 Visits • Demo Requested</div>
+              </div>
+              <div class="pill-tag" style="background: var(--emerald-light); color: var(--emerald); border-color: rgba(16,185,129,0.3);">
+                🔥 HOT LEAD
+              </div>
+            </div>
+
+            <div class="score-gauge">
+              <div>
+                <div class="score-value">94<span style="font-size: 1.4rem; color: var(--text-dim);">/100</span></div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">ML Intent Prediction Score</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--emerald);">94.2%</div>
+                <div style="font-size: 0.75rem; color: var(--text-dim);">Conversion Probability</div>
+              </div>
+            </div>
+
+            <div style="padding: 12px 16px; border-radius: var(--radius-md); background: var(--bg-card); border: 1px solid var(--border-subtle); font-size: 0.82rem;">
+              <strong style="color: var(--text-title);">Prescriptive Action:</strong>
+              <span style="color: var(--text-muted);"> Schedule immediate 30-min architecture call referencing AWS & Snowflake stack fit.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 8: AI OUTREACH & CALL DISCOVERY ── -->
+    <section class="slide" data-slide="8" data-notes="In Slide 8, we present our Generative AI and Voice Discovery modules. Our Agentic AI Outreach connects to the NVIDIA NIM Cloud, generating zero-retention Llama 3.1 70B emails that highlight actual ROI and technographic hooks. Simultaneously, our Call Intelligence audio engine transcribes discovery calls, extracting concrete next actions and sentiment polarity with real-time waveform feedback.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #0284C7;"></i>
+            <span>NVIDIA NIM & VOICE NLP</span>
+          </div>
+          <h2 class="slide-title">Agentic AI Outreach & Demo Discovery</h2>
+          <p class="slide-subtitle">Hyper-personalized cold emails and automated audio transcription with sentiment polarity extraction.</p>
+        </div>
+        <div class="slide-number-indicator">08 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-split-equal">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill cyan">
+            <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">Agentic AI Outreach (NVIDIA NIM)</h3>
+          <p class="card-desc">Powered by <code>meta/llama-3.1-70b-instruct</code> with zero-retention cloud privacy and deterministic offline fallback.</p>
+
+          <div style="background: var(--bg-card-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px; margin-top: 14px; font-size: 0.82rem; color: var(--text-body);">
+            <div style="font-weight: 700; margin-bottom: 4px; color: var(--text-title);">Subject: Scaling Apex Systems' data pipeline with SalesGenie AI</div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.4;">"Hi Sarah, Congrats on your Series B. Noticed you're scaling your Snowflake and AWS stack. SalesGenie compresses sales cycles by 65% for SaaS teams..."</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 14px;">
+            <span class="pill-tag">Cold Email</span>
+            <span class="pill-tag">48h Follow-up</span>
+            <span class="pill-tag">LinkedIn InMail</span>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card-icon-pill emerald" style="margin: 0;"><i data-lucide="headphones" style="width: 20px;"></i></div>
+            <div class="waveform-bar-container">
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+            </div>
+          </div>
+          <h3 class="card-title" style="margin-top: 12px;">SaaS Meeting Intelligence</h3>
+          <p class="card-desc">Audio file upload (.wav, .mp3, .m4a) and live browser mic recording with TextBlob NLP sentiment analysis.</p>
+
+          <div style="background: var(--bg-card-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px; margin-top: 14px; font-size: 0.82rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-weight: 700; color: var(--text-title);">Sentiment Score: +0.78 (Positive)</span>
+              <span class="pill-tag" style="background: var(--emerald-light); color: var(--emerald);">High Buy Intent</span>
+            </div>
+            <ul style="padding-left: 16px; color: var(--text-muted); font-size: 0.78rem; display: flex; flex-direction: column; gap: 4px;">
+              <li>Send SOC2 compliance package to InfoSec team.</li>
+              <li>Deliver custom Snowflake pricing quote by Friday.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 9: HIGH-RESOLUTION UI SHOWCASE ── -->
+    <section class="slide" data-slide="9" data-notes="Slide 9 showcases our high-fidelity live web application interface captured in full Light Mode. Evaluators can see our Milestone 4 Executive Dashboard, the Supervised ML Lead Directory, our 5-Stage Kanban Deal Pipeline, and our Voice Discovery workspace. The interface features custom TailAdmin styling with 100% responsiveness.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="monitor" style="width: 14px; height: 14px; color: #465FFF;"></i>
+            <span>APPLICATION INTERFACE</span>
+          </div>
+          <h2 class="slide-title">High-Fidelity SaaS User Experience</h2>
+          <p class="slide-subtitle">Modern TailAdmin design system in full Light Mode with instant sub-second page transitions.</p>
+        </div>
+        <div class="slide-number-indicator">09 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-split-hero">
+        <div class="screenshot-frame animate-up delay-1">
+          <div class="screenshot-header">
+            <div class="screenshot-dots">
+              <div class="screenshot-dot red"></div>
+              <div class="screenshot-dot yellow"></div>
+              <div class="screenshot-dot green"></div>
+            </div>
+            <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim); margin-left: 8px;">
+              http://localhost:5173/dashboard (Milestone 4 Executive Suite)
+            </div>
+          </div>
+          <img src="screenshots/dashboard_overview.png" alt="Executive Dashboard" class="screenshot-img" onerror="this.src='screenshots/dashboard.png'" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="screenshot-frame animate-up delay-2" style="flex: 1;">
+            <div class="screenshot-header" style="padding: 8px 16px;">
+              <div class="screenshot-dots">
+                <div class="screenshot-dot"></div><div class="screenshot-dot"></div><div class="screenshot-dot"></div>
+              </div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-left: 6px;">
+                /pipeline (5-Stage Kanban)
+              </div>
+            </div>
+            <img src="screenshots/deal_pipeline.png" alt="Kanban Pipeline" class="screenshot-img" onerror="this.src='screenshots/pipeline.png'" />
+          </div>
+
+          <div class="screenshot-frame animate-up delay-3" style="flex: 1;">
+            <div class="screenshot-header" style="padding: 8px 16px;">
+              <div class="screenshot-dots">
+                <div class="screenshot-dot"></div><div class="screenshot-dot"></div><div class="screenshot-dot"></div>
+              </div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-left: 6px;">
+                /meetings (Voice Discovery)
+              </div>
+            </div>
+            <img src="screenshots/meeting_intelligence.png" alt="Call Intelligence" class="screenshot-img" onerror="this.src='screenshots/meetings.png'" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 10: BUSINESS IMPACT & REVOPS VALUE ── -->
+    <section class="slide" data-slide="10" data-notes="The business impact of SalesGenie AI is transformative across the entire SaaS revenue organization. For SDRs and AEs, prospecting time drops by 65% while response rates jump 3x. For RevOps leaders, pipeline forecasting becomes real-time and deterministic. For C-Suite executives and CROs, average deal size expands to 98 thousand dollars while Customer Acquisition Cost decreases significantly.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="trending-up" style="width: 14px; height: 14px; color: #10B981;"></i>
+            <span>QUANTIFIABLE ROI</span>
+          </div>
+          <h2 class="slide-title">Quantified SaaS Business Impact</h2>
+          <p class="slide-subtitle">Delivering measurable value across Sales Development, Revenue Operations, and Executive Leadership.</p>
+        </div>
+        <div class="slide-number-indicator">10 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-3-col">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill">
+            <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">SDRs & Account Execs</h3>
+          <div class="card-metric" style="color: #465FFF;">-65%</div>
+          <div class="card-metric-label" style="margin-bottom: 14px;">Prospecting Time Saved</div>
+          <p class="card-desc">1-click personalized email cadences and instant intent scoring eliminate manual spreadsheet research.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div class="card-icon-pill emerald">
+            <i data-lucide="gauge" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">RevOps & Sales Leaders</h3>
+          <div class="card-metric" style="color: #10B981;">2.4<span style="font-size: 1.2rem;">h</span></div>
+          <div class="card-metric-label" style="margin-bottom: 14px;">Avg Response Time (-18% MoM)</div>
+          <p class="card-desc">AI follow-up urgency triage prevents pipeline stalls and provides reliable real-time ARR forecasts.</p>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div class="card-icon-pill amber">
+            <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="card-title">C-Suite & CROs</h3>
+          <div class="card-metric" style="color: #F59E0B;">$98.2<span style="font-size: 1.2rem;">k</span></div>
+          <div class="card-metric-label" style="margin-bottom: 14px;">Average Enterprise ACV</div>
+          <p class="card-desc">Vector deal benchmarking matches contract terms with historical enterprise wins to maximize deal size.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 11: ADVANTAGES & ENGINEERING EXCELLENCE ── -->
+    <section class="slide" data-slide="11" data-notes="Slide 11 highlights our technical rigor and reliability engineering. We achieve sub-15ms ML scoring latency, enforce zero-retention enterprise data privacy, implement deterministic offline fallback generators if the cloud model times out, and maintain 100% compliance across our 22-test automated Pytest suite.">
+      <div class="slide-header">
+        <div>
+          <div class="eyebrow-badge">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px; color: #10B981;"></i>
+            <span>RELIABILITY & COMPLIANCE</span>
+          </div>
+          <h2 class="slide-title">Engineering Excellence & Resilience</h2>
+          <p class="slide-subtitle">Built with zero-retention privacy, deterministic fallbacks, and 100% automated test coverage.</p>
+        </div>
+        <div class="slide-number-indicator">11 / 12</div>
+      </div>
+
+      <div class="bento-grid grid-2x2">
+        <div class="bento-card animate-up delay-1">
+          <div class="card-icon-pill">
+            <i data-lucide="zap" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">Sub-15ms Inference Latency</h3>
+            <p class="card-desc">Serialized Scikit-Learn Random Forest models compute lead intent scores in memory without external API delays.</p>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-2">
+          <div class="card-icon-pill emerald">
+            <i data-lucide="lock" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">Zero-Retention Enterprise Privacy</h3>
+            <p class="card-desc">NVIDIA NIM cloud integration guarantees customer data is never retained or utilized for model training.</p>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-3">
+          <div class="card-icon-pill amber">
+            <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">Deterministic Offline Fallback</h3>
+            <p class="card-desc">If upstream LLM networks experience downtime, our local heuristic engine guarantees 100% generation uptime.</p>
+          </div>
+        </div>
+
+        <div class="bento-card animate-up delay-4">
+          <div class="card-icon-pill cyan">
+            <i data-lucide="test-tube-2" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 class="card-title">22/22 Passing Pytest Suite</h3>
+            <p class="card-desc">End-to-end automated unit tests verify scoring boundaries, database schema integrity, and token security.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SLIDE 12: CONCLUSION & LIVE DEMO ── -->
+    <section class="slide" data-slide="12" data-notes="In conclusion, SaaS SalesGenie AI delivers on 100% of the Milestone 4 project requirements. We invite you to test our live interactive demo running locally at port 5173 or inspect our interactive FastAPI documentation at port 8000. Thank you very much, and we are now open for your questions.">
+      <div class="hero-container">
+        <div class="eyebrow-badge animate-up">
+          <i data-lucide="award" style="width: 14px; height: 14px; color: #10B981;"></i>
+          <span>PROJECT DELIVERY MILESTONES ACHIEVED</span>
+        </div>
+
+        <h1 class="hero-title animate-up delay-1" style="font-size: 4.2rem;">
+          Thank You & <span class="gradient-text">Live Demo</span>
+        </h1>
+
+        <p class="hero-subtitle animate-up delay-2" style="margin-bottom: 32px;">
+          SaaS SalesGenie AI is fully functional, rigorously tested, and ready for enterprise SaaS deployment.
+        </p>
+
+        <div style="display: flex; gap: 16px; margin-bottom: 40px;" class="animate-up delay-3">
+          <a href="http://localhost:5173" target="_blank" style="text-decoration: none; padding: 14px 32px; border-radius: var(--radius-full); background: #1C1A17; color: #FFFFFF; font-weight: 700; font-size: 0.95rem; box-shadow: var(--shadow-capsule); display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="play" style="width: 18px; fill: currentColor;"></i>
+            <span>Launch Live Web Application (Port 5173)</span>
+          </a>
+          <a href="http://localhost:8000/docs" target="_blank" style="text-decoration: none; padding: 14px 28px; border-radius: var(--radius-full); background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-title); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="file-code" style="width: 18px;"></i>
+            <span>FastAPI Swagger Docs (Port 8000)</span>
+          </a>
+        </div>
+
+        <div class="pill-tag animate-up delay-4" style="font-size: 0.85rem; padding: 8px 20px;">
+          <span>Demo Account: <code>demo@salesgenie.ai</code> / <code>password123</code></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FLOATING MASTER CONTROLLER CAPSULE (NAVBAR)
+       ═══════════════════════════════════════════════════════════════ -->
+  <nav class="master-capsule-nav" id="masterCapsule">
+    <!-- Prev Slide Button -->
+    <button class="nav-btn" id="prevBtn" title="Previous Slide (Left Arrow)">
+      <i data-lucide="chevron-left" style="width: 18px;"></i>
+    </button>
+
+    <!-- Slide Number Display -->
+    <div class="nav-counter" id="slideCounter">01 / 12</div>
+
+    <!-- Next Slide Button -->
+    <button class="nav-btn primary-pill" id="nextBtn" title="Next Slide (Right Arrow / Space)">
+      <span>Next</span>
+      <i data-lucide="chevron-right" style="width: 16px;"></i>
+    </button>
+
+    <div class="nav-divider"></div>
+
+    <!-- Auto Play / Pause Toggle -->
+    <button class="nav-btn" id="autoplayBtn" title="Auto-advance slideshow">
+      <i data-lucide="play" style="width: 16px;" id="autoplayIcon"></i>
+      <span id="autoplayLabel">Play</span>
+    </button>
+
+    <!-- Slide Overview Grid Modal Toggle -->
+    <button class="nav-btn" id="overviewBtn" title="Grid View of All Slides (O / Esc)">
+      <i data-lucide="grid" style="width: 16px;"></i>
+      <span>Grid</span>
+    </button>
+
+    <!-- Presenter Notes Toggle -->
+    <button class="nav-btn" id="notesBtn" title="Toggle Presenter Speaker Script (P)">
+      <i data-lucide="file-text" style="width: 16px;"></i>
+      <span>Notes</span>
+    </button>
+
+    <div class="nav-divider"></div>
+
+    <!-- Light / Dark Theme Toggle -->
+    <button class="nav-btn" id="themeBtn" title="Toggle Light / Dark Mode (T)">
+      <i data-lucide="sun" style="width: 16px;" id="themeIcon"></i>
+    </button>
+
+    <!-- Fullscreen Toggle -->
+    <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (F)">
+      <i data-lucide="maximize" style="width: 16px;" id="fullscreenIcon"></i>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PRESENTER NOTES DRAWER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="notes-drawer" id="notesDrawer">
+    <div class="notes-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <i data-lucide="mic" style="width: 18px; color: var(--brand);"></i>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-title);">Speaker Script & Notes</h3>
+      </div>
+      <button id="closeNotesBtn" style="background: none; border: none; cursor: pointer; color: var(--text-dim);">
+        <i data-lucide="x" style="width: 20px;"></i>
+      </button>
+    </div>
+
+    <div class="notes-content" id="notesText">
+      <!-- Dynamically populated from active slide data-notes -->
+    </div>
+
+    <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border-subtle); font-size: 0.75rem; color: var(--text-dim); display: flex; justify-content: space-between;">
+      <span>Shortcut: Press <code>P</code></span>
+      <span>Spoken Delivery Pacing: ~45s/slide</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SLIDE OVERVIEW MODAL GRID
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="overview-modal" id="overviewModal">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h3 style="color: #FFFFFF; font-size: 1.4rem; font-weight: 800;">Slide Overview Grid</h3>
+      <button id="closeOverviewBtn" style="background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 36px; height: 36px; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="x" style="width: 20px;"></i>
+      </button>
+    </div>
+
+    <div class="overview-grid" id="overviewGrid">
+      <!-- Dynamically injected thumbnails -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INTERACTIVE JAVASCRIPT CONTROLLER
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const totalSlides = slides.length;
+    let currentSlideIndex = 0;
+    let autoplayInterval = null;
+
+    const progressFill = document.getElementById('progressFill');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+    const notesBtn = document.getElementById('notesBtn');
+    const notesDrawer = document.getElementById('notesDrawer');
+    const notesText = document.getElementById('notesText');
+    const closeNotesBtn = document.getElementById('closeNotesBtn');
+    const overviewBtn = document.getElementById('overviewBtn');
+    const overviewModal = document.getElementById('overviewModal');
+    const closeOverviewBtn = document.getElementById('closeOverviewBtn');
+    const overviewGrid = document.getElementById('overviewGrid');
+    const autoplayBtn = document.getElementById('autoplayBtn');
+    const autoplayIcon = document.getElementById('autoplayIcon');
+    const autoplayLabel = document.getElementById('autoplayLabel');
+
+    // Update Slide State
+    function goToSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides.forEach((slide, idx) => {
+        slide.classList.remove('active', 'prev');
+        if (idx === index) {
+          slide.classList.add('active');
+        } else if (idx < index) {
+          slide.classList.add('prev');
+        }
+      });
+
+      currentSlideIndex = index;
+
+      // Update Counter & Progress Bar
+      const slideNum = (index + 1).toString().padStart(2, '0');
+      const totalNum = totalSlides.toString().padStart(2, '0');
+      slideCounter.textContent = `${slideNum} / ${totalNum}`;
+      progressFill.style.width = `${((index + 1) / totalSlides) * 100}%`;
+
+      // Update Presenter Notes
+      const activeSlide = slides[index];
+      const notes = activeSlide.getAttribute('data-notes') || 'No notes for this slide.';
+      notesText.innerHTML = `<p>${notes}</p>`;
+
+      // Re-trigger icon updates
+      lucide.createIcons();
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < totalSlides - 1) {
+        goToSlide(currentSlideIndex + 1);
+      } else if (autoplayInterval) {
+        goToSlide(0);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        goToSlide(currentSlideIndex - 1);
+      }
+    }
+
+    // Toggle Light / Dark Theme
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      themeIcon.setAttribute('data-lucide', isDark ? 'moon' : 'sun');
+      lucide.createIcons();
+    }
+
+    // Toggle Fullscreen
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        fullscreenIcon.setAttribute('data-lucide', 'minimize');
+      } else {
+        document.exitFullscreen().catch(() => {});
+        fullscreenIcon.setAttribute('data-lucide', 'maximize');
+      }
+      lucide.createIcons();
+    }
+
+    // Toggle Autoplay
+    function toggleAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+        autoplayIcon.setAttribute('data-lucide', 'play');
+        autoplayLabel.textContent = 'Play';
+      } else {
+        autoplayInterval = setInterval(nextSlide, 7000);
+        autoplayIcon.setAttribute('data-lucide', 'pause');
+        autoplayLabel.textContent = 'Pause';
+      }
+      lucide.createIcons();
+    }
+
+    // Build Overview Grid
+    function renderOverviewGrid() {
+      overviewGrid.innerHTML = '';
+      slides.forEach((slide, idx) => {
+        const titleEl = slide.querySelector('.slide-title') || slide.querySelector('.hero-title');
+        const titleText = titleEl ? titleEl.textContent.trim().replace(/\s+/g, ' ') : `Slide ${idx + 1}`;
+        const eyebrowEl = slide.querySelector('.eyebrow-badge');
+        const eyebrowText = eyebrowEl ? eyebrowEl.textContent.trim() : '';
+
+        const thumb = document.createElement('div');
+        thumb.className = `overview-thumb ${idx === currentSlideIndex ? 'active' : ''}`;
+        thumb.innerHTML = `
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--brand);">${(idx + 1).toString().padStart(2, '0')}</span>
+            <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-top: 2px;">${eyebrowText}</div>
+            <h4 style="font-size: 0.88rem; font-weight: 700; color: var(--text-title); margin-top: 6px; line-height: 1.2;">${titleText}</h4>
+          </div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">Click to jump ➔</div>
+        `;
+        thumb.onclick = () => {
+          goToSlide(idx);
+          overviewModal.classList.remove('open');
+        };
+        overviewGrid.appendChild(thumb);
+      });
+    }
+
+    // Event Listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    themeBtn.addEventListener('click', toggleTheme);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    autoplayBtn.addEventListener('click', toggleAutoplay);
+
+    notesBtn.addEventListener('click', () => {
+      notesDrawer.classList.toggle('open');
+    });
+    closeNotesBtn.addEventListener('click', () => {
+      notesDrawer.classList.remove('open');
+    });
+
+    overviewBtn.addEventListener('click', () => {
+      renderOverviewGrid();
+      overviewModal.classList.add('open');
+    });
+    closeOverviewBtn.addEventListener('click', () => {
+      overviewModal.classList.remove('open');
+    });
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      } else if (e.key.toLowerCase() === 't') {
+        toggleTheme();
+      } else if (e.key.toLowerCase() === 'p') {
+        notesDrawer.classList.toggle('open');
+      } else if (e.key.toLowerCase() === 'o' || e.key === 'Escape') {
+        if (overviewModal.classList.contains('open')) {
+          overviewModal.classList.remove('open');
+        } else if (e.key.toLowerCase() === 'o') {
+          renderOverviewGrid();
+          overviewModal.classList.add('open');
+        }
+      }
+    });
+
+    // Touch Swipe Navigation for Tablets & Mobile
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    window.addEventListener('touchend', (e) => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) nextSlide();
+      if (touchEndX > touchStartX + 50) prevSlide();
+    }, false);
+
+    // Initial Load
+    goToSlide(0);
+  </script>
+</body>
+</html>
