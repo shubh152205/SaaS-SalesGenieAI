@@ -262,6 +262,23 @@ class TestAutomationModule:
             assert len(result["action"]) > 0
 
 
+
+# ── Tests: TTS Configuration API ───────────────────────────────────────────────
+class TestTTSConfiguration:
+    """Tests for the TTS configuration endpoint."""
+
+    def test_tts_configuration_response(self):
+        """TTS configuration endpoint should return supported voices and playback rates."""
+        from routers.outreach import get_tts_configuration
+        res = get_tts_configuration()
+        assert "engine" in res
+        assert "supported_rates" in res
+        assert 1.0 in res["supported_rates"]
+        assert len(res["recommended_personas"]) >= 4
+        assert len(res["features"]) > 0
+
+
 # ── Test Runner Configuration ──────────────────────────────────────────────────
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--tb=short"])
+

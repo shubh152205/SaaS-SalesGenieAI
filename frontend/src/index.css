@@ -762,3 +762,347 @@ h1, h2, h3, h4, h5, h6 {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.65; transform: scale(0.98); }
 }
+
+/* ========================================================
+   Text-to-Speech (TTS) & Audio Waveform Visualizers
+   ======================================================== */
+.tts-equalizer-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  padding: 0 4px;
+}
+
+.eq-bar {
+  width: 3px;
+  background: var(--brand-400);
+  border-radius: 2px;
+  height: 16px;
+  transform-origin: bottom;
+  transform: scaleY(0.25);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.eq-bar.active {
+  background: var(--brand-500);
+  animation: tts-wave-pulse 1s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+}
+
+.eq-bar.eq-1 { animation-delay: 0.0s; }
+.eq-bar.eq-2 { animation-delay: 0.25s; }
+.eq-bar.eq-3 { animation-delay: 0.15s; }
+.eq-bar.eq-4 { animation-delay: 0.35s; }
+.eq-bar.eq-5 { animation-delay: 0.1s; }
+
+@keyframes tts-wave-pulse {
+  0% { transform: scaleY(0.25); }
+  25% { transform: scaleY(0.95); }
+  50% { transform: scaleY(0.5); }
+  75% { transform: scaleY(1); }
+  100% { transform: scaleY(0.35); }
+}
+
+.tts-wave-mini {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  margin-left: 2px;
+}
+
+.tts-wave-mini .bar {
+  width: 2px;
+  height: 10px;
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: bottom;
+  transform: scaleY(0.3);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tts-wave-mini .bar.animating {
+  animation: tts-wave-mini-pulse 0.8s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+}
+
+.tts-wave-mini .bar.animating:nth-child(1) { animation-delay: 0.0s; }
+.tts-wave-mini .bar.animating:nth-child(2) { animation-delay: 0.2s; }
+.tts-wave-mini .bar.animating:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes tts-wave-mini-pulse {
+  0% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.45); }
+}
+
+
+.tts-active {
+  border-color: var(--brand-500) !important;
+  background-color: var(--brand-50) !important;
+  color: var(--brand-500) !important;
+}
+
+.dark .tts-active {
+  background-color: rgba(70, 95, 255, 0.15) !important;
+}
+
+/* ========================================================
+   SaaS-SalesGenie AI: Animations, Colors & Image Showcases
+   ======================================================== */
+
+/* Vibrant Color Gradients & Tokens */
+:root {
+  --grad-primary: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  --grad-emerald: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --grad-amber: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --grad-purple: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  --grad-rose: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  --grad-neural: linear-gradient(135deg, #4f46e5 0%, #a855f7 50%, #06b6d4 100%);
+  --glass-surface: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+.dark {
+  --glass-surface: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Logo Pulse Animation */
+.logo-pulse-glow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+.logo-pulse-glow:hover {
+  transform: scale(1.06) rotate(1deg);
+  filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.65));
+}
+
+/* Keyframe Animations */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse-glow-aura {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(6, 182, 212, 0.4);
+  }
+}
+
+@keyframes card-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes border-glow-cycle {
+  0% { border-color: rgba(79, 70, 229, 0.3); }
+  50% { border-color: rgba(6, 182, 212, 0.6); }
+  100% { border-color: rgba(79, 70, 229, 0.3); }
+}
+
+/* Animated Utilities */
+.animate-float {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+.animate-entrance {
+  animation: card-entrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.glow-card {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glow-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(79, 70, 229, 0.2), 0 0 0 1px rgba(99, 102, 241, 0.35);
+}
+
+/* Colorful Badges */
+.badge-purple {
+  background-color: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.badge-rose {
+  background-color: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.badge-emerald {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-amber {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-cyan {
+  background-color: rgba(6, 182, 212, 0.12);
+  color: #06b6d4;
+  border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.badge-indigo {
+  background-color: rgba(79, 70, 229, 0.12);
+  color: #6366f1;
+  border: 1px solid rgba(79, 70, 229, 0.25);
+}
+
+/* Image Hero Showcase Frame */
+.image-hero-frame {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(79, 70, 229, 0.25);
+  background: #0b1329;
+}
+
+.image-hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-hero-frame:hover img {
+  transform: scale(1.025);
+}
+
+.image-banner-strip {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: 120px;
+  border: 1px solid var(--border-subtle);
+  background: #0b1329;
+}
+
+.image-banner-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.image-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(11, 19, 41, 0.92) 0%, rgba(11, 19, 41, 0.65) 50%, rgba(11, 19, 41, 0.4) 100%);
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  padding: 0 24px;
+}
+
+/* Kanban Board Stages Styling */
+.kanban-stage-header {
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  padding-bottom: 10px;
+  border-bottom: 2px solid transparent;
+}
+
+.kanban-stage-new-lead {
+  border-color: #6366f1;
+}
+
+.kanban-stage-qualified {
+  border-color: #06b6d4;
+}
+
+.kanban-stage-proposal {
+  border-color: #f59e0b;
+}
+
+.kanban-stage-negotiation {
+  border-color: #a855f7;
+}
+
+.kanban-stage-won {
+  border-color: #10b981;
+}
+
+/* Deal Card Hover Micro-Interactions */
+.deal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.deal-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--brand-400);
+  box-shadow: 0 10px 22px -4px rgba(79, 70, 229, 0.18);
+}
+
+.deal-card-stage-won {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.06) 100%);
+}
+
+.deal-card-stage-negotiation {
+  border-color: rgba(168, 85, 247, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(168, 85, 247, 0.05) 100%);
+}
+
+.deal-card-stage-proposal {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
+}
+
+.deal-card-stage-qualified {
+  border-color: rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(6, 182, 212, 0.05) 100%);
+}
+
+.deal-card-stage-lead {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+
+/* Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+

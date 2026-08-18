@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-17T02:23:30Z",
+  "title": "Design System: SaaS SalesGenie AI",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "TailAdmin Electric Indigo",
+        "canonical": "#465fff",
+        "tonalRamp": [
+          "#1e255e",
+          "#2b37a8",
+          "#384dec",
+          "#465fff",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe",
+          "#eef2ff"
+        ]
+      },
+      "accent-cyan": {
+        "role": "secondary",
+        "displayName": "Aurora Cyan",
+        "canonical": "#06b6d4",
+        "tonalRamp": [
+          "#083344",
+          "#0e7490",
+          "#0891b2",
+          "#06b6d4",
+          "#38bdf8",
+          "#7dd3fc",
+          "#bae6fd",
+          "#f0f9ff"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Emerald Growth",
+        "canonical": "#12b76a",
+        "tonalRamp": [
+          "#054f31",
+          "#027a48",
+          "#12b76a",
+          "#34d399",
+          "#6ee7b7",
+          "#a7f3d0",
+          "#d1fadf",
+          "#ecfdf3"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Amber Caution",
+        "canonical": "#f79009",
+        "tonalRamp": [
+          "#712b08",
+          "#b54708",
+          "#f79009",
+          "#fbbf24",
+          "#fcd34d",
+          "#fde68a",
+          "#fef0c7",
+          "#fffaeb"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Hot Coral Rose",
+        "canonical": "#f04438",
+        "tonalRamp": [
+          "#7a1b15",
+          "#b42318",
+          "#f04438",
+          "#f87171",
+          "#fca5a5",
+          "#fecaca",
+          "#fee4e2",
+          "#fef3f2"
+        ]
+      },
+      "neutral-dark-bg": {
+        "role": "neutral",
+        "displayName": "Midnight Abyssal Canvas",
+        "canonical": "#0b1329",
+        "tonalRamp": [
+          "#050914",
+          "#0b1329",
+          "#111c38",
+          "#1e293b",
+          "#334155",
+          "#64748b",
+          "#94a3b8",
+          "#f8fafc"
+        ]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Light Slate Canvas",
+        "canonical": "#f2f4f7",
+        "tonalRamp": [
+          "#101828",
+          "#344054",
+          "#667085",
+          "#98a2b3",
+          "#d0d5dd",
+          "#eaecf0",
+          "#f2f4f7",
+          "#ffffff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display Title XXL",
+        "purpose": "Hero KPI values and major landing headlines."
+      },
+      "headline": {
+        "displayName": "Headline Title XL",
+        "purpose": "Section headings and summary cards."
+      },
+      "title": {
+        "displayName": "Card Title MD",
+        "purpose": "Container cards and modal dialog titles."
+      },
+      "body": {
+        "displayName": "Theme Body SM",
+        "purpose": "General UI content, descriptions, and table rows."
+      },
+      "label": {
+        "displayName": "Status Label XS",
+        "purpose": "Badges, table headers, and uppercase telemetry tags."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-sm",
+        "value": "0 1px 2px 0 rgba(16, 24, 40, 0.05)",
+        "purpose": "Dropdowns and low-elevation controls."
+      },
+      {
+        "name": "shadow-theme-light",
+        "value": "0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)",
+        "purpose": "Default light card container elevation."
+      },
+      {
+        "name": "shadow-theme-dark",
+        "value": "0px 4px 20px 0px rgba(0, 0, 0, 0.4)",
+        "purpose": "Volumetric depth for dark glass containers."
+      },
+      {
+        "name": "shadow-indigo-glow",
+        "value": "0 0 25px -5px rgba(70, 95, 255, 0.2)",
+        "purpose": "Active AI intelligence and hovered cards."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Smooth micro-interactions and hover transitions."
+      },
+      {
+        "name": "duration-fast",
+        "value": "0.15s",
+        "purpose": "Button and input state changes."
+      },
+      {
+        "name": "duration-normal",
+        "value": "0.25s",
+        "purpose": "Sidebar collapse and modal animations."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "768px"
+      },
+      {
+        "name": "tablet",
+        "value": "1024px"
+      },
+      {
+        "name": "laptop",
+        "value": "1366px"
+      },
+      {
+        "name": "desktop",
+        "value": "1680px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action button with TailAdmin electric indigo background.",
+      "html": "<button class=\"ds-btn-primary\">Generate AI Outreach</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 18px; background-color: #465fff; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 600; border: 1px solid transparent; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 6px rgba(70, 95, 255, 0.3); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-primary:hover { background-color: #384dec; box-shadow: 0 4px 12px rgba(70, 95, 255, 0.4); } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Cyan Action Button",
+      "kind": "button",
+      "refersTo": "button-cyan",
+      "description": "Gradient action button for AI generation and audio transcription.",
+      "html": "<button class=\"ds-btn-cyan\">Start Demo Recording</button>",
+      "css": ".ds-btn-cyan { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 18px; background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 600; border: 1px solid transparent; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 6px rgba(6, 182, 212, 0.3); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-cyan:hover { background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4); } .ds-btn-cyan:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Neutral border button for secondary or cancel actions.",
+      "html": "<button class=\"ds-btn-secondary\">Export Analytics</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 18px; background-color: #ffffff; color: #101828; font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 600; border: 1px solid #d0d5dd; border-radius: 8px; cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-secondary:hover { background-color: #f6f8ff; border-color: #a5b4fc; color: #465fff; } .ds-btn-secondary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Glass Container Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Standard container card with specular hairline border and soft depth.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Active Pipeline ARR</div><div class=\"ds-card-val\">$1,860,000</div></div>",
+      "css": ".ds-card { background-color: #ffffff; border: 1px solid #eaecf0; border-radius: 16px; padding: 24px; box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.1); font-family: 'Outfit', sans-serif; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); } .ds-card:hover { border-color: #d0d5dd; } .ds-card-title { font-size: 0.875rem; font-weight: 600; color: #475467; margin-bottom: 8px; } .ds-card-val { font-size: 1.75rem; font-weight: 800; color: #101828; letter-spacing: -0.02em; }"
+    },
+    {
+      "name": "Hot Intent Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Status pill badge for high-intent leads and critical alerts.",
+      "html": "<span class=\"ds-badge-hot\">🔥 Hot Lead (Score: 94)</span>",
+      "css": ".ds-badge-hot { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 9999px; background-color: #fef3f2; color: #b42318; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 600; line-height: 1.3; }"
+    },
+    {
+      "name": "Form Input Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard form text input with indigo focus glow ring.",
+      "html": "<input type=\"text\" class=\"ds-input\" placeholder=\"Search SaaS accounts or leads...\" />",
+      "css": ".ds-input { width: 100%; padding: 10px 14px; background-color: #ffffff; border: 1px solid #d0d5dd; border-radius: 8px; color: #101828; font-family: 'Outfit', sans-serif; font-size: 0.875rem; outline: none; transition: all 0.15s ease; box-sizing: border-box; } .ds-input:focus { border-color: #465fff; box-shadow: 0 0 0 3px rgba(70, 95, 255, 0.15); }"
+    },
+    {
+      "name": "Pulse Telemetry Indicator",
+      "kind": "custom",
+      "description": "Live status pulsing beacon indicating real-time background ML & audio processing.",
+      "html": "<span class=\"ds-pulse-dot\"></span>",
+      "css": ".ds-pulse-dot { width: 8px; height: 8px; border-radius: 50%; background-color: #12b76a; display: inline-block; box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.7); animation: ds-pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; } @keyframes ds-pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(18, 183, 106, 0); } 100% { box-shadow: 0 0 0 0 rgba(18, 183, 106, 0); } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Intelligent Revenue Cockpit",
+    "overview": "SaaS SalesGenie AI is designed as a precision instrumentation cockpit for high-velocity B2B SaaS revenue teams. The visual language blends analytical clarity with deep volumetric dimension and glass surfaces. High-density metrics, real-time ML intent scoring, and dynamic outreach workflows are rendered with absolute structural hierarchy, ensuring that critical pipeline decisions can be made in sub-second glances.\n\nThe interface maintains a tailored dual-theme architecture: in Light Mode, crisp porcelain white surfaces (#ffffff) float on a soft slate ground (#f2f4f7); in Dark Mode, translucent midnight cards (rgba(255, 255, 255, 0.03) on #0b1329) are framed by specular hairline borders (rgba(255, 255, 255, 0.08) to 0.22), accented by electric indigo (#465fff) and aurora cyan (#06b6d4).",
+    "keyCharacteristics": [
+      "Deep dimension and glass surface styling with specular hairline borders.",
+      "TailAdmin signature electric indigo primary brand and aurora cyan AI intelligence accents.",
+      "High-contrast dual-mode parity across Light and Dark themes.",
+      "Clear numeric typography pairing geometric Outfit headings with monospace JetBrains Mono telemetry."
+    ],
+    "rules": [
+      {
+        "name": "The Glass Depth Hierarchy Rule",
+        "body": "Translucent glass surfaces require hairline specular borders (rgba(255, 255, 255, 0.08) to 0.14) to preserve structural edge contrast without heavy opaque fills.",
+        "section": "colors"
+      },
+      {
+        "name": "The Intent Rarity Rule",
+        "body": "Vivid electric indigo and aurora cyan accents are reserved for active intelligence, actionable triggers, and state badges (≤15% total visual footprint per screen).",
+        "section": "colors"
+      },
+      {
+        "name": "The Numeric Scannability Rule",
+        "body": "All financial amounts ($ARR/ACV) and ML percentage scores must use high-contrast text weights (600–800) with tabular number alignment.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-Rest Ambient-Active Rule",
+        "body": "Container cards remain flat at rest with hairline borders. Volumetric glow and border illumination appear strictly in response to user focus, hover, or active background ML processing.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do maintain strict visual parity and WCAG 2.1 AA contrast ratios across both Light and Dark themes.",
+      "Do frame dark mode glass surfaces with 1px specular borders (rgba(255, 255, 255, 0.08)) to preserve card boundaries.",
+      "Do format financial amounts and conversion metrics with Outfit 700+ weights and JetBrains Mono code tags.",
+      "Do provide instant visual feedback on interactive AI triggers (audio recording mic pulses, generating spinners)."
+    ],
+    "donts": [
+      "Don't use opaque muddy black #000000 backgrounds in dark mode; use rich midnight navy #0b1329.",
+      "Don't flood entire cards with saturated primary colors; keep vibrant indigo and cyan restricted to ≤15% of screen area.",
+      "Don't use heavy drop shadows without specular border definition on translucent card containers.",
+      "Don't omit units, timeframes, or trend indicators on executive KPI metric cards."
+    ]
+  }
+}

@@ -16,7 +16,10 @@ import {
   TrendingUp,
   Cpu,
   Layers,
-  FileAudio
+  FileAudio,
+  ShieldCheck,
+  Zap,
+  Activity
 } from 'lucide-react';
 import { SalesGenieBrainSparkIcon } from './SalesGenieLogo';
 import { useAuth } from '../context/AuthContext';
@@ -54,19 +57,58 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       {/* ── Top Section: Brand Header & Nav ── */}
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto' }}>
         
-        {/* Brand Header */}
-        <div className="sidebar-header">
-          <NavLink to="/dashboard" className="sidebar-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <SalesGenieBrainSparkIcon size={38} />
+        {/* Brand Header with Larger Logo */}
+        <div className="sidebar-header" style={{ padding: collapsed ? '16px 8px' : '20px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <NavLink to="/dashboard" className="sidebar-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <SalesGenieBrainSparkIcon size={collapsed ? 36 : 48} animated={true} />
             {!collapsed && (
-              <div>
-                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 900,
+                  color: 'var(--text-main)',
+                  letterSpacing: '-0.025em',
+                  lineHeight: '1.15',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <span style={{
+                    fontSize: '0.62rem',
+                    background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+                    color: '#ffffff',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontWeight: 800,
+                    boxShadow: '0 2px 6px rgba(6, 182, 212, 0.35)'
+                  }}>
+                    SaaS
+                  </span>
                   <span>SalesGenie</span>
-                  <span style={{ fontSize: '0.65rem', background: 'linear-gradient(135deg, #465fff 0%, #38bdf8 100%)', color: 'white', padding: '1px 6px', borderRadius: '4px', fontWeight: 800 }}>
+                  <span style={{
+                    fontSize: '0.65rem',
+                    background: 'linear-gradient(135deg, #4f46e5 0%, #ec4899 100%)',
+                    color: '#ffffff',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontWeight: 800,
+                    boxShadow: '0 2px 6px rgba(79, 70, 229, 0.4)'
+                  }}>
                     AI
                   </span>
                 </div>
-                <div style={{ fontSize: '0.625rem', color: 'var(--brand-400)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <div style={{
+                  fontSize: '0.65rem',
+                  color: 'var(--brand-400)',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  marginTop: '3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
                   The AI Brain Spark
                 </div>
               </div>
@@ -77,26 +119,28 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             onClick={() => setCollapsed(!collapsed)}
             title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-dim)',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-muted)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '6px',
-              borderRadius: '6px'
+              padding: '7px',
+              borderRadius: '8px',
+              transition: 'all 0.2s ease'
             }}
           >
-            {collapsed ? <Menu size={18} /> : <X size={18} />}
+            {collapsed ? <Menu size={17} /> : <X size={17} />}
           </button>
         </div>
 
         {/* Navigation Section: Main Menu */}
         <div style={{ padding: '8px 0' }}>
           {!collapsed && (
-            <div className="sidebar-nav-section-title">
-              Main Menu
+            <div className="sidebar-nav-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span>Intelligence Platform</span>
+              <Activity size={12} style={{ color: 'var(--brand-400)' }} />
             </div>
           )}
 
@@ -107,13 +151,13 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             title="Executive Dashboard"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <LayoutDashboard size={19} />
+              <div className="menu-item-icon" style={{ color: '#6366f1' }}>
+                <LayoutDashboard size={20} />
               </div>
-              {!collapsed && <span>Executive Dashboard</span>}
+              {!collapsed && <span style={{ fontWeight: 600 }}>Executive Dashboard</span>}
             </div>
             {!collapsed && (
-              <span className="badge badge-brand" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
+              <span className="badge badge-indigo" style={{ fontSize: '0.68rem', padding: '2px 7px' }}>
                 Live
               </span>
             )}
@@ -125,22 +169,17 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               to="/leads"
               className={({ isActive }) => `menu-item ${isActive ? 'menu-item-active' : ''}`}
               title="Lead Intelligence"
-              onClick={(e) => {
-                if (!collapsed) {
-                  // Keep link working or toggle
-                }
-              }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div className="menu-item-icon">
-                  <Users size={19} />
+                <div className="menu-item-icon" style={{ color: '#06b6d4' }}>
+                  <Users size={20} />
                 </div>
-                {!collapsed && <span>Lead Intelligence</span>}
+                {!collapsed && <span style={{ fontWeight: 600 }}>Lead Intelligence</span>}
               </div>
               {!collapsed && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span className="badge badge-cyan" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                    50+ Leads
+                  <span className="badge badge-cyan" style={{ fontSize: '0.68rem', padding: '2px 7px' }}>
+                    Radar
                   </span>
                   <div
                     onClick={(e) => {
@@ -170,7 +209,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                     fontWeight: isActive && location.pathname === '/leads' ? 600 : 400
                   })}
                 >
-                  • Directory & Intent Scoring
+                  • Directory & 120-Tree ML
                 </NavLink>
               </div>
             )}
@@ -183,14 +222,14 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             title="AI Outreach Engine"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <Send size={19} />
+              <div className="menu-item-icon" style={{ color: '#ec4899' }}>
+                <Send size={20} />
               </div>
-              {!collapsed && <span>AI Outreach Engine</span>}
+              {!collapsed && <span style={{ fontWeight: 600 }}>AI Outreach Engine</span>}
             </div>
             {!collapsed && (
-              <span className="badge badge-brand" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                NVIDIA NIM
+              <span className="badge badge-rose" style={{ fontSize: '0.68rem', padding: '2px 7px' }}>
+                NIM 70B
               </span>
             )}
           </NavLink>
@@ -199,8 +238,9 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         {/* Navigation Section: Sales & Pipeline */}
         <div style={{ padding: '4px 0' }}>
           {!collapsed && (
-            <div className="sidebar-nav-section-title">
-              Sales & Pipeline
+            <div className="sidebar-nav-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span>Pipeline & Meetings</span>
+              <Zap size={12} style={{ color: '#f59e0b' }} />
             </div>
           )}
 
@@ -208,17 +248,17 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           <NavLink
             to="/pipeline"
             className={({ isActive }) => `menu-item ${isActive ? 'menu-item-active' : ''}`}
-            title="Deal Pipeline"
+            title="Deal Pipeline Kanban"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <Kanban size={19} />
+              <div className="menu-item-icon" style={{ color: '#f59e0b' }}>
+                <Kanban size={20} />
               </div>
-              {!collapsed && <span>Deal Pipeline Kanban</span>}
+              {!collapsed && <span style={{ fontWeight: 600 }}>Deal Pipeline Kanban</span>}
             </div>
             {!collapsed && (
-              <span className="badge badge-success" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                $3.0M
+              <span className="badge badge-amber" style={{ fontSize: '0.68rem', padding: '2px 7px' }}>
+                $3.0M+
               </span>
             )}
           </NavLink>
@@ -227,16 +267,16 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           <NavLink
             to="/meetings"
             className={({ isActive }) => `menu-item ${isActive ? 'menu-item-active' : ''}`}
-            title="Call Intelligence"
+            title="Call & Audio Intelligence"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <Headphones size={19} />
+              <div className="menu-item-icon" style={{ color: '#10b981' }}>
+                <Headphones size={20} />
               </div>
-              {!collapsed && <span>Call Intelligence</span>}
+              {!collapsed && <span style={{ fontWeight: 600 }}>Call Intelligence</span>}
             </div>
             {!collapsed && (
-              <span className="badge badge-cyan" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
+              <span className="badge badge-emerald" style={{ fontSize: '0.68rem', padding: '2px 7px' }}>
                 Audio AI
               </span>
             )}
@@ -247,7 +287,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         <div style={{ padding: '4px 0' }}>
           {!collapsed && (
             <div className="sidebar-nav-section-title">
-              Configuration
+              System Settings
             </div>
           )}
 
@@ -258,10 +298,10 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             title="Settings & Models"
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className="menu-item-icon">
-                <Settings size={19} />
+              <div className="menu-item-icon" style={{ color: '#8b5cf6' }}>
+                <Settings size={20} />
               </div>
-              {!collapsed && <span>Settings & Models</span>}
+              {!collapsed && <span style={{ fontWeight: 600 }}>Settings & Models</span>}
             </div>
           </NavLink>
         </div>
@@ -271,18 +311,22 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           <div style={{
             margin: '18px 12px 10px',
             padding: '14px',
-            borderRadius: '12px',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-subtle)',
+            borderRadius: '14px',
+            background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <span className="pulse-dot" />
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--success-500)' }}>
-                NVIDIA NIM 70B
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="pulse-dot" />
+                <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--brand-500)' }}>
+                  NVIDIA NIM Engine
+                </span>
+              </div>
+              <span className="badge badge-indigo" style={{ fontSize: '0.65rem' }}>Active</span>
             </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-              meta/llama-3.1-70b-instruct
+            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+              meta/llama-3.1-70b-instruct + 120-Tree Random Forest
             </div>
           </div>
         )}
@@ -300,23 +344,24 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
           <div style={{
-            width: '36px',
-            height: '36px',
+            width: '38px',
+            height: '38px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, var(--brand-500), #06b6d4)',
             color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 700,
-            fontSize: '0.85rem',
+            fontWeight: 800,
+            fontSize: '0.88rem',
+            boxShadow: '0 4px 12px rgba(79, 70, 229, 0.35)',
             flexShrink: 0
           }}>
-            {user?.name ? user.name.slice(0, 2).toUpperCase() : 'SD'}
+            {user?.name ? user.name.slice(0, 2).toUpperCase() : 'SG'}
           </div>
           {!collapsed && (
             <div style={{ overflow: 'hidden' }}>
-              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-main)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+              <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-main)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                 {user?.name || 'Sales Director'}
               </div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
@@ -331,14 +376,15 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             onClick={handleLogout}
             title="Sign Out"
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-dim)',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--error-500)',
               cursor: 'pointer',
-              padding: '6px',
-              borderRadius: '6px',
+              padding: '7px',
+              borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              transition: 'all 0.2s ease'
             }}
           >
             <LogOut size={16} />

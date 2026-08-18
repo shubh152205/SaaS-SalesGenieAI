@@ -268,3 +268,28 @@ def get_strategy(lead_id: int):
         "value_prop": strat["value_prop"],
         "case_study": strat["case_study"]
     }
+
+
+@router.get("/tts-config")
+def get_tts_configuration():
+    """
+    Returns TTS configurations, supported voice profiles, and playback rates.
+    """
+    return {
+        "engine": "SalesGenie Natural Web Speech & Neural Synthesizer",
+        "supported_rates": [0.8, 1.0, 1.25, 1.5, 2.0],
+        "default_rate": 1.0,
+        "recommended_personas": [
+            {"id": "exec_male", "name": "Enterprise Executive Male", "speed": 1.0, "pitch": 0.95},
+            {"id": "exec_female", "name": "Enterprise Executive Female", "speed": 1.0, "pitch": 1.05},
+            {"id": "dynamic_sdr", "name": "Dynamic Sales Rep", "speed": 1.15, "pitch": 1.0},
+            {"id": "consultative", "name": "Consultative Sales Engineer", "speed": 0.95, "pitch": 0.9}
+        ],
+        "features": [
+            "Real-time sentence synchronization and highlighting",
+            "Automatic sentence chunking preventing Chrome 15s freeze",
+            "Animated waveform frequency equalizer visualizer",
+            "Play, pause, resume, and stop controls"
+        ]
+    }
+

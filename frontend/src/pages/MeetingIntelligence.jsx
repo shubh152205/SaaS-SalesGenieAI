@@ -28,7 +28,10 @@ import {
   Check
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import TextToSpeechPlayer from '../components/TextToSpeechPlayer';
 import api from '../api/client';
+import meetingSpectrogramImg from '../assets/meeting_spectrogram.jpg';
+
 
 const SAMPLE_CALL_PROMPTS = [
   {
@@ -191,7 +194,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
 
   const handleStopRecording = async () => {
     setIsRecording(false);
-    setRecordingStatus('Synthesizing speech with NVIDIA NIM AI & NLP extractor...');
+    setRecordingStatus('Analyzing conversation transcript with NVIDIA NIM AI & NLP extractor...');
     
     if (speechRecognitionRef.current) {
       try {
@@ -210,6 +213,24 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
       'Discovery briefing with engineering executive. Discussed manual sales pipeline latency, sub-100ms ML scoring, and automated cold email generation. Budget is confirmed up to $120,000 for Q3 rollout. Next step is delivering technical PoC sandbox and customized MSA pricing proposal by next Tuesday.';
 
     await submitTranscriptForProcessing(capturedTranscript);
+  };
+
+  const handleSimulateLiveSpeech = () => {
+    setIsRecording(true);
+    setLiveSpeechText('');
+    setRecordingStatus('Streaming live speech simulation...');
+    const sample = 'Executive discovery call with Snowflake engineering team. VP of Data confirmed 30 sales seats budget of $120,000 ARR. They requested a dedicated SOC2 security whitepaper and technical sandbox by next Tuesday.';
+    
+    let idx = 0;
+    const interval = setInterval(() => {
+      if (idx < sample.length) {
+        idx += 3;
+        setLiveSpeechText(sample.substring(0, idx));
+      } else {
+        clearInterval(interval);
+        setRecordingStatus('Simulation complete. Click "Stop & Extract AI Intelligence".');
+      }
+    }, 25);
   };
 
   const submitTranscriptForProcessing = async (textToProcess) => {
@@ -346,7 +367,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="Call Intelligence & Meeting Analytics"
-        subtitle="Audio Transcription, Speaker Diarization, Sentiment Polarity & Autonomous Action Extraction"
+        subtitle="SaaS-SalesGenie AI Speech-to-Text, Sentiment Polarity & Autonomous Action Item Extraction"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />
@@ -357,13 +378,13 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
           top: '20px',
           right: '30px',
           zIndex: 9999,
-          background: 'var(--brand-500)',
+          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
           color: '#ffffff',
           padding: '10px 18px',
           borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          boxShadow: '0 4px 16px rgba(16, 185, 129, 0.35)',
           fontSize: '0.85rem',
-          fontWeight: 600,
+          fontWeight: 700,
           display: 'flex',
           alignItems: 'center',
           gap: '8px'
@@ -375,7 +396,45 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
+        {/* Visual Audio Spectrogram Showcase Banner */}
+        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
+          <img src={meetingSpectrogramImg} alt="AI Speech Intelligence Spectrogram" />
+          <div className="image-banner-overlay">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                padding: '12px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
+                color: '#ffffff',
+                boxShadow: '0 4px 16px rgba(16, 185, 129, 0.45)'
+              }}>
+                <Headphones size={24} />
+              </div>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
+                    AI Speech & Meeting Intelligence Studio
+                  </h2>
+                  <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
+                    Live NLP Engine
+                  </span>
+                </div>
+                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
+                  Real-time microphone audio transcription, speaker sentiment analysis, and autonomous CRM task generation.
+                </p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="badge badge-cyan" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 700 }}>
+                {meetings.length} Calls Processed
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Top Control Bar & Live Capture Engine */}
+
         <div className="tail-card" style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
@@ -461,7 +520,21 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  {!isRecording && (
+                    <button
+                      type="button"
+                      onClick={handleSimulateLiveSpeech}
+                      disabled={isProcessing}
+                      className="btn btn-secondary btn-sm"
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem' }}
+                      title="Test live speech-to-text without microphone"
+                    >
+                      <Sparkles size={14} style={{ color: 'var(--brand-500)' }} />
+                      <span>Simulate Speech Stream</span>
+                    </button>
+                  )}
+
                   {isRecording ? (
                     <button
                       onClick={handleStopRecording}
@@ -767,9 +840,18 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
 
                 {/* Executive Meeting Summary */}
                 <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-                    <Sparkles size={16} style={{ color: 'var(--brand-500)' }} />
-                    <h4 style={{ fontSize: '0.85rem', fontWeight: 700, margin: 0 }}>Executive AI Summary</h4>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Sparkles size={16} style={{ color: 'var(--brand-500)' }} />
+                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, margin: 0 }}>Executive AI Summary</h4>
+                    </div>
+                    {selectedMeeting.summary && (
+                      <TextToSpeechPlayer
+                        text={selectedMeeting.summary}
+                        variant="compact"
+                        label="Listen to Summary"
+                      />
+                    )}
                   </div>
                   <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
                     {selectedMeeting.summary || 'Summary generated by NVIDIA NIM based on call transcript.'}
@@ -780,14 +862,23 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
 
               {/* Extracted Next Steps & Action Items */}
               <div className="tail-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <CheckCircle2 size={18} style={{ color: 'var(--success-500)' }} />
                     <h3 className="text-title-sm">Autonomous Action Items & Next Steps</h3>
                   </div>
-                  <span className="badge badge-success" style={{ fontSize: '0.72rem' }}>
-                    {Object.values(completedActions).filter(Boolean).length} / {actionItemsList.length} Done
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {actionItemsList.length > 0 && (
+                      <TextToSpeechPlayer
+                        text={actionItemsList.map((a, i) => `Task ${i + 1}: ${a}`).join('. ')}
+                        variant="compact"
+                        label="Read Tasks"
+                      />
+                    )}
+                    <span className="badge badge-success" style={{ fontSize: '0.72rem' }}>
+                      {Object.values(completedActions).filter(Boolean).length} / {actionItemsList.length} Done
+                    </span>
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -852,11 +943,30 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
               </div>
 
               {/* Raw Call Transcript */}
-              <div className="tail-card">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                  <FileText size={18} style={{ color: 'var(--info-500)' }} />
-                  <h3 className="text-title-sm">Full Discovery Transcript</h3>
+              <div className="tail-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <FileText size={18} style={{ color: 'var(--info-500)' }} />
+                    <h3 className="text-title-sm">Full Discovery Transcript</h3>
+                  </div>
+                  {selectedMeeting.transcript && (
+                    <TextToSpeechPlayer
+                      text={selectedMeeting.transcript}
+                      variant="compact"
+                      label="Listen to Call"
+                    />
+                  )}
                 </div>
+
+                {selectedMeeting.transcript && (
+                  <TextToSpeechPlayer
+                    text={selectedMeeting.transcript}
+                    title="Call Audio Voice Synthesizer"
+                    label="Listen to Full Audio Transcript"
+                    variant="full"
+                  />
+                )}
+
                 <div
                   style={{
                     padding: '14px',

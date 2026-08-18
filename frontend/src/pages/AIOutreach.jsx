@@ -12,10 +12,15 @@ import {
   Zap,
   Sliders,
   ShieldCheck,
-  Clock
+  Clock,
+  Layers,
+  Flame,
+  Radio
 } from 'lucide-react';
 import api from '../api/client';
 import Navbar from '../components/Navbar';
+import TextToSpeechPlayer from '../components/TextToSpeechPlayer';
+import outreachHeroImg from '../assets/outreach_hero.jpg';
 
 const AIOutreach = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
@@ -24,7 +29,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
   const [outreachType, setOutreachType] = useState('cold_email');
   const [tone, setTone] = useState('Consultative & ROI-Focused');
   const [temperature, setTemperature] = useState(0.2);
-  const [model, setModel] = useState('meta/llama-3.1-8b-instruct');
+  const [model, setModel] = useState('meta/llama-3.1-70b-instruct');
   
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
@@ -85,7 +90,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
         temperature: temperature
       });
 
-      const generatedSubject = res.data.subject || `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue with SalesGenie AI`;
+      const generatedSubject = res.data.subject || `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue with SaaS-SalesGenie AI`;
       const generatedBody = res.data.body || res.data.content || '';
       setSubject(generatedSubject);
       startTypewriter(generatedBody);
@@ -94,7 +99,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
       // Enterprise Fallback response
       const selectedLead = leads.find((l) => l.id === parseInt(selectedLeadId)) || leads[0];
       const fallbackSubject = `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue Operations in Q3`;
-      const fallbackBody = `Hi ${selectedLead?.contact_name || 'Decision Maker'},\n\nI noticed ${selectedLead?.company_name || 'your team'} is scaling your ${selectedLead?.industry || 'B2B'} infrastructure following your recent milestones.\n\nAt SalesGenie AI, we've helped similar high-growth teams achieve 28.4% faster conversion velocity using our autonomous lead scoring and cold outreach engine powered by ${model}.\n\nWould you be open to a 10-minute briefing this Thursday to review our benchmark analysis for ${selectedLead?.company_name || 'your company'}?\n\nBest regards,\nSalesGenie Autonomous AI Team`;
+      const fallbackBody = `Hi ${selectedLead?.contact_name || 'Decision Maker'},\n\nI noticed ${selectedLead?.company_name || 'your team'} is scaling your ${selectedLead?.industry || 'B2B'} infrastructure following your recent milestones.\n\nAt SaaS-SalesGenie AI, we've helped similar high-growth teams achieve 28.4% faster conversion velocity using our autonomous lead scoring and cold outreach engine powered by ${model}.\n\nWould you be open to a 10-minute briefing this Thursday to review our benchmark analysis for ${selectedLead?.company_name || 'your company'}?\n\nBest regards,\nSaaS-SalesGenie AI Autonomous Sales Team`;
       setSubject(fallbackSubject);
       startTypewriter(fallbackBody);
     } finally {
@@ -113,189 +118,205 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="AI Outreach Generation Engine"
-        subtitle="NVIDIA NIM (Llama 3.1 70B & 3.3 70B) Cold Email & LinkedIn Pitch Synthesis"
+        subtitle="SaaS-SalesGenie AI NVIDIA NIM (Llama 3.1 70B & 3.3 70B) Hyper-Personalized Pitch Synthesis"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
+        {/* Visual Outreach Studio Showcase Banner */}
+        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
+          <img src={outreachHeroImg} alt="AI Sales Outreach Studio" />
+          <div className="image-banner-overlay">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                padding: '12px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
+                color: '#ffffff',
+                boxShadow: '0 4px 16px rgba(236, 72, 153, 0.45)'
+              }}>
+                <Send size={24} />
+              </div>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
+                    NVIDIA NIM Cold Outreach Studio
+                  </h2>
+                  <span className="badge badge-rose" style={{ fontSize: '0.72rem' }}>
+                    84% Avg Open Rate
+                  </span>
+                </div>
+                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
+                  Hyper-personalized enterprise emails, LinkedIn InMails, and voice scripts with real-time TTS synthesis.
+                </p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="badge badge-indigo" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 700 }}>
+                Llama-3.1-70b-instruct
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="outreach-grid">
           
           {/* Left Column: Generation Controls */}
-          <div className="tail-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div className="tail-card animate-entrance" style={{ display: 'flex', flexDirection: 'column', gap: '20px', borderRadius: 'var(--radius-xl)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '14px', borderBottom: '1px solid var(--border-subtle)' }}>
               <div style={{ padding: '8px', borderRadius: '8px', background: 'var(--brand-50)', color: 'var(--brand-500)' }}>
                 <Sparkles size={20} />
               </div>
               <div>
-                <h3 className="text-title-sm">NVIDIA NIM Parameters</h3>
-                <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>Configure tone, model & target prospect</p>
+                <h3 className="text-title-sm" style={{ fontWeight: 800 }}>NVIDIA NIM Parameters</h3>
+                <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>Configure tone, neural model & target prospect</p>
               </div>
             </div>
 
             {/* Target Lead Selector */}
             <div className="input-group">
-              <label className="input-label">Select Target B2B Prospect</label>
+              <label className="input-label" style={{ fontWeight: 600 }}>Select Target B2B Prospect</label>
               <select
                 value={selectedLeadId}
                 onChange={(e) => setSelectedLeadId(e.target.value)}
                 className="select-field"
               >
-                {leads.map((l) => (
-                  <option key={l.id} value={l.id}>
-                    {l.company_name} — {l.contact_name} ({l.industry}, Score: {l.lead_score})
+                {leads.map((lead) => (
+                  <option key={lead.id} value={lead.id}>
+                    {lead.company_name} — {lead.contact_name} ({lead.industry}) [Score: {lead.lead_score}]
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Outreach Type Selector */}
+            {/* Outreach Type */}
             <div className="input-group">
-              <label className="input-label">Outreach Medium</label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <label className="input-label" style={{ fontWeight: 600 }}>Channel / Message Format</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                 <button
                   type="button"
                   onClick={() => setOutreachType('cold_email')}
-                  style={{
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: outreachType === 'cold_email' ? '2px solid var(--brand-500)' : '1px solid var(--border-medium)',
-                    background: outreachType === 'cold_email' ? 'var(--brand-50)' : 'var(--bg-card)',
-                    color: outreachType === 'cold_email' ? 'var(--brand-500)' : 'var(--text-muted)',
-                    fontWeight: 600,
-                    fontSize: '0.8125rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    cursor: 'pointer'
-                  }}
+                  className={`btn btn-sm ${outreachType === 'cold_email' ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ padding: '8px 12px', fontSize: '0.8rem', fontWeight: 600 }}
                 >
-                  <Mail size={15} />
-                  <span>Cold Email</span>
+                  <Mail size={14} />
+                  <span>Executive Email</span>
                 </button>
-
                 <button
                   type="button"
-                  onClick={() => setOutreachType('linkedin')}
-                  style={{
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: outreachType === 'linkedin' ? '2px solid var(--info-500)' : '1px solid var(--border-medium)',
-                    background: outreachType === 'linkedin' ? 'var(--info-50)' : 'var(--bg-card)',
-                    color: outreachType === 'linkedin' ? 'var(--info-600)' : 'var(--text-muted)',
-                    fontWeight: 600,
-                    fontSize: '0.8125rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    cursor: 'pointer'
-                  }}
+                  onClick={() => setOutreachType('linkedin_inmail')}
+                  className={`btn btn-sm ${outreachType === 'linkedin_inmail' ? 'btn-cyan' : 'btn-secondary'}`}
+                  style={{ padding: '8px 12px', fontSize: '0.8rem', fontWeight: 600 }}
                 >
-                  <Share2 size={15} />
+                  <Share2 size={14} />
                   <span>LinkedIn InMail</span>
                 </button>
               </div>
             </div>
 
-            {/* AI Model Selection */}
+            {/* Persona / Tone Selector */}
             <div className="input-group">
-              <label className="input-label">NVIDIA NIM Model Orchestration</label>
-              <select
-                value={model}
-                onChange={(e) => setModel(e.target.value)}
-                className="select-field"
-              >
-                <option value="meta/llama-3.1-8b-instruct">meta/llama-3.1-8b-instruct (Ultra Fast 8B Enterprise)</option>
-                <option value="meta/llama-3.1-70b-instruct">meta/llama-3.1-70b-instruct (Deep Reasoning 70B)</option>
-                <option value="meta/llama-3.3-70b-instruct">meta/llama-3.3-70b-instruct (High Fidelity 70B)</option>
-              </select>
-            </div>
-
-            {/* Tone Selector */}
-            <div className="input-group">
-              <label className="input-label">Psychological Tone & Strategy</label>
+              <label className="input-label" style={{ fontWeight: 600 }}>Sales Pitch Persona & Tone</label>
               <select
                 value={tone}
                 onChange={(e) => setTone(e.target.value)}
                 className="select-field"
               >
-                <option value="Consultative & ROI-Focused">Consultative & ROI-Focused</option>
-                <option value="Assertive & Direct Problem Solving">Assertive & Direct Problem Solving</option>
-                <option value="High-Urgency & Competitive Benchmark">High-Urgency & Competitive Benchmark</option>
-                <option value="Peer-to-Peer Executive Brevity">Peer-to-Peer Executive Brevity</option>
+                <option value="Consultative & ROI-Focused">Consultative & ROI-Focused (Recommended for Enterprise)</option>
+                <option value="Direct & Metric-Driven">Direct & Metric-Driven (High Urgency)</option>
+                <option value="Warm & Relationship-Building">Warm & Relationship-Building (Founder-to-Founder)</option>
+                <option value="Technical Solution Architecture">Technical Solution Architecture (CTO / VP Eng)</option>
+              </select>
+            </div>
+
+            {/* Model Selector */}
+            <div className="input-group">
+              <label className="input-label" style={{ fontWeight: 600 }}>NVIDIA NIM LLM Model Engine</label>
+              <select
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                className="select-field"
+              >
+                <option value="meta/llama-3.1-70b-instruct">meta/llama-3.1-70b-instruct (High Quality)</option>
+                <option value="meta/llama-3.3-70b-instruct">meta/llama-3.3-70b-instruct (State-of-the-Art)</option>
+                <option value="meta/llama-3.1-8b-instruct">meta/llama-3.1-8b-instruct (Ultra Fast)</option>
               </select>
             </div>
 
             {/* Temperature Slider */}
             <div className="input-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <label className="input-label">Sampling Temperature</label>
-                <span style={{ fontSize: '0.78rem', color: 'var(--brand-400)', fontWeight: 600 }}>{temperature}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label className="input-label" style={{ margin: 0, fontWeight: 600 }}>Creativity (Temperature)</label>
+                <span style={{ fontSize: '0.78rem', color: 'var(--brand-500)', fontWeight: 800 }}>{temperature}</span>
               </div>
               <input
                 type="range"
                 min="0.0"
                 max="1.0"
-                step="0.05"
+                step="0.1"
                 value={temperature}
                 onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                style={{ accentColor: 'var(--brand-500)', cursor: 'pointer' }}
+                style={{ width: '100%', accentColor: 'var(--brand-500)' }}
               />
             </div>
 
-            {/* Generate Trigger */}
+            {/* Generate Button */}
             <button
               onClick={handleGenerate}
-              disabled={generating || isTyping}
-              className="btn btn-primary btn-lg"
-              style={{ width: '100%', marginTop: '8px' }}
+              disabled={generating}
+              className="btn btn-primary"
+              style={{
+                width: '100%',
+                padding: '13px',
+                fontSize: '0.92rem',
+                fontWeight: 800,
+                background: 'linear-gradient(135deg, #4f46e5 0%, #ec4899 100%)',
+                boxShadow: '0 4px 16px rgba(79, 70, 229, 0.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
             >
               {generating ? (
                 <>
-                  <RefreshCw size={18} className="spin" />
+                  <RefreshCw size={17} className="spinner" />
                   <span>Synthesizing with NVIDIA NIM...</span>
-                </>
-              ) : isTyping ? (
-                <>
-                  <Sparkles size={18} className="spin" />
-                  <span>Streaming Pitch via Typewriter...</span>
                 </>
               ) : (
                 <>
-                  <Zap size={18} />
+                  <Sparkles size={17} />
                   <span>Generate Hyper-Personalized Pitch</span>
                 </>
               )}
             </button>
-
           </div>
 
-          {/* Right Column: Output Preview Panel */}
-          <div className="tail-card tail-card-glow" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Right Column: Output / Typewriter Editor */}
+          <div className="tail-card animate-entrance" style={{ display: 'flex', flexDirection: 'column', gap: '16px', minHeight: '520px', borderRadius: 'var(--radius-xl)' }}>
+            
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid var(--border-subtle)' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h3 className="text-title-sm">Generated AI Pitch Preview</h3>
-                  {isTyping && (
-                    <span className="badge badge-brand" style={{ animation: 'pulse 1.5s infinite' }}>
-                      Streaming Live...
-                    </span>
-                  )}
-                </div>
-                <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>Ready for cold email sequence or CRM dispatch</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="pulse-dot" />
+                <h3 className="text-title-sm" style={{ fontWeight: 800 }}>Synthesized Sales Copy</h3>
+                {isTyping && (
+                  <span className="badge badge-rose" style={{ fontSize: '0.68rem' }}>
+                    Streaming NIM Tokens...
+                  </span>
+                )}
               </div>
 
               {(displayedBody || body) && (
                 <button
                   onClick={handleCopy}
                   className="btn btn-secondary btn-sm"
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}
                 >
                   {copied ? <Check size={14} style={{ color: 'var(--success-500)' }} /> : <Copy size={14} />}
-                  <span>{copied ? 'Copied!' : 'Copy Pitch'}</span>
+                  <span>{copied ? 'Copied!' : 'Copy to Clipboard'}</span>
                 </button>
               )}
             </div>
@@ -303,49 +324,43 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
             {/* Subject Line */}
             {subject && (
               <div className="input-group">
-                <label className="input-label" style={{ color: 'var(--brand-400)' }}>Subject Line</label>
+                <label className="input-label" style={{ fontWeight: 600 }}>Subject Line</label>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   className="tail-input"
-                  style={{ fontWeight: 600 }}
+                  style={{ fontWeight: 700, color: 'var(--text-main)' }}
                 />
               </div>
             )}
 
+            {/* Text-to-Speech (TTS) Voice Player for Generated Outreach */}
+            {(displayedBody || body) && (
+              <TextToSpeechPlayer
+                text={subject ? `${subject}. ${displayedBody || body}` : (displayedBody || body)}
+                title="AI Voice Pitch Reader"
+                label="Listen to Pitch (AI Voice)"
+                variant="full"
+              />
+            )}
+
             {/* Body with Typewriter Animation Output */}
             <div className="input-group" style={{ flex: 1, position: 'relative' }}>
-              <label className="input-label">Email / InMail Body</label>
+              <label className="input-label" style={{ fontWeight: 600 }}>Email / InMail Body</label>
               <textarea
                 value={displayedBody || body}
-                onChange={(e) => {
-                  setBody(e.target.value);
-                  setDisplayedBody(e.target.value);
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="Click 'Generate Hyper-Personalized Pitch' on the left to initiate NVIDIA NIM Llama 3.1 70B synthesis based on firmographic intent data..."
+                className="tail-textarea"
+                style={{
+                  height: '100%',
+                  minHeight: '280px',
+                  lineHeight: '1.6',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.875rem'
                 }}
-                placeholder="Click 'Generate Hyper-Personalized Pitch' on the left to create tailored outreach using NVIDIA NIM LLM."
-                className="textarea-field"
-                rows={13}
-                style={{ fontFamily: 'var(--font-sans)', lineHeight: '1.6' }}
               />
-            </div>
-
-            {/* Status Footer */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px 16px',
-              borderRadius: '8px',
-              background: 'var(--bg-card-subtle)',
-              fontSize: '0.75rem',
-              color: 'var(--text-dim)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <ShieldCheck size={14} style={{ color: 'var(--success-500)' }} />
-                <span>NVIDIA NIM End-to-End Encrypted</span>
-              </div>
-              <div>Model: {model}</div>
             </div>
 
           </div>
