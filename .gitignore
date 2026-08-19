@@ -35,3 +35,5 @@ salesgenie.db
 
 # External demo reference
 demo.tailadmin.com/
+node_modules/
+package-lock.json
