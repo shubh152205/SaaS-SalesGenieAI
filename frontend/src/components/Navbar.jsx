@@ -5,13 +5,11 @@ import {
   Sun,
   Moon,
   Sparkles,
-  AudioWaveform,
-  ShieldCheck,
+  Calendar,
   ChevronDown,
-  User,
   Settings,
   LogOut,
-  HelpCircle,
+  Send,
   Menu
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +17,8 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
 const Navbar = ({
-  title = 'Executive Dashboard',
-  subtitle = 'AI Sales Intelligence & Pipeline Overview',
+  title = 'Overview',
+  subtitle = 'Revenue & Predictive Lead Velocity',
   collapsed,
   setCollapsed
 }) => {
@@ -30,6 +28,7 @@ const Navbar = ({
   
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -37,87 +36,160 @@ const Navbar = ({
   };
 
   return (
-    <header className="app-header">
+    <header style={{
+      height: '64px',
+      borderBottom: '1px solid var(--border)',
+      backgroundColor: 'var(--bg-header)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 30,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 24px',
+      transition: 'background-color 0.2s ease, border-color 0.2s ease'
+    }}>
       
-      {/* Left: Hamburger & Title or Search */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      {/* ── Left: Section Title & Context Badge ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         {setCollapsed && (
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="btn btn-secondary btn-sm"
-            style={{ padding: '8px' }}
+            style={{
+              background: 'var(--secondary)',
+              border: '1px solid var(--border)',
+              color: 'var(--foreground)',
+              padding: '7px',
+              borderRadius: 'var(--radius-md)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
             title="Toggle Sidebar"
           >
-            <Menu size={18} />
+            <Menu size={16} />
           </button>
         )}
 
-        <div>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <h1 style={{
+            fontSize: '1.2rem',
+            fontWeight: 700,
+            color: 'var(--foreground)',
+            margin: 0,
+            letterSpacing: '-0.02em'
+          }}>
             {title}
           </h1>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
-            {subtitle}
-          </p>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '3px 10px',
+            borderRadius: 'var(--radius-full)',
+            backgroundColor: 'var(--secondary)',
+            color: 'var(--muted-foreground)',
+            fontSize: '0.75rem',
+            fontWeight: 500,
+            border: '1px solid var(--border)'
+          }}>
+            <Calendar size={12} style={{ color: 'var(--accent)' }} />
+            <span>Last 30 days</span>
+          </div>
         </div>
       </div>
 
-      {/* Center / Right: Search Bar, Actions, Theme Toggle, Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+      {/* ── Right: Search, Quick Action, Theme Switch, Notifications, User ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         
-        {/* Quick Action Button: New AI Outreach */}
+        {/* Search Bar matching SalesOps */}
+        <div style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          width: searchFocused ? '240px' : '180px',
+          transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}>
+          <Search size={14} style={{ position: 'absolute', left: '10px', color: 'var(--muted-foreground)', pointerEvents: 'none' }} />
+          <input
+            type="text"
+            placeholder="Search leads, deals..."
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            style={{
+              width: '100%',
+              height: '36px',
+              paddingLeft: '32px',
+              paddingRight: '12px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--secondary)',
+              border: `1px solid ${searchFocused ? 'var(--accent)' : 'var(--border)'}`,
+              color: 'var(--foreground)',
+              fontSize: '0.8125rem',
+              outline: 'none',
+              transition: 'all 0.2s ease'
+            }}
+          />
+        </div>
+
+        {/* Quick Action: New Outreach */}
         <button
           onClick={() => navigate('/outreach')}
-          className="btn btn-primary btn-sm"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+          className="btn btn-primary"
+          style={{
+            height: '36px',
+            padding: '0 14px',
+            fontSize: '0.8125rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}
         >
           <Sparkles size={14} />
-          <span>New AI Outreach</span>
+          <span>AI Outreach</span>
         </button>
 
-        {/* Quick Action Button: Process Call */}
-        <button
-          onClick={() => navigate('/meetings')}
-          className="btn btn-cyan btn-sm"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          <AudioWaveform size={14} />
-          <span>Process Call</span>
-        </button>
-
-        {/* Theme Toggle (Light / Dark) */}
+        {/* Theme Toggle Button (Light / Dark) */}
         <button
           onClick={toggleTheme}
           title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-medium)',
-            color: 'var(--text-main)',
-            width: '38px',
-            height: '38px',
+            width: '36px',
+            height: '36px',
             borderRadius: 'var(--radius-md)',
+            backgroundColor: 'var(--secondary)',
+            border: '1px solid var(--border)',
+            color: 'var(--foreground)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.15s ease'
           }}
         >
-          {isDark ? <Sun size={17} style={{ color: '#f59e0b' }} /> : <Moon size={17} style={{ color: '#465fff' }} />}
+          {isDark ? (
+            <Sun size={16} style={{ color: '#fbbf24' }} />
+          ) : (
+            <Moon size={16} style={{ color: '#10b981' }} />
+          )}
         </button>
 
-        {/* Notifications Icon with Popup */}
+        {/* Notifications Icon with Dropdown */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             title="Notifications"
             style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-medium)',
-              color: 'var(--text-main)',
-              width: '38px',
-              height: '38px',
+              width: '36px',
+              height: '36px',
               borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--secondary)',
+              border: '1px solid var(--border)',
+              color: 'var(--muted-foreground)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -125,125 +197,98 @@ const Navbar = ({
               position: 'relative'
             }}
           >
-            <Bell size={17} />
+            <Bell size={16} />
             <span style={{
               position: 'absolute',
               top: '6px',
               right: '6px',
-              width: '8px',
-              height: '8px',
+              width: '6px',
+              height: '6px',
               borderRadius: '50%',
-              backgroundColor: '#ef4444',
-              boxShadow: '0 0 6px rgba(239, 68, 68, 0.8)'
-            }} />
+              backgroundColor: 'var(--accent)'
+            }} className="pulse-dot" />
           </button>
 
-          {/* Notifications Dropdown */}
           {notificationsOpen && (
             <div style={{
               position: 'absolute',
-              top: '48px',
+              top: '44px',
               right: 0,
-              width: '320px',
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid var(--border-medium)',
+              width: '300px',
+              backgroundColor: 'var(--card)',
+              border: '1px solid var(--border)',
               borderRadius: 'var(--radius-lg)',
-              boxShadow: '0 12px 30px rgba(0, 0, 0, 0.4)',
-              padding: '16px',
+              boxShadow: 'var(--shadow-lg)',
+              padding: '14px',
               zIndex: 100
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
-                <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-main)' }}>Notifications</span>
-                <span className="badge badge-brand" style={{ fontSize: '0.68rem' }}>3 New</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--foreground)' }}>Live Alerts</span>
+                <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>3 New</span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ padding: '8px 10px', borderRadius: '8px', background: 'var(--brand-50)', fontSize: '0.78rem' }}>
-                  <strong style={{ color: 'var(--brand-500)' }}>Lead Scored: 94</strong>
-                  <p style={{ color: 'var(--text-muted)', margin: 0 }}>Apex Systems demo requested with CTO.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--secondary)', fontSize: '0.75rem' }}>
+                  <strong style={{ color: 'var(--accent)' }}>High Lead Intent: 94</strong>
+                  <p style={{ color: 'var(--muted-foreground)', margin: 0 }}>Apex Systems demo requested with CTO.</p>
                 </div>
-                <div style={{ padding: '8px 10px', borderRadius: '8px', background: 'var(--success-50)', fontSize: '0.78rem' }}>
-                  <strong style={{ color: 'var(--success-600)' }}>Deal Advanced</strong>
-                  <p style={{ color: 'var(--text-muted)', margin: 0 }}>CloudScale AI moved to Negotiation ($120k).</p>
+                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--secondary)', fontSize: '0.75rem' }}>
+                  <strong style={{ color: 'var(--chart-1)' }}>Deal Advanced</strong>
+                  <p style={{ color: 'var(--muted-foreground)', margin: 0 }}>CloudScale AI moved to Negotiation ($120k).</p>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Security Shield Badge */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          padding: '6px 12px',
-          borderRadius: 'var(--radius-md)',
-          backgroundColor: 'var(--success-50)',
-          border: '1px solid rgba(16, 185, 129, 0.25)',
-          color: 'var(--success-600)',
-          fontSize: '0.75rem',
-          fontWeight: 600
-        }}>
-          <ShieldCheck size={14} />
-          <span style={{ display: 'inline-block' }}>JWT Protected</span>
-        </div>
-
-        {/* User Profile Pill & Dropdown */}
+        {/* User Profile Avatar Pill */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setProfileOpen(!profileOpen)}
             style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-md)',
+              overflow: 'hidden',
+              backgroundColor: 'var(--secondary)',
+              border: '1px solid var(--border)',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              padding: '4px 10px 4px 6px',
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-medium)',
-              cursor: 'pointer'
+              justifyContent: 'center',
+              padding: 0
             }}
           >
             <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--brand-500), #06b6d4)',
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%)',
               color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontWeight: 700,
-              fontSize: '0.8rem'
+              fontSize: '0.75rem'
             }}>
-              {user?.name ? user.name.slice(0, 2).toUpperCase() : 'SD'}
+              {user?.name ? user.name.slice(0, 2).toUpperCase() : 'JD'}
             </div>
-            <div style={{ textAlign: 'left', display: 'none', md: 'block' }}>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.2 }}>
-                {user?.name || 'Sales Director'}
-              </div>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                Enterprise
-              </div>
-            </div>
-            <ChevronDown size={14} style={{ color: 'var(--text-dim)' }} />
           </button>
 
-          {/* User Menu Dropdown */}
           {profileOpen && (
             <div style={{
               position: 'absolute',
-              top: '48px',
+              top: '44px',
               right: 0,
-              width: '240px',
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid var(--border-medium)',
+              width: '220px',
+              backgroundColor: 'var(--card)',
+              border: '1px solid var(--border)',
               borderRadius: 'var(--radius-lg)',
-              boxShadow: '0 12px 30px rgba(0, 0, 0, 0.4)',
+              boxShadow: 'var(--shadow-lg)',
               padding: '8px',
               zIndex: 100
             }}>
-              <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--border-subtle)', marginBottom: '6px' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)' }}>{user?.name || 'Sales Director'}</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{user?.email || 'demo@salesgenie.ai'}</div>
+              <div style={{ padding: '8px 10px', borderBottom: '1px solid var(--border)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--foreground)' }}>{user?.name || 'Sales Director'}</div>
+                <div style={{ fontSize: '0.6875rem', color: 'var(--muted-foreground)' }}>{user?.email || 'demo@salesgenie.ai'}</div>
               </div>
               <button
                 onClick={() => { setProfileOpen(false); navigate('/settings'); }}
@@ -251,19 +296,19 @@ const Navbar = ({
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  padding: '8px 12px',
+                  gap: '8px',
+                  padding: '8px 10px',
                   background: 'none',
                   border: 'none',
-                  borderRadius: '6px',
-                  color: 'var(--text-main)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'var(--foreground)',
                   fontSize: '0.8125rem',
                   cursor: 'pointer',
                   textAlign: 'left'
                 }}
               >
-                <Settings size={15} style={{ color: 'var(--brand-400)' }} />
-                <span>Account Settings</span>
+                <Settings size={14} style={{ color: 'var(--muted-foreground)' }} />
+                <span>Settings</span>
               </button>
               <button
                 onClick={handleLogout}
@@ -271,19 +316,18 @@ const Navbar = ({
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  padding: '8px 12px',
+                  gap: '8px',
+                  padding: '8px 10px',
                   background: 'none',
                   border: 'none',
-                  borderRadius: '6px',
-                  color: 'var(--error-500)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'var(--destructive)',
                   fontSize: '0.8125rem',
                   cursor: 'pointer',
-                  textAlign: 'left',
-                  marginTop: '4px'
+                  textAlign: 'left'
                 }}
               >
-                <LogOut size={15} />
+                <LogOut size={14} />
                 <span>Sign Out</span>
               </button>
             </div>

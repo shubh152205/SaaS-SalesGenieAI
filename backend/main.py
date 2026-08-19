@@ -10,8 +10,8 @@ from scheduler import start_scheduler
 load_dotenv()
 
 app = FastAPI(
-    title="SaaS-SalesGenie AI — SaaS Lead Intelligence & Sales CRM",
-    description="Full-stack AI-driven Sales Intelligence Platform powered by NVIDIA NIM & Scikit-Learn",
+    title="AI Powered Sales Intelligence Forecasting — Lead Intelligence & Sales CRM",
+    description="Full-stack AI-driven Sales Intelligence & Forecasting Platform powered by NVIDIA NIM & Scikit-Learn",
     version="1.0.0"
 )
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TrendingUp,
+  TrendingDown,
   DollarSign,
   Users,
   Flame,
@@ -14,14 +15,14 @@ import {
   Clock,
   Search,
   Filter,
-  Trash2,
   Eye,
   Send,
   RefreshCw,
-  MoreVertical,
   ChevronLeft,
   ChevronRight,
-  UserPlus,
+  Target,
+  Building2,
+  XCircle,
   X
 } from 'lucide-react';
 
@@ -41,10 +42,8 @@ import {
 } from 'recharts';
 import api from '../api/client';
 import Navbar from '../components/Navbar';
-import dashboardHeroImg from '../assets/login_hero.jpg';
 
 const Dashboard = ({ collapsed, setCollapsed }) => {
-
   const navigate = useNavigate();
   const [kpis, setKpis] = useState({
     total_leads: 50,
@@ -72,9 +71,34 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
   const [triggeringAuto, setTriggeringAuto] = useState(false);
   const [toast, setToast] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 6;
 
   const PERIOD_MAP = { 'Monthly': 'monthly', 'Quarterly': 'quarterly', 'Yearly': 'yearly' };
+
+  const DEFAULT_REVENUE_TREND = [
+    { month: 'Jan', revenue: 186000, target: 180000 },
+    { month: 'Feb', revenue: 205000, target: 190000 },
+    { month: 'Mar', revenue: 237000, target: 200000 },
+    { month: 'Apr', revenue: 273000, target: 220000 },
+    { month: 'May', revenue: 290000, target: 240000 },
+    { month: 'Jun', revenue: 314000, target: 250000 },
+    { month: 'Jul', revenue: 352000, target: 270000 },
+    { month: 'Aug', revenue: 389000, target: 290000 },
+    { month: 'Sep', revenue: 421000, target: 310000 },
+    { month: 'Oct', revenue: 458000, target: 330000 },
+    { month: 'Nov', revenue: 492000, target: 350000 },
+    { month: 'Dec', revenue: 547000, target: 380000 },
+  ];
+
+  const DEFAULT_FUNNEL = [
+    { stage: 'New Lead', count: 14 },
+    { stage: 'Qualified', count: 12 },
+    { stage: 'Proposal', count: 10 },
+    { stage: 'Negotiation', count: 6 },
+    { stage: 'Closed Won', count: 8 },
+  ];
+
+  const COLORS = ['#10b981', '#0ea5e9', '#f59e0b', '#f43f5e', '#8b5cf6', '#06b6d4'];
 
   useEffect(() => {
     fetchDashboardData();
@@ -102,13 +126,12 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
       const funnel = funnelRes.data;
       setFunnelData(funnel.funnel || []);
       setIndustryData(funnel.industry_distribution || []);
-      // M4: Real revenue trend from the backend funnel endpoint (fallback to demo data)
       const trend = (funnel.revenue_trend || []).map((t) => ({
-        name: t.month
+        month: t.month
           ? new Date(`${t.month}-01`).toLocaleString('en-US', { month: 'short' })
           : t.month,
         revenue: t.revenue || 0,
-        deals: t.deals || 0,
+        target: Math.round((t.revenue || 0) * 0.9 + 20000),
       }));
       setRevenueTrend(trend.length > 0 ? trend : DEFAULT_REVENUE_TREND);
     } catch (err) {
@@ -120,7 +143,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
 
   const fetchLeads = async () => {
     try {
-      const res = await api.get('/api/crm/leads?limit=25');
+      const res = await api.get('/api/crm/leads?limit=30');
       setLeads(res.data.items || []);
     } catch (err) {
       console.warn('Leads fetch error', err);
@@ -143,33 +166,6 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
     } catch (err) {
       console.warn('Activity feed fetch error', err);
     }
-  };
-
-  const formatActivityTime = (ts) => {
-    if (!ts) return '';
-    const parsed = new Date(String(ts).replace(' ', 'T'));
-    if (Number.isNaN(parsed.getTime())) return ts;
-    return parsed.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-    });
-  };
-
-  const ACTIVITY_META = {
-    lead: { icon: <UserPlus size={15} />, bg: 'rgba(70, 95, 255, 0.1)', color: 'var(--brand-500)' },
-    outreach: { icon: <Send size={15} />, bg: 'var(--success-50)', color: 'var(--success-600)' },
-    meeting: { icon: <AudioWaveform size={15} />, bg: 'var(--info-50)', color: 'var(--info-600)' },
-    pipeline: { icon: <Kanban size={15} />, bg: 'var(--warning-50)', color: 'var(--warning-600)' },
-    ml: { icon: <Sparkles size={15} />, bg: 'rgba(139, 92, 246, 0.12)', color: '#8b5cf6' },
-    automation: { icon: <RefreshCw size={15} />, bg: 'var(--success-50)', color: 'var(--success-600)' },
-  };
-
-  const activityMeta = (type) => ACTIVITY_META[type] || {
-    icon: <Activity size={15} />,
-    bg: 'var(--bg-card-subtle)',
-    color: 'var(--text-muted)',
   };
 
   const triggerAutomation = async () => {
@@ -201,27 +197,6 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
     }
   };
 
-  const DEFAULT_REVENUE_TREND = [
-    { name: 'Jan', revenue: 140000, deals: 8 },
-    { name: 'Feb', revenue: 210000, deals: 12 },
-    { name: 'Mar', revenue: 180000, deals: 10 },
-    { name: 'Apr', revenue: 290000, deals: 16 },
-    { name: 'May', revenue: 340000, deals: 19 },
-    { name: 'Jun', revenue: 420000, deals: 24 },
-    { name: 'Jul', revenue: 390000, deals: 22 },
-    { name: 'Aug', revenue: 480000, deals: 27 },
-  ];
-
-  const DEFAULT_FUNNEL = [
-    { stage: 'New Lead', count: 14 },
-    { stage: 'Qualified', count: 12 },
-    { stage: 'Proposal', count: 10 },
-    { stage: 'Negotiation', count: 6 },
-    { stage: 'Closed Won', count: 8 },
-  ];
-
-  const COLORS = ['#465fff', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-
   const filteredLeads = leads.filter((l) =>
     l.company_name?.toLowerCase().includes(tableSearch.toLowerCase()) ||
     l.contact_name?.toLowerCase().includes(tableSearch.toLowerCase()) ||
@@ -232,74 +207,29 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
   const paginatedLeads = filteredLeads.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: 'var(--background)' }}>
       <Navbar
-        title="Executive Sales Dashboard"
-        subtitle="SaaS-SalesGenie AI Real-Time Revenue Intelligence & Predictive Lead Velocity"
+        title="Overview"
+        subtitle="SalesOps Real-Time Revenue Intelligence"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />
 
-      <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
-        {/* Executive Hero Banner Showcase */}
-        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
-          <img src={dashboardHeroImg} alt="SaaS-SalesGenie AI Intelligence" />
-          <div className="image-banner-overlay">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                padding: '12px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)',
-                color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(79, 70, 229, 0.45)'
-              }}>
-                <TrendingUp size={24} />
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
-                    SaaS-SalesGenie AI Command Hub
-                  </h2>
-                  <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
-                    120-Tree ML Active
-                  </span>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
-                  Real-time pipeline analytics, NVIDIA NIM cold outreach generation, and audio intelligence.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                onClick={() => navigate('/outreach')}
-                className="btn btn-primary btn-sm"
-                style={{ fontSize: '0.75rem', padding: '7px 14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Sparkles size={14} />
-                <span>Launch AI Outreach</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Toast Notification Banner ── */}
-
+        {/* Toast Notification Banner */}
         {toast && (
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '12px 18px',
-            borderRadius: 'var(--radius-lg)',
+            borderRadius: 'var(--radius-md)',
             backgroundColor: toast.type === 'error' ? 'var(--error-50)' : 'var(--success-50)',
-            border: `1px solid ${toast.type === 'error' ? 'var(--error-100)' : 'var(--success-100)'}`,
-            color: toast.type === 'error' ? 'var(--error-600)' : 'var(--success-600)',
+            border: `1px solid ${toast.type === 'error' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`,
+            color: toast.type === 'error' ? 'var(--destructive)' : 'var(--accent)',
             fontSize: '0.875rem',
-            fontWeight: 600,
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all 0.2s ease'
+            fontWeight: 600
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <CheckCircle2 size={18} />
@@ -308,403 +238,233 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
             <button
               onClick={() => setToast(null)}
               style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-              aria-label="Dismiss notification"
             >
               <X size={16} />
             </button>
           </div>
         )}
 
-        {/* ── Dashboard Period Filters (M4: This Month / Quarter / Year) ── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-          <div>
-            <h2 className="text-title-sm" style={{ marginBottom: '2px', letterSpacing: '-0.01em' }}>Executive Sales Dashboard</h2>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>B2B SaaS Pipeline Intelligence • RandomForest ML Scoring • NVIDIA NIM</p>
-          </div>
-          <div style={{ display: 'flex', background: 'var(--bg-card)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-            {['Monthly', 'Quarterly', 'Yearly'].map((tf) => (
-              <button
-                key={tf}
-                onClick={() => { setTimeframe(tf); setCurrentPage(1); }}
-                style={{
-                  padding: '6px 14px',
-                  fontSize: '0.8125rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-sm)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  background: timeframe === tf ? 'var(--brand-500)' : 'transparent',
-                  color: timeframe === tf ? '#ffffff' : 'var(--text-muted)',
-                  boxShadow: timeframe === tf ? '0 1px 3px rgba(70, 95, 255, 0.25)' : 'none',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                {tf}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 6-Card KPI Row (M4 Milestone: Pipeline, Hot Leads, Conversion, Avg Deal, Avg Response Time, Avg Sales Cycle) ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-          {/* KPI 1: Pipeline Value */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Total Pipeline Value
-                </span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--text-main)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  ${(kpis.pipeline_value || 2450000).toLocaleString()}
-                </div>
-              </div>
-              <div style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: 'var(--radius-lg)',
-                backgroundColor: 'rgba(70, 95, 255, 0.12)',
-                color: 'var(--brand-500)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                <DollarSign size={24} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="badge badge-success" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <ArrowUpRight size={13} />
-                <span>+24.5%</span>
-              </span>
-              <span className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>From last month</span>
-            </div>
-          </div>
-
-          {/* KPI 2: Hot Leads */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Hot Leads (Score ≥ 80)
-                </span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--text-main)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  {kpis.hot_leads} <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 400 }}>/ {kpis.total_leads}</span>
-                </div>
-              </div>
-              <div style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: 'var(--radius-lg)',
-                backgroundColor: 'var(--error-50)',
-                color: 'var(--error-500)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                <Flame size={24} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="pulse-dot" />
-              <span className="text-theme-xs" style={{ color: 'var(--error-500)', fontWeight: 600 }}>{kpis.hot_leads} Ready for Immediate Demo</span>
-            </div>
-          </div>
-
-          {/* KPI 3: ML Conversion Rate */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  ML Conversion Rate
-                </span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--success-500)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  {kpis.conversion_rate}%
-                </div>
-              </div>
-              <div style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: 'var(--radius-lg)',
-                backgroundColor: 'var(--success-50)',
-                color: 'var(--success-600)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                <TrendingUp size={24} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="badge badge-brand" style={{ fontSize: '0.7rem' }}>RandomForest 100 Trees</span>
-            </div>
-          </div>
-
-          {/* KPI 4: Active Open Deals */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Avg Deal Size (ACV)
-                </span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--text-main)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  ${(kpis.avg_deal_value || 115000).toLocaleString()}
-                </div>
-              </div>
-              <div style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: 'var(--radius-lg)',
-                backgroundColor: 'var(--info-50)',
-                color: 'var(--info-500)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                <Kanban size={24} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="badge badge-cyan" style={{ fontSize: '0.7rem' }}>{kpis.open_deals} Active Deals</span>
-            </div>
-          </div>
-
-          {/* KPI 5: Avg Response Time (M4) */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Avg Response Time</span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--brand-500)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  {kpis.avg_response_time || 2.4}h
-                </div>
-              </div>
-              <div style={{ width: '46px', height: '46px', borderRadius: 'var(--radius-lg)', backgroundColor: 'rgba(70,95,255,0.1)', color: 'var(--brand-500)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Clock size={22} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>-18% vs last month</span>
-            </div>
-          </div>
-
-          {/* KPI 6: Avg Sales Cycle (M4) */}
-          <div className="tail-card" style={{ transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <span className="text-theme-sm" style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Avg Sales Cycle</span>
-                <div className="text-title-xl" style={{ marginTop: '8px', color: 'var(--text-main)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
-                  {kpis.avg_sales_cycle || 28} <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 400 }}>days</span>
-                </div>
-              </div>
-              <div style={{ width: '46px', height: '46px', borderRadius: 'var(--radius-lg)', backgroundColor: 'var(--warning-50)', color: 'var(--warning-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Activity size={22} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-              <span className="badge badge-warning" style={{ fontSize: '0.7rem' }}>Industry Avg: 42 days</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ── M4: AI Powered Insight Strip (top 3 follow-up priorities) ── */}
-        <div className="tail-card" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, var(--brand-500) 0%, #06b6d4 100%)',
-              color: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(70, 95, 255, 0.3)'
-            }}>
-              <Sparkles size={18} />
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--text-main)' }}>AI Powered Follow-up Priorities</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Top 3 leads ranked by days-since-contact urgency</div>
-            </div>
-          </div>
-
-          <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '10px', minWidth: 0 }}>
-            {followupPriorities.slice(0, 3).map((p) => (
-              <div
-                key={p.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '9px 12px',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--bg-card-subtle)',
-                  border: '1px solid var(--border-subtle)',
-                  minWidth: 0,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease'
-                }}
-                onClick={() => navigate('/outreach', { state: { lead: { id: p.id, company_name: p.company_name, contact_name: p.contact_name } } })}
-              >
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: p.urgency_color, flexShrink: 0 }} />
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {p.company_name}
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {p.days_since_contact}d since contact • {p.action_label || p.recommended_action}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <span className="badge badge-brand" style={{ flexShrink: 0, fontSize: '0.7rem' }}>🤖 ML Engine</span>
-        </div>
-
-        {/* ── Middle Section: Charts & Analytics Grid ── */}
-        <div className="analytics-grid">
+        {/* ── 4 Key Metric Cards (SalesOps Style) ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: '16px'
+        }}>
           
-          {/* Chart 1: Revenue Velocity Area Chart with Timeframe Controls */}
-          <div className="tail-card" style={{ gridColumn: '1 / -1' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <div>
-                <h3 className="text-title-md" style={{ letterSpacing: '-0.01em' }}>Monthly Revenue & Velocity</h3>
-                <p className="text-theme-xs" style={{ color: 'var(--text-muted)', marginTop: '2px' }}>
-                  Target Account Pipeline Growth & Deal Closures
-                </p>
+          {/* Card 1: Total Pipeline Revenue */}
+          <div className="tail-card group" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+                Total Revenue
+              </span>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--secondary)',
+                color: 'var(--muted-foreground)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <DollarSign size={18} />
               </div>
-              <span className="badge badge-brand" style={{ fontSize: '0.72rem' }}>{timeframe}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
+              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                ${(kpis.pipeline_value || 2450000).toLocaleString()}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={14} />
+                <span>+12.5%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2: Conversion Rate */}
+          <div className="tail-card group" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+                Conversion Rate
+              </span>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--secondary)',
+                color: 'var(--muted-foreground)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <TrendingUp size={18} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
+              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {kpis.conversion_rate || 24.8}%
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={14} />
+                <span>+3.2%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3: Active Deals */}
+          <div className="tail-card group" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+                Active Deals
+              </span>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--secondary)',
+                color: 'var(--muted-foreground)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <Target size={18} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
+              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {kpis.open_deals || 32}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={14} />
+                <span>+18.4%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4: Hot Leads (Score >= 80) */}
+          <div className="tail-card group" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+                Hot Leads (Score ≥ 80)
+              </span>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--secondary)',
+                color: 'var(--muted-foreground)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <Flame size={18} style={{ color: 'var(--accent)' }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
+              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {kpis.hot_leads} <span style={{ fontSize: '1rem', color: 'var(--muted-foreground)', fontWeight: 400 }}>/ {kpis.total_leads}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <span className="pulse-dot" style={{ backgroundColor: 'var(--accent)' }} />
+                <span>Ready for demo</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ── Charts Grid (Revenue Trend & Pipeline Overview) ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.8fr) minmax(0, 1fr)',
+          gap: '20px'
+        }}>
+          
+          {/* Revenue Trend Area Chart */}
+          <div className="tail-card" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Revenue Trend</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Monthly performance vs target</p>
+              </div>
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--chart-1)' }} />
+                  <span style={{ color: 'var(--muted-foreground)' }}>Revenue</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
+                  <span style={{ color: 'var(--muted-foreground)' }}>Target</span>
+                </div>
+              </div>
             </div>
 
-            <div style={{ height: '280px', width: '100%' }}>
+            <div style={{ height: '270px', width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenueTrend.length > 0 ? revenueTrend : DEFAULT_REVENUE_TREND}>
+                <AreaChart data={revenueTrend.length > 0 ? revenueTrend : DEFAULT_REVENUE_TREND} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>
-                    <linearGradient id="brandGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#465fff" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#465fff" stopOpacity={0.0} />
+                    <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="targetGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.25} />
+                      <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
-                  <XAxis dataKey="name" stroke="var(--text-dim)" fontSize={12} tickLine={false} />
-                  <YAxis stroke="var(--text-dim)" fontSize={12} tickLine={false} tickFormatter={(v) => `$${v / 1000}k`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} tickFormatter={(val) => `$${val / 1000}k`} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'var(--bg-card)',
-                      borderColor: 'var(--border-medium)',
-                      borderRadius: '12px',
-                      color: 'var(--text-main)',
-                      boxShadow: 'var(--shadow-lg)',
-                      padding: '10px 14px'
+                      backgroundColor: "var(--card)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      color: "var(--foreground)",
+                      boxShadow: "var(--shadow-lg)"
                     }}
-                    itemStyle={{ color: 'var(--brand-500)', fontWeight: 600 }}
-                    formatter={(value) => [`$${Number(value).toLocaleString()}`, 'Pipeline Revenue']}
+                    labelStyle={{ color: "var(--foreground)", fontWeight: 600 }}
+                    formatter={(val) => [`$${Number(val).toLocaleString()}`, '']}
                   />
-                  <Area type="monotone" dataKey="revenue" stroke="#465fff" strokeWidth={3} fillOpacity={1} fill="url(#brandGrad)" />
+                  <Area type="monotone" dataKey="revenue" stroke="var(--chart-1)" strokeWidth={2} fill="url(#revenueGradient)" />
+                  <Area type="monotone" dataKey="target" stroke="var(--accent)" strokeWidth={2} fill="url(#targetGradient)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Chart 2: SaaS Verticals Donut Distribution */}
-          <div className="tail-card">
+          {/* Pipeline Stage Funnel Bar Chart */}
+          <div className="tail-card" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <div>
-                <h3 className="text-title-md" style={{ letterSpacing: '-0.01em' }}>SaaS Verticals</h3>
-                <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>Lead Pipeline Industry Mix</p>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Pipeline Stages</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Deal count by stage</p>
               </div>
-              <span className="badge badge-brand">Active</span>
+              <span className="badge badge-emerald" style={{ fontSize: '0.68rem' }}>Live Funnel</span>
             </div>
 
-            <div style={{ height: '220px', width: '100%', position: 'relative' }}>
+            <div style={{ height: '270px', width: '100%' }}>
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={industryData.length > 0 ? industryData : [
-                      { industry: 'Software / B2B SaaS', count: 18 },
-                      { industry: 'Artificial Intelligence', count: 12 },
-                      { industry: 'Cloud Infrastructure', count: 9 },
-                      { industry: 'FinTech SaaS', count: 7 },
-                      { industry: 'Cybersecurity', count: 4 }
-                    ]}
-                    dataKey="count"
-                    nameKey="industry"
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={55}
-                    outerRadius={80}
-                    paddingAngle={4}
-                  >
-                    {(industryData.length > 0 ? industryData : [1, 2, 3, 4, 5]).map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
+                <BarChart layout="vertical" data={funnelData.length > 0 ? funnelData : DEFAULT_FUNNEL} margin={{ top: 0, right: 10, bottom: 0, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
+                  <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} allowDecimals={false} />
+                  <YAxis type="category" dataKey="stage" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} width={85} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'var(--bg-card)',
-                      borderColor: 'var(--border-medium)',
-                      borderRadius: '10px',
-                      color: 'var(--text-main)',
-                      boxShadow: 'var(--shadow-md)'
+                      backgroundColor: "var(--card)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "8px",
+                      color: "var(--foreground)",
+                      boxShadow: "var(--shadow-md)"
                     }}
                   />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Custom Legend Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
-              {(industryData.length > 0 ? industryData.slice(0, 4) : [
-                { industry: 'Software / B2B SaaS' },
-                { industry: 'Artificial Intelligence' },
-                { industry: 'Cloud Infrastructure' },
-                { industry: 'FinTech SaaS' }
-              ]).map((item, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: COLORS[idx % COLORS.length], flexShrink: 0 }} />
-                  <span style={{ color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {item.industry}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Chart 3: Pipeline Stage Distribution Bar Chart (M4) */}
-          <div className="tail-card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <div>
-                <h3 className="text-title-md" style={{ letterSpacing: '-0.01em' }}>Pipeline Stage Distribution</h3>
-                <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>Deal counts across funnel stages</p>
-              </div>
-              <span className="badge badge-brand">Live</span>
-            </div>
-
-            <div style={{ height: '220px', width: '100%' }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  layout="vertical"
-                  data={funnelData.length > 0 ? funnelData : DEFAULT_FUNNEL}
-                  margin={{ top: 0, right: 12, bottom: 0, left: 0 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" horizontal={false} />
-                  <XAxis type="number" stroke="var(--text-dim)" fontSize={12} tickLine={false} allowDecimals={false} />
-                  <YAxis type="category" dataKey="stage" stroke="var(--text-dim)" fontSize={12} tickLine={false} width={92} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'var(--bg-card)',
-                      borderColor: 'var(--border-medium)',
-                      borderRadius: '10px',
-                      color: 'var(--text-main)',
-                      boxShadow: 'var(--shadow-md)'
-                    }}
-                    cursor={{ fill: 'rgba(70, 95, 255, 0.06)' }}
-                  />
-                  <Bar dataKey="count" fill="#465fff" radius={[0, 6, 6, 0]} barSize={18} />
+                  <Bar dataKey="count" fill="var(--accent)" radius={[0, 4, 4, 0]} barSize={16} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -712,354 +472,293 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
 
         </div>
 
-        {/* ── M4: AI Follow-up Recommendation Engine + Automation Module ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.6fr) minmax(0, 1fr)', gap: '20px' }}>
-
-          {/* Left: AI Prescriptive Follow-up Priority Panel */}
-          <div className="tail-card">
+        {/* ── Bottom Grid: AI Follow-ups & Automation Module ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)',
+          gap: '20px'
+        }}>
+          
+          {/* AI Follow-up Priorities */}
+          <div className="tail-card" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ padding: '8px', borderRadius: '10px', background: 'rgba(70,95,255,0.1)', color: 'var(--brand-500)' }}>
-                  <Sparkles size={18} />
-                </div>
-                <div>
-                  <h3 className="text-title-sm" style={{ letterSpacing: '-0.01em' }}>AI Follow-up Priority Engine</h3>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Days-since-contact classification: High Priority / Phone Call / Reminder</p>
-                </div>
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>AI Follow-up Priorities</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Top leads ranked by engagement urgency</p>
               </div>
-              <span className="badge badge-brand" style={{ fontSize: '0.7rem' }}>🤖 AI Powered</span>
+              <button
+                onClick={() => navigate('/leads')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--accent)',
+                  fontSize: '0.8125rem',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                <span>View all</span>
+                <ArrowUpRight size={14} />
+              </button>
             </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {followupPriorities.length > 0 ? followupPriorities.map((p) => (
+              {followupPriorities.slice(0, 4).map((p) => (
                 <div
                   key={p.id}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '11px 14px',
+                    padding: '10px 12px',
                     borderRadius: 'var(--radius-md)',
-                    background: 'var(--bg-card-subtle)',
-                    border: '1px solid var(--border-subtle)',
+                    backgroundColor: 'var(--secondary)',
+                    border: '1px solid var(--border)',
+                    cursor: 'pointer',
                     transition: 'all 0.15s ease'
                   }}
+                  onClick={() => navigate('/outreach', { state: { lead: { id: p.id, company_name: p.company_name, contact_name: p.contact_name } } })}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: p.urgency_color, flexShrink: 0, boxShadow: `0 0 6px ${p.urgency_color}88` }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: 'var(--radius-sm)',
+                      backgroundColor: 'var(--card)',
+                      color: 'var(--accent)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 700,
+                      fontSize: '0.75rem',
+                      border: '1px solid var(--border)'
+                    }}>
+                      {p.company_name.charAt(0)}
+                    </div>
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.8375rem', color: 'var(--text-main)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.company_name}</div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{p.contact_name} • {p.days_since_contact}d since contact</div>
+                      <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--foreground)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {p.company_name}
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>
+                        {p.contact_name} • {p.days_since_contact}d since contact
+                      </div>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: p.urgency_color, whiteSpace: 'nowrap' }}>{p.recommended_action}</span>
-                    <button
-                      onClick={() => navigate('/outreach', { state: { lead: { id: p.id, company_name: p.company_name, contact_name: p.contact_name } } })}
-                      className="btn btn-primary btn-sm"
-                      style={{ padding: '4px 10px', fontSize: '0.75rem', gap: '5px' }}
-                      aria-label={`Send outreach to ${p.company_name}`}
-                    >
-                      <Send size={12} /> Outreach
-                    </button>
-                  </div>
+
+                  <button
+                    className="btn btn-primary"
+                    style={{
+                      padding: '4px 10px',
+                      fontSize: '0.75rem',
+                      height: '28px',
+                      gap: '4px'
+                    }}
+                  >
+                    <Send size={12} />
+                    <span>Reach</span>
+                  </button>
                 </div>
-              )) : (
-                <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
-                  {loading ? 'Analyzing lead urgency & engagement telemetry...' : 'All priority follow-ups are up to date.'}
-                </div>
-              )}
+              ))}
             </div>
           </div>
 
-          {/* Right: Automation Module Card */}
-          <div className="tail-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingBottom: '12px', borderBottom: '1px solid var(--border-subtle)' }}>
-              <div style={{ padding: '8px', borderRadius: '10px', background: 'var(--success-50)', color: 'var(--success-600)' }}>
-                <Activity size={18} />
-              </div>
+          {/* Automation Module */}
+          <div className="tail-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <h3 className="text-title-sm" style={{ letterSpacing: '-0.01em' }}>Automation Module</h3>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Scheduled follow-ups & CRM syncs</p>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Automation Engine</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Scheduled CRM jobs & syncs</p>
               </div>
+              <span className="badge badge-emerald" style={{ fontSize: '0.68rem' }}>Active</span>
             </div>
-            {[
-              { name: 'Daily Follow-up Digest', schedule: 'Every day 10:00 AM', status: 'Active' },
-              { name: 'ML Model Retraining', schedule: 'Every Sunday 2:00 AM', status: 'Active' },
-              { name: 'CRM Daily Report', schedule: 'Every day 6:00 AM', status: 'Active' },
-              { name: 'Pipeline Stage Sync', schedule: 'Every 4 hours', status: 'Active' },
-            ].map((job, idx) => (
-              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid var(--border-subtle)' }}>
-                <div>
-                  <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-main)' }}>{job.name}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{job.schedule}</div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {[
+                { name: 'Daily Follow-up Digest', schedule: 'Every day 10:00 AM', status: 'Active' },
+                { name: 'ML Model Retraining', schedule: 'Every Sunday 2:00 AM', status: 'Active' },
+                { name: 'Pipeline Sync', schedule: 'Every 4 hours', status: 'Active' },
+              ].map((job, idx) => (
+                <div key={idx} style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '8px 10px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--secondary)'
+                }}>
+                  <div>
+                    <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--foreground)' }}>{job.name}</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>{job.schedule}</div>
+                  </div>
+                  <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>{job.status}</span>
                 </div>
-                <span className="badge badge-success" style={{ fontSize: '0.68rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: 'currentColor' }} />
-                  {job.status}
-                </span>
-              </div>
-            ))}
-            {automationStatus && (
-              <div style={{ padding: '10px 12px', borderRadius: '8px', background: 'var(--success-50)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--success-600)' }}>✓ {automationStatus.message}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                  {automationStatus.breakdown?.high_priority_emails ?? 0} high priority •
-                  {' '}{automationStatus.breakdown?.phone_call_reminders ?? 0} phone calls •
-                  {' '}{automationStatus.breakdown?.reminder_emails ?? 0} reminders
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
+
             <button
               onClick={triggerAutomation}
               disabled={triggeringAuto}
-              className="btn btn-primary btn-sm"
-              style={{ width: '100%', marginTop: '4px', opacity: triggeringAuto ? 0.75 : 1 }}
+              className="btn btn-primary"
+              style={{
+                width: '100%',
+                padding: '10px',
+                fontSize: '0.8125rem',
+                gap: '6px',
+                marginTop: 'auto'
+              }}
             >
               {triggeringAuto ? <RefreshCw size={14} className="spin" /> : <Sparkles size={14} />}
-              <span>{triggeringAuto ? 'Running Automation...' : 'Trigger Follow-up Digest Now'}</span>
+              <span>{triggeringAuto ? 'Running...' : 'Trigger Follow-up Digest'}</span>
             </button>
           </div>
+
         </div>
 
-        {/* ── M4: Real-time Activity Feed ── */}
-        <div className="tail-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ padding: '8px', borderRadius: '10px', background: 'var(--info-50)', color: 'var(--info-600)' }}>
-                <Activity size={18} />
-              </div>
-              <div>
-                <h3 className="text-title-sm" style={{ letterSpacing: '-0.01em' }}>Real-time Activity Feed</h3>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Live CRM events, ML scoring & automation runs</p>
-              </div>
-            </div>
-            <span className="badge badge-success" style={{ fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span className="pulse-dot" /> Live
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {activityFeed.length > 0 ? activityFeed.map((item, idx) => {
-              const meta = activityMeta(item.entity_type);
-              return (
-                <div
-                  key={item.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '12px',
-                    padding: '10px 0',
-                    borderBottom: idx < activityFeed.length - 1 ? '1px solid var(--border-subtle)' : 'none'
-                  }}
-                >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '10px',
-                    background: meta.bg,
-                    color: meta.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}>
-                    {meta.icon}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.8375rem', color: 'var(--text-main)' }}>{item.action}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {item.details}
-                    </div>
-                  </div>
-                  <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', flexShrink: 0, whiteSpace: 'nowrap' }}>
-                    {formatActivityTime(item.created_at)}
-                  </span>
-                </div>
-              );
-            }) : (
-              <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
-                {loading ? 'Syncing activity stream...' : 'No recent activity recorded.'}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* ── Table Four: TailAdmin CRM Leads & Opportunities Table ── */}
-
-        <div className="tail-card" style={{ padding: '0px', overflow: 'hidden' }}>
+        {/* ── Recent Deals & Lead Pipeline Table ── */}
+        <div className="tail-card" style={{ padding: '0', overflow: 'hidden' }}>
           
-          {/* Table Header Controls */}
           <div style={{
-            padding: '20px 24px',
+            padding: '16px 20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            borderBottom: '1px solid var(--border)',
             flexWrap: 'wrap',
-            gap: '16px',
-            borderBottom: '1px solid var(--border-subtle)'
+            gap: '12px'
           }}>
             <div>
-              <h3 className="text-title-md" style={{ letterSpacing: '-0.01em' }}>Recent B2B Leads & Deals</h3>
-              <p className="text-theme-xs" style={{ color: 'var(--text-muted)' }}>
-                Viewing top scored enterprise prospects & conversion stages
-              </p>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Recent Deals & Opportunities</h3>
+              <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Live deal progression & intent scores</p>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              {/* Search input */}
-              <div style={{ position: 'relative', width: '260px' }}>
-                <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ position: 'relative', width: '220px' }}>
+                <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
                 <input
                   type="text"
-                  placeholder="Search leads, companies..."
+                  placeholder="Filter deals..."
                   value={tableSearch}
                   onChange={(e) => { setTableSearch(e.target.value); setCurrentPage(1); }}
-                  className="tail-input"
-                  style={{ paddingLeft: '36px', height: '38px', fontSize: '0.8125rem' }}
+                  style={{
+                    width: '100%',
+                    height: '34px',
+                    paddingLeft: '32px',
+                    paddingRight: '10px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--secondary)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--foreground)',
+                    fontSize: '0.8125rem',
+                    outline: 'none'
+                  }}
                 />
               </div>
-
-              {/* Filter Button */}
-              <button
-                onClick={() => navigate('/leads')}
-                className="btn btn-secondary btn-sm"
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Filter size={14} />
-                <span>Filter</span>
-              </button>
             </div>
           </div>
 
-          {/* Table Element */}
-          <div className="table-container" style={{ border: 'none', borderRadius: 0 }}>
-            <table className="tail-table">
+          <div style={{ overflowX: 'auto' }}>
+            <table className="tail-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  <th style={{ width: '48px' }}>
+                  <th style={{ width: '40px' }}>
                     <div
                       onClick={selectAllRows}
-                      onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); selectAllRows(); } }}
                       role="checkbox"
                       tabIndex={0}
                       aria-checked={leads.length > 0 && leads.every((l) => selectedRows[l.id])}
-                      aria-label="Select all rows"
                       className={`tail-checkbox ${leads.length > 0 && leads.every((l) => selectedRows[l.id]) ? 'checked' : ''}`}
                     >
                       {leads.length > 0 && leads.every((l) => selectedRows[l.id]) && (
-                        <CheckCircle2 size={13} style={{ color: '#ffffff' }} />
+                        <CheckCircle2 size={12} style={{ color: '#ffffff' }} />
                       )}
                     </div>
                   </th>
-                  <th>Deal ID & Account</th>
+                  <th>Company</th>
                   <th>Decision Maker</th>
-                  <th>Industry / Vertical</th>
-                  <th>Pipeline Value</th>
+                  <th>Vertical</th>
+                  <th>Deal Value</th>
                   <th>ML Intent Score</th>
-                  <th>Status</th>
-                  <th style={{ textAlign: 'center' }}>Actions</th>
+                  <th>Stage</th>
+                  <th style={{ textAlign: 'center' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedLeads.length > 0 ? paginatedLeads.map((lead) => {
                   const isChecked = !!selectedRows[lead.id];
-                  const initials = lead.contact_name
-                    ? lead.contact_name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
-                    : 'AC';
-
                   return (
-                    <tr key={lead.id} style={{ backgroundColor: isChecked ? 'rgba(70, 95, 255, 0.06)' : 'transparent' }}>
+                    <tr key={lead.id} style={{ backgroundColor: isChecked ? 'var(--brand-50)' : 'transparent' }}>
                       <td>
                         <div
                           onClick={() => toggleRowSelect(lead.id)}
-                          onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleRowSelect(lead.id); } }}
                           role="checkbox"
                           tabIndex={0}
                           aria-checked={isChecked}
-                          aria-label={`Select lead ${lead.company_name}`}
                           className={`tail-checkbox ${isChecked ? 'checked' : ''}`}
                         >
-                          {isChecked && <CheckCircle2 size={13} style={{ color: '#ffffff' }} />}
+                          {isChecked && <CheckCircle2 size={12} style={{ color: '#ffffff' }} />}
                         </div>
                       </td>
-
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                           <div style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--brand-50)',
-                            color: 'var(--brand-500)',
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: 'var(--radius-sm)',
+                            backgroundColor: 'var(--secondary)',
+                            color: 'var(--accent)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontWeight: 700,
-                            fontSize: '0.78rem'
+                            fontSize: '0.75rem',
+                            border: '1px solid var(--border)'
                           }}>
-                            {initials}
+                            {lead.company_name.charAt(0)}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>
-                              {lead.company_name}
-                            </div>
-                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                              DE-{lead.id.toString().padStart(5, '0')}
-                            </div>
+                            <div style={{ fontWeight: 600, color: 'var(--foreground)', fontSize: '0.85rem' }}>{lead.company_name}</div>
+                            <div className="tabular-mono" style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>DE-{lead.id.toString().padStart(5, '0')}</div>
                           </div>
                         </div>
                       </td>
-
                       <td>
-                        <div>
-                          <div style={{ fontWeight: 500, color: 'var(--text-main)' }}>
-                            {lead.contact_name}
-                          </div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
-                            {lead.email}
-                          </div>
-                        </div>
+                        <div style={{ fontSize: '0.8125rem', color: 'var(--foreground)', fontWeight: 500 }}>{lead.contact_name}</div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>{lead.email}</div>
                       </td>
-
                       <td>
-                        <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-                          {lead.industry}
-                        </span>
+                        <span style={{ fontSize: '0.8125rem', color: 'var(--muted-foreground)' }}>{lead.industry}</span>
                       </td>
-
                       <td>
-                        <span style={{ fontWeight: 700, color: 'var(--success-500)', fontVariantNumeric: 'tabular-nums' }}>
+                        <span className="tabular-mono" style={{ fontWeight: 700, color: 'var(--foreground)', fontSize: '0.875rem' }}>
                           ${(lead.deal_value || 0).toLocaleString()}
                         </span>
                       </td>
-
                       <td>
-                        <span className={`badge ${lead.lead_score >= 80 ? 'badge-hot' : lead.lead_score >= 60 ? 'badge-qualified' : 'badge-brand'}`}>
+                        <span className={`badge tabular-mono ${lead.lead_score >= 80 ? 'badge-emerald' : lead.lead_score >= 60 ? 'badge-cyan' : 'badge-warning'}`}>
                           {lead.lead_score} Score
                         </span>
                       </td>
-
                       <td>
-                        <span className={`badge ${lead.stage === 'Closed Won' ? 'badge-complete' : lead.lead_score >= 80 ? 'badge-hot' : 'badge-pending'}`}>
+                        <span className={`badge ${lead.stage === 'Closed Won' ? 'badge-emerald' : 'badge-cyan'}`}>
                           {lead.stage || 'Qualified'}
                         </span>
                       </td>
-
                       <td>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                           <button
                             onClick={() => navigate('/outreach', { state: { lead } })}
                             title="Generate AI Outreach"
-                            aria-label={`Generate AI Outreach for ${lead.company_name}`}
-                            style={{ background: 'none', border: 'none', color: 'var(--brand-500)', cursor: 'pointer', padding: '6px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+                            style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', padding: '5px' }}
                           >
                             <Send size={15} />
                           </button>
                           <button
                             onClick={() => navigate('/leads')}
-                            title="View Full Profile"
-                            aria-label={`View full profile for ${lead.company_name}`}
-                            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}
+                            title="View Profile"
+                            style={{ background: 'none', border: 'none', color: 'var(--muted-foreground)', cursor: 'pointer', padding: '5px' }}
                           >
                             <Eye size={15} />
                           </button>
@@ -1069,8 +768,8 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                   );
                 }) : (
                   <tr>
-                    <td colSpan={8} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
-                      No leads match your search filter.
+                    <td colSpan={8} style={{ textAlign: 'center', padding: '28px', color: 'var(--muted-foreground)' }}>
+                      No deals match your search filter.
                     </td>
                   </tr>
                 )}
@@ -1078,49 +777,44 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
             </table>
           </div>
 
-          {/* Pagination Controls */}
+          {/* Pagination */}
           <div style={{
-            padding: '16px 24px',
+            padding: '12px 20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderTop: '1px solid var(--border-subtle)',
-            fontSize: '0.8125rem',
-            color: 'var(--text-muted)'
+            borderTop: '1px solid var(--border)',
+            fontSize: '0.78rem',
+            color: 'var(--muted-foreground)'
           }}>
             <div>
-              Showing {filteredLeads.length > 0 ? (currentPage - 1) * pageSize + 1 : 0} to {Math.min(currentPage * pageSize, filteredLeads.length)} of {filteredLeads.length} leads
+              Showing {filteredLeads.length > 0 ? (currentPage - 1) * pageSize + 1 : 0} to {Math.min(currentPage * pageSize, filteredLeads.length)} of {filteredLeads.length}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <button
                 className="btn btn-secondary btn-sm"
-                style={{ padding: '6px 10px', opacity: currentPage === 1 ? 0.5 : 1, cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '4px 8px', opacity: currentPage === 1 ? 0.4 : 1 }}
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                aria-label="Previous page"
               >
                 <ChevronLeft size={14} />
               </button>
-
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   className={`btn ${currentPage === page ? 'btn-primary' : 'btn-secondary'} btn-sm`}
-                  style={{ padding: '6px 12px' }}
+                  style={{ padding: '4px 9px', fontSize: '0.75rem' }}
                   onClick={() => setCurrentPage(page)}
-                  aria-current={currentPage === page ? 'page' : undefined}
                 >
                   {page}
                 </button>
               ))}
-
               <button
                 className="btn btn-secondary btn-sm"
-                style={{ padding: '6px 10px', opacity: currentPage >= totalPages ? 0.5 : 1, cursor: currentPage >= totalPages ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '4px 8px', opacity: currentPage >= totalPages ? 0.4 : 1 }}
                 disabled={currentPage >= totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                aria-label="Next page"
               >
                 <ChevronRight size={14} />
               </button>

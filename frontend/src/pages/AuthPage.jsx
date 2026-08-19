@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Sparkles,
@@ -8,18 +8,296 @@ import {
   Mail,
   User,
   Zap,
-  TrendingUp,
-  Cpu,
-  Headphones,
-  CheckCircle2,
-  Database,
-  Layers,
   Activity,
-  Award
+  Cpu,
+  Radio,
+  CheckCircle2,
+  Terminal
 } from 'lucide-react';
-import { SalesGenieFullLogo, SalesGenieBrainSparkIcon } from '../components/SalesGenieLogo';
 import { useAuth } from '../context/AuthContext';
-import loginHeroImg from '../assets/login_hero.jpg';
+
+// Rotating word list for the editorial headline
+const ROTATING_WORDS = ['qualify', 'automate', 'predict', 'close', 'scale'];
+
+// Staggered blur-in word animator with chromatic gradient
+function BlurWord({ word, trigger }) {
+  const letters = word.split('');
+  const STAGGER = 45;
+  const DURATION = 500;
+  const GRADIENT_HOLD = STAGGER * letters.length + DURATION + 200;
+
+  const [letterStates, setLetterStates] = useState(
+    letters.map(() => ({ opacity: 0, blur: 20 }))
+  );
+  const [showGradient, setShowGradient] = useState(true);
+  const framesRef = useRef([]);
+  const timersRef = useRef([]);
+
+  useEffect(() => {
+    framesRef.current.forEach(cancelAnimationFrame);
+    timersRef.current.forEach(clearTimeout);
+    framesRef.current = [];
+    timersRef.current = [];
+
+    setLetterStates(letters.map(() => ({ opacity: 0, blur: 20 })));
+    setShowGradient(true);
+
+    letters.forEach((_, i) => {
+      const t = setTimeout(() => {
+        const start = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - start) / DURATION, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setLetterStates((prev) => {
+            const next = [...prev];
+            next[i] = { opacity: eased, blur: 20 * (1 - eased) };
+            return next;
+          });
+          if (progress < 1) {
+            const id = requestAnimationFrame(tick);
+            framesRef.current.push(id);
+          }
+        };
+        const id = requestAnimationFrame(tick);
+        framesRef.current.push(id);
+      }, i * STAGGER);
+      timersRef.current.push(t);
+    });
+
+    const gt = setTimeout(() => setShowGradient(false), GRADIENT_HOLD);
+    timersRef.current.push(gt);
+
+    return () => {
+      framesRef.current.forEach(cancelAnimationFrame);
+      timersRef.current.forEach(clearTimeout);
+    };
+  }, [trigger, word]);
+
+  const gradientColors = ['#eca8d6', '#a78bfa', '#67e8f9', '#fbbf24', '#eca8d6'];
+
+  return (
+    <>
+      {letters.map((char, i) => {
+        const colorIndex = (i / Math.max(letters.length - 1, 1)) * (gradientColors.length - 1);
+        const lower = Math.floor(colorIndex);
+        const upper = Math.min(lower + 1, gradientColors.length - 1);
+        const t = colorIndex - lower;
+
+        const hex2rgb = (hex) => {
+          const r = parseInt(hex.slice(1, 3), 16);
+          const g = parseInt(hex.slice(3, 5), 16);
+          const b = parseInt(hex.slice(5, 7), 16);
+          return [r, g, b];
+        };
+        const [r1, g1, b1] = hex2rgb(gradientColors[lower]);
+        const [r2, g2, b2] = hex2rgb(gradientColors[upper]);
+        const r = Math.round(r1 + (r2 - r1) * t);
+        const g = Math.round(g1 + (g2 - g1) * t);
+        const b = Math.round(b1 + (b2 - b1) * t);
+
+        return (
+          <span
+            key={i}
+            style={{
+              display: 'inline-block',
+              opacity: letterStates[i]?.opacity ?? 0,
+              filter: `blur(${letterStates[i]?.blur ?? 20}px)`,
+              color: showGradient ? `rgb(${r},${g},${b})` : '#ffffff',
+              transition: 'color 0.4s ease'
+            }}
+          >
+            {char}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
+// 3D ASCII Torus Knot Scene Canvas (from compute platform)
+const ASCII_CHARS = ' .:-=+*#%@';
+
+function AsciiScene() {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const timeRef = useRef(0);
+
+  const handleMouseMove = useCallback((e) => {
+    mouseRef.current = {
+      x: e.clientX / window.innerWidth,
+      y: e.clientY / window.innerHeight
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      const w = rect?.width || window.innerWidth;
+      const h = rect?.height || window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Torus Knot geometry generator
+    const generateTorusKnot = (p, q, segments, tubeSegments) => {
+      const points = [];
+      for (let i = 0; i < segments; i++) {
+        for (let j = 0; j < tubeSegments; j++) {
+          const u = (i / segments) * Math.PI * 2;
+          const v = (j / tubeSegments) * Math.PI * 2;
+
+          const r = 2 + Math.cos(q * u);
+          const x = r * Math.cos(p * u);
+          const y = r * Math.sin(p * u);
+          const z = -Math.sin(q * u);
+
+          const tubeRadius = 0.42;
+          const nx = Math.cos(p * u) * Math.cos(v);
+          const ny = Math.sin(p * u) * Math.cos(v);
+          const nz = Math.sin(v);
+
+          points.push({
+            x: x + tubeRadius * nx,
+            y: y + tubeRadius * ny,
+            z: z + tubeRadius * nz
+          });
+        }
+      }
+      return points;
+    };
+
+    const torusKnot = generateTorusKnot(2, 3, 110, 14);
+
+    const rotatePoint = (point, angleX, angleY, angleZ) => {
+      let { x, y, z } = point;
+      const cosX = Math.cos(angleX);
+      const sinX = Math.sin(angleX);
+      const newY = y * cosX - z * sinX;
+      const newZ = y * sinX + z * cosX;
+      y = newY;
+      z = newZ;
+
+      const cosY = Math.cos(angleY);
+      const sinY = Math.sin(angleY);
+      const newX = x * cosY + z * sinY;
+      z = -x * sinY + z * cosY;
+      x = newX;
+
+      const cosZ = Math.cos(angleZ);
+      const sinZ = Math.sin(angleZ);
+      const finalX = x * cosZ - y * sinZ;
+      const finalY = x * sinZ + y * cosZ;
+      return { x: finalX, y: finalY, z };
+    };
+
+    const project = (point, centerX, centerY, scale) => {
+      const perspective = 5.2;
+      const factor = perspective / (perspective + point.z);
+      return {
+        x: centerX + point.x * scale * factor,
+        y: centerY + point.y * scale * factor,
+        z: point.z
+      };
+    };
+
+    let animationFrameId;
+    const render = () => {
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width || window.innerWidth;
+      const height = rect.height || window.innerHeight;
+
+      // Position Torus Knot slightly towards top-right for visual balance with auth card
+      const centerX = width * 0.72;
+      const centerY = height * 0.45;
+      const scale = Math.min(width, height) * 0.28;
+
+      ctx.clearRect(0, 0, width, height);
+      const mouseInfluenceX = (mouseRef.current.x - 0.5) * 0.4;
+      const mouseInfluenceY = (mouseRef.current.y - 0.5) * 0.4;
+
+      const time = timeRef.current;
+      const angleX = time * 0.28 + mouseInfluenceY;
+      const angleY = time * 0.44 + mouseInfluenceX;
+      const angleZ = time * 0.18;
+
+      const projectedPoints = torusKnot
+        .map((point) => {
+          const rotated = rotatePoint(point, angleX, angleY, angleZ);
+          return project(rotated, centerX, centerY, scale);
+        })
+        .sort((a, b) => a.z - b.z);
+
+      const charSize = Math.max(13, Math.min(width, height) * 0.025);
+      ctx.font = `${charSize}px "JetBrains Mono", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      projectedPoints.forEach((point) => {
+        const normalizedZ = (point.z + 3) / 6;
+        const charIndex = Math.floor(normalizedZ * (ASCII_CHARS.length - 1));
+        const char = ASCII_CHARS[Math.max(0, Math.min(ASCII_CHARS.length - 1, charIndex))];
+
+        const brightness = 0.15 + normalizedZ * 0.75;
+        const green = Math.floor(180 + normalizedZ * 75);
+        ctx.fillStyle = `rgba(${Math.floor(green * 0.5)}, ${green}, ${Math.floor(green * 0.75)}, ${brightness * 0.65})`;
+        ctx.fillText(char, point.x, point.y);
+      });
+
+      // Floating stardust particles
+      const particleCount = 45;
+      for (let i = 0; i < particleCount; i++) {
+        const px = (Math.sin(time * 0.4 + i * 0.6) * 0.45 + 0.5) * width;
+        const py = (Math.cos(time * 0.3 + i * 0.8) * 0.45 + 0.5) * height;
+        const pz = Math.sin(time + i) * 0.5 + 0.5;
+
+        ctx.fillStyle = `rgba(110, 231, 183, ${pz * 0.22})`;
+        ctx.fillText(
+          ASCII_CHARS[Math.floor(pz * (ASCII_CHARS.length - 1))],
+          px,
+          py
+        );
+      }
+
+      timeRef.current += 0.007;
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [handleMouseMove]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: 'none',
+        opacity: 0.85
+      }}
+    />
+  );
+}
 
 const AuthPage = () => {
   const { login, register, loading } = useAuth();
@@ -29,6 +307,15 @@ const AuthPage = () => {
   const [email, setEmail] = useState('demo@salesgenie.ai');
   const [password, setPassword] = useState('password123');
   const [error, setError] = useState('');
+  const [wordIndex, setWordIndex] = useState(0);
+
+  // Cycle animated word every 2.6 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
+    }, 2600);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,314 +347,798 @@ const AuthPage = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      width: '100vw',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'var(--bg-app, #0b1329)',
-      padding: '32px 24px',
-      position: 'relative',
-      overflowX: 'hidden'
-    }}>
-      {/* Background Ambient Glow Orbs */}
-      <div style={{
-        position: 'absolute',
-        top: '-10%',
-        left: '15%',
-        width: '500px',
-        height: '500px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(79, 70, 229, 0.25) 0%, rgba(0,0,0,0) 70%)',
-        filter: 'blur(60px)',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '-10%',
-        right: '10%',
-        width: '450px',
-        height: '450px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(0,0,0,0) 70%)',
-        filter: 'blur(60px)',
-        pointerEvents: 'none'
-      }} />
-
-      <div style={{
-        maxWidth: '1240px',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)',
-        gap: '48px',
-        alignItems: 'center',
+    <div
+      className="noise-overlay"
+      style={{
+        minHeight: '100dvh',
+        width: '100vw',
+        backgroundColor: '#05070c',
+        color: '#f8fafc',
         position: 'relative',
-        zIndex: 1
-      }}>
-        
-        {/* Left Column: Hero, Presentation & Visual Showcase */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          
-          <SalesGenieFullLogo size={58} showSubtitle={true} />
+        overflowX: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "'Instrument Sans', 'Plus Jakarta Sans', sans-serif"
+      }}
+    >
+      {/* 3D ASCII Torus Knot Simulation Canvas */}
+      <AsciiScene />
 
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', borderRadius: '9999px', background: 'rgba(79, 70, 229, 0.15)', border: '1px solid rgba(79, 70, 229, 0.35)', marginBottom: '14px' }}>
-              <Sparkles size={14} style={{ color: '#06b6d4' }} />
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#38bdf8', letterSpacing: '0.04em' }}>
-                NEXT-GEN AI SALES INTELLIGENCE & CRM
-              </span>
-            </div>
-            <h1 className="text-title-xxl" style={{ fontSize: '2.4rem', lineHeight: '1.2', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-              Autonomous B2B Sales & Predictive Lead Velocity
-            </h1>
-            <p style={{ fontSize: '1.05rem', color: 'var(--text-muted)', lineHeight: '1.6', maxWidth: '560px' }}>
-              The end-to-end B2B revenue intelligence operating system powered by 120-tree Random Forest models, NVIDIA NIM Llama 3.1 70B outreach, and real-time meeting transcription.
-            </p>
-          </div>
-
-          {/* Interactive Hero Image Preview Showcase */}
-          <div className="image-hero-frame animate-float" style={{ maxHeight: '280px', position: 'relative' }}>
-            <img src={loginHeroImg} alt="SaaS-SalesGenie AI Intelligence Platform" />
-            <div style={{
+      {/* Subtle Blueprint Grid Lines */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.12
+        }}
+      >
+        {/* Horizontal grid lines */}
+        {[...Array(9)].map((_, i) => (
+          <div
+            key={`h-${i}`}
+            style={{
               position: 'absolute',
-              bottom: 0,
+              height: '1px',
+              backgroundColor: 'rgba(255, 255, 255, 0.4)',
+              top: `${11.1 * (i + 1)}%`,
               left: 0,
-              right: 0,
-              background: 'linear-gradient(0deg, rgba(11, 19, 41, 0.95) 0%, rgba(11, 19, 41, 0.6) 60%, rgba(11, 19, 41, 0) 100%)',
-              padding: '16px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '10px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="pulse-dot" />
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#ffffff' }}>
-                  Live Neural Sales Copilot & Telemetry
-                </span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="badge badge-emerald" style={{ fontSize: '0.72rem', padding: '3px 8px' }}>
-                  89% Avg Win Rate
-                </span>
-                <span className="badge badge-cyan" style={{ fontSize: '0.72rem', padding: '3px 8px' }}>
-                  120-Tree ML
-                </span>
-              </div>
-            </div>
-          </div>
+              right: 0
+            }}
+          />
+        ))}
+        {/* Vertical grid lines */}
+        {[...Array(13)].map((_, i) => (
+          <div
+            key={`v-${i}`}
+            style={{
+              position: 'absolute',
+              width: '1px',
+              backgroundColor: 'rgba(255, 255, 255, 0.4)',
+              left: `${7.69 * (i + 1)}%`,
+              top: 0,
+              bottom: 0
+            }}
+          />
+        ))}
+      </div>
 
-          {/* 4 Feature Badges */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-            <div className="tail-card glow-card" style={{ padding: '16px', background: 'var(--bg-card)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                <div style={{ padding: '6px', borderRadius: '8px', background: 'rgba(79, 70, 229, 0.12)', color: '#6366f1' }}>
-                  <TrendingUp size={18} />
-                </div>
-                <span style={{ fontWeight: 800, fontSize: '0.88rem' }}>ML Lead Scoring</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                RandomForestClassifier predicting 0-100 conversion probability.
-              </p>
-            </div>
+      {/* Ambient Top Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-10%',
+          left: '15%',
+          width: '700px',
+          height: '700px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.09) 0%, rgba(6, 182, 212, 0.04) 40%, transparent 70%)',
+          filter: 'blur(100px)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
 
-            <div className="tail-card glow-card" style={{ padding: '16px', background: 'var(--bg-card)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                <div style={{ padding: '6px', borderRadius: '8px', background: 'rgba(6, 182, 212, 0.12)', color: '#06b6d4' }}>
-                  <Cpu size={18} />
-                </div>
-                <span style={{ fontWeight: 800, fontSize: '0.88rem' }}>NVIDIA NIM LLMs</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Personalized cold outreach with meta/llama-3.1-70b-instruct.
-              </p>
-            </div>
-          </div>
-
-          {/* Pipeline Stats Summary */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '16px 24px',
-            background: 'var(--bg-card)',
-            borderRadius: 'var(--radius-xl)',
-            border: '1px solid var(--border-subtle)',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
-          }}>
-            <div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--text-main)', fontVariantNumeric: 'tabular-nums' }}>$3.0M+</div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Active Pipeline</div>
-            </div>
-            <div style={{ width: '1px', height: '28px', background: 'var(--border-subtle)' }} />
-            <div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--success-500)', fontVariantNumeric: 'tabular-nums' }}>28.4%</div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Conv. Velocity</div>
-            </div>
-            <div style={{ width: '1px', height: '28px', background: 'var(--border-subtle)' }} />
-            <div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--info-500)', fontVariantNumeric: 'tabular-nums' }}>50+</div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Pre-Seeded Leads</div>
-            </div>
-          </div>
-
+      {/* Top Floating Navigation Header */}
+      <header
+        style={{
+          position: 'relative',
+          zIndex: 20,
+          width: '100%',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '24px 32px 0 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
+            className="font-display"
+            style={{
+              fontSize: '1.65rem',
+              letterSpacing: '-0.03em',
+              fontWeight: 400,
+              color: '#ffffff'
+            }}
+          >
+            SALES INTELLIGENCE
+          </span>
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '0.65rem',
+              color: 'rgba(255, 255, 255, 0.5)',
+              padding: '2px 6px',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '4px',
+              marginTop: '4px',
+              letterSpacing: '0.05em'
+            }}
+          >
+            FORECASTING // AI
+          </span>
         </div>
 
-        {/* Right Column: SaaS-SalesGenie AI Login Portal */}
-        <div className="tail-card tail-card-glow animate-entrance" style={{ padding: '38px', display: 'flex', flexDirection: 'column', gap: '22px', borderRadius: 'var(--radius-2xl)', background: 'var(--bg-card)', border: '1px solid var(--border-medium)' }}>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <SalesGenieBrainSparkIcon size={48} />
-            <div>
-              <h3 className="text-title-sm" style={{ fontSize: '1.15rem', fontWeight: 800 }}>
-                {isLogin ? 'Executive Portal Sign In' : 'Create Enterprise Account'}
-              </h3>
-              <p className="text-theme-xs" style={{ color: 'var(--text-muted)', marginTop: '2px' }}>
-                {isLogin ? 'Access your SaaS-SalesGenie AI workspace' : 'Start your full platform intelligence access'}
-              </p>
-            </div>
-          </div>
-
-          {/* ⚡ 1-Click Instant Demo Login Button */}
-          <div style={{
-            padding: '16px',
-            borderRadius: 'var(--radius-lg)',
-            background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(6, 182, 212, 0.12) 100%)',
-            border: '1px solid rgba(79, 70, 229, 0.35)',
+        {/* Center System Status Bar (Desktop) */}
+        <div
+          style={{
             display: 'flex',
-            flexDirection: 'column',
-            gap: '10px'
-          }}>
-            <button
-              type="button"
-              onClick={handle1ClickDemo}
-              disabled={loading}
-              className="btn btn-primary"
+            alignItems: 'center',
+            gap: '24px',
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '0.72rem',
+            color: 'rgba(255, 255, 255, 0.6)',
+            letterSpacing: '0.04em'
+          }}
+          className="hidden md:flex"
+        >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 8px #10b981' }} />
+            NODE // PROD_01 ONLINE
+          </span>
+          <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>|</span>
+          <span>NVIDIA NIM LLAMA 3.1</span>
+          <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>|</span>
+          <span>FASTER-WHISPER STT</span>
+        </div>
+
+        {/* Quick Demo Access Button in Nav */}
+        <button
+          type="button"
+          onClick={handle1ClickDemo}
+          className="hover-lift"
+          style={{
+            padding: '8px 18px',
+            backgroundColor: 'rgba(255, 255, 255, 0.06)',
+            border: '1px solid rgba(255, 255, 255, 0.18)',
+            borderRadius: '9999px',
+            color: '#ffffff',
+            fontSize: '0.78rem',
+            fontWeight: 500,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backdropFilter: 'blur(12px)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <Sparkles size={14} style={{ color: '#10b981' }} />
+          <span>1-Click Demo</span>
+        </button>
+      </header>
+
+      {/* Main Hero & Auth Split Layout */}
+      <main
+        style={{
+          flex: 1,
+          width: '100%',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '40px 32px 60px 32px',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)',
+          gap: '56px',
+          alignItems: 'center',
+          position: 'relative',
+          zIndex: 10
+        }}
+      >
+        {/* Left Column: Compute Editorial Hero */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          {/* Eyebrow badge */}
+          <div>
+            <div
               style={{
-                width: '100%',
-                padding: '13px',
-                fontSize: '0.92rem',
-                fontWeight: 800,
-                background: 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)',
-                boxShadow: '0 4px 16px rgba(79, 70, 229, 0.45)'
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.75rem',
+                color: 'rgba(255, 255, 255, 0.7)',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase'
               }}
             >
-              <Zap size={18} />
-              <span>⚡ 1-Click Instant Demo Login</span>
-            </button>
-            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-              Instant access as <strong>Sales Director</strong> (<code style={{ color: 'var(--brand-500)', fontWeight: 600 }}>demo@salesgenie.ai</code>)
+              <span style={{ width: '28px', height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)' }} />
+              <span>Autonomous AI agents for revenue operations</span>
             </div>
           </div>
 
-          {/* Divider */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-              or continue with email
-            </span>
-            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+          {/* Headline with Staggered BlurWord cycling */}
+          <div>
+            <h1
+              className="font-display"
+              style={{
+                fontSize: 'clamp(2.6rem, 5.5vw, 4.8rem)',
+                lineHeight: '0.95',
+                letterSpacing: '-0.035em',
+                fontWeight: 400,
+                color: '#ffffff',
+                margin: 0
+              }}
+            >
+              <span style={{ display: 'block', whiteSpace: 'nowrap' }}>
+                Autonomous CRM,
+              </span>
+              <span style={{ display: 'block', whiteSpace: 'nowrap' }}>
+                agents that{' '}
+                <span style={{ position: 'relative', display: 'inline-block' }}>
+                  <BlurWord word={ROTATING_WORDS[wordIndex]} trigger={wordIndex} />
+                </span>
+              </span>
+            </h1>
           </div>
 
-          {error && (
-            <div style={{ padding: '12px', background: 'var(--error-50)', color: 'var(--error-600)', borderRadius: '8px', fontSize: '0.8125rem', textAlign: 'center', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-              {error}
-            </div>
-          )}
+          {/* Editorial Subtitle */}
+          <p
+            style={{
+              fontSize: '1.05rem',
+              color: 'rgba(255, 255, 255, 0.65)',
+              lineHeight: '1.65',
+              maxWidth: '560px',
+              margin: 0,
+              fontWeight: 400
+            }}
+          >
+            The predictive revenue operating system. Deploy 120-tree Random Forest models for sub-45ms lead scoring, NVIDIA NIM Llama 3.1 70B automated outreach synthesis, and real-time Faster-Whisper call intelligence.
+          </p>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {!isLogin && (
-              <div className="input-group">
-                <label className="input-label" style={{ fontWeight: 600 }}>Full Name</label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="tail-input"
-                    placeholder="Sarah Connor"
-                    style={{ paddingLeft: '38px' }}
-                  />
-                  <User size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+          {/* Compute-style Architecture Feature Specs */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+              gap: '14px',
+              maxWidth: '600px'
+            }}
+          >
+            {[
+              { num: '01', title: 'ML Lead Radar', desc: '120-Tree Random Forest', icon: Activity },
+              { num: '02', title: 'NIM Outreach', desc: 'Llama 3.1 70B Generative AI', icon: Cpu },
+              { num: '03', title: 'Whisper STT', desc: 'Real-Time Audio Analysis', icon: Radio }
+            ].map((spec) => {
+              const Icon = spec.icon;
+              return (
+                <div
+                  key={spec.num}
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '10px',
+                    padding: '12px 14px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: '0.68rem',
+                        color: '#10b981',
+                        letterSpacing: '0.05em'
+                      }}
+                    >
+                      [{spec.num}]
+                    </span>
+                    <Icon size={14} style={{ color: 'rgba(255, 255, 255, 0.4)' }} />
+                  </div>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ffffff' }}>
+                    {spec.title}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.68rem',
+                      color: 'rgba(255, 255, 255, 0.5)'
+                    }}
+                  >
+                    {spec.desc}
+                  </span>
                 </div>
+              );
+            })}
+          </div>
+
+          {/* Compute Platform Live Metrics Row */}
+          <div
+            style={{
+              paddingTop: '20px',
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '36px'
+            }}
+          >
+            {[
+              { value: '98.4%', label: 'Lead Scoring Accuracy' },
+              { value: '<45ms', label: 'Inference Latency' },
+              { value: '3,500+', label: 'Accounts Analyzed' },
+              { value: '99.7%', label: 'Distributed Uptime' }
+            ].map((stat) => (
+              <div key={stat.label} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span
+                  className="font-display"
+                  style={{
+                    fontSize: '1.75rem',
+                    color: '#ffffff',
+                    lineHeight: '1',
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  {stat.value}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.65rem',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    letterSpacing: '0.02em'
+                  }}
+                >
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Column: Industrial Compute Auth Console */}
+        <div style={{ position: 'relative' }}>
+          {/* Glass Card Container */}
+          <div
+            style={{
+              backgroundColor: 'rgba(10, 14, 23, 0.72)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
+              borderRadius: '20px',
+              padding: '36px 32px',
+              position: 'relative',
+              boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 32px rgba(16, 185, 129, 0.08)'
+            }}
+          >
+            {/* Industrial Precision Corner Brackets */}
+            <div style={{ position: 'absolute', top: '-1px', left: '-1px', width: '16px', height: '16px', borderTop: '2px solid rgba(255, 255, 255, 0.5)', borderLeft: '2px solid rgba(255, 255, 255, 0.5)', borderTopLeftRadius: '20px' }} />
+            <div style={{ position: 'absolute', top: '-1px', right: '-1px', width: '16px', height: '16px', borderTop: '2px solid rgba(255, 255, 255, 0.5)', borderRight: '2px solid rgba(255, 255, 255, 0.5)', borderTopRightRadius: '20px' }} />
+            <div style={{ position: 'absolute', bottom: '-1px', left: '-1px', width: '16px', height: '16px', borderBottom: '2px solid rgba(255, 255, 255, 0.5)', borderLeft: '2px solid rgba(255, 255, 255, 0.5)', borderBottomLeftRadius: '20px' }} />
+            <div style={{ position: 'absolute', bottom: '-1px', right: '-1px', width: '16px', height: '16px', borderBottom: '2px solid rgba(255, 255, 255, 0.5)', borderRight: '2px solid rgba(255, 255, 255, 0.5)', borderBottomRightRadius: '20px' }} />
+
+            {/* Terminal Header & Mode Switcher */}
+            <div style={{ marginBottom: '24px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '16px'
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.7rem',
+                    color: '#10b981',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    letterSpacing: '0.06em'
+                  }}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 6px #10b981' }} />
+                  AUTH_TERMINAL // NODE_01
+                </span>
+
+                {/* Minimalist Tab Selector */}
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '9999px',
+                    padding: '3px'
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => { setIsLogin(true); setError(''); }}
+                    style={{
+                      padding: '4px 12px',
+                      borderRadius: '9999px',
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                      backgroundColor: isLogin ? '#ffffff' : 'transparent',
+                      color: isLogin ? '#05070c' : 'rgba(255, 255, 255, 0.6)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setIsLogin(false); setError(''); }}
+                    style={{
+                      padding: '4px 12px',
+                      borderRadius: '9999px',
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                      backgroundColor: !isLogin ? '#ffffff' : 'transparent',
+                      color: !isLogin ? '#05070c' : 'rgba(255, 255, 255, 0.6)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    Register
+                  </button>
+                </div>
+              </div>
+
+              <h2
+                className="font-display"
+                style={{
+                  fontSize: '2rem',
+                  letterSpacing: '-0.02em',
+                  fontWeight: 400,
+                  color: '#ffffff',
+                  margin: '0 0 6px 0'
+                }}
+              >
+                {isLogin ? 'Authenticate Session' : 'Initialize Workspace'}
+              </h2>
+              <p
+                style={{
+                  fontSize: '0.82rem',
+                  color: 'rgba(255, 255, 255, 0.55)',
+                  margin: 0,
+                  fontFamily: "'Instrument Sans', sans-serif"
+                }}
+              >
+                {isLogin
+                  ? 'Enter credentials to access predictive pipeline models'
+                  : 'Provision an enterprise tenant workspace with full ML intelligence'}
+              </p>
+            </div>
+
+            {/* Error Banner */}
+            {error && (
+              <div
+                style={{
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#f87171',
+                  fontSize: '0.78rem',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  marginBottom: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <span>[ERROR]</span> {error}
               </div>
             )}
 
-            <div className="input-group">
-              <label className="input-label" style={{ fontWeight: 600 }}>Work Email</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="tail-input"
-                  placeholder="director@enterprise.com"
-                  style={{ paddingLeft: '38px' }}
-                />
-                <Mail size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+            {/* Auth Form */}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {!isLogin && (
+                <div>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.68rem',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      letterSpacing: '0.06em',
+                      marginBottom: '6px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    00 // Full Name
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <User
+                      size={15}
+                      style={{
+                        position: 'absolute',
+                        left: '14px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'rgba(255, 255, 255, 0.4)'
+                      }}
+                    />
+                    <input
+                      type="text"
+                      required
+                      placeholder="Alex Mercer"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '11px 14px 11px 40px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '10px',
+                        color: '#ffffff',
+                        fontSize: '0.88rem',
+                        outline: 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#10b981';
+                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.68rem',
+                    color: 'rgba(255, 255, 255, 0.6)',
+                    letterSpacing: '0.06em',
+                    marginBottom: '6px',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  01 // Corporate Email
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <Mail
+                    size={15}
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: 'rgba(255, 255, 255, 0.4)'
+                    }}
+                  />
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@enterprise.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '11px 14px 11px 40px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      borderRadius: '10px',
+                      color: '#ffffff',
+                      fontSize: '0.88rem',
+                      outline: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#10b981';
+                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                    }}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="input-group">
-              <label className="input-label" style={{ fontWeight: 600 }}>Password</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="tail-input"
-                  placeholder="••••••••"
-                  style={{ paddingLeft: '38px' }}
-                />
-                <Lock size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <label
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: '0.68rem',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    02 // Access Key / Password
+                  </label>
+                  {isLogin && (
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: '0.65rem',
+                        color: 'rgba(255, 255, 255, 0.4)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Default: password123
+                    </span>
+                  )}
+                </div>
+                <div style={{ position: 'relative' }}>
+                  <Lock
+                    size={15}
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: 'rgba(255, 255, 255, 0.4)'
+                    }}
+                  />
+                  <input
+                    type="password"
+                    required
+                    placeholder="••••••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '11px 14px 11px 40px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      borderRadius: '10px',
+                      color: '#ffffff',
+                      fontSize: '0.88rem',
+                      outline: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#10b981';
+                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                    }}
+                  />
+                </div>
               </div>
+
+              {/* Primary Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="hover-lift"
+                style={{
+                  marginTop: '8px',
+                  width: '100%',
+                  padding: '13px',
+                  backgroundColor: '#ffffff',
+                  color: '#05070c',
+                  border: 'none',
+                  borderRadius: '9999px',
+                  fontSize: '0.88rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 8px 20px -4px rgba(255, 255, 255, 0.25)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {loading ? (
+                  <span>Authenticating...</span>
+                ) : (
+                  <>
+                    <span>{isLogin ? 'Sign In to Workspace' : 'Initialize Workspace'}</span>
+                    <ArrowRight size={16} />
+                  </>
+                )}
+              </button>
+
+              {/* Divider */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  margin: '4px 0',
+                  color: 'rgba(255, 255, 255, 0.3)'
+                }}
+              >
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem' }}>OR INSTANT</span>
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
+              </div>
+
+              {/* 1-Click Instant Demo Button */}
+              <button
+                type="button"
+                onClick={handle1ClickDemo}
+                className="hover-lift"
+                style={{
+                  width: '100%',
+                  padding: '11px',
+                  backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                  border: '1px solid rgba(16, 185, 129, 0.25)',
+                  borderRadius: '9999px',
+                  color: '#34d399',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Sparkles size={14} />
+                <span>⚡ 1-Click Instant Demo Access (Pre-filled)</span>
+              </button>
+            </form>
+
+            {/* Bottom Security Badges */}
+            <div
+              style={{
+                marginTop: '24px',
+                paddingTop: '16px',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '16px',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '0.62rem',
+                color: 'rgba(255, 255, 255, 0.45)',
+                letterSpacing: '0.04em'
+              }}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <ShieldCheck size={12} style={{ color: '#10b981' }} />
+                SOC2 TYPE II
+              </span>
+              <span>•</span>
+              <span>256-BIT ENCRYPTED</span>
+              <span>•</span>
+              <span>ZERO LEAKAGE</span>
             </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-secondary"
-              style={{ width: '100%', padding: '12px', marginTop: '6px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-            >
-              <span>{isLogin ? 'Sign In to Platform' : 'Create Account'}</span>
-              <ArrowRight size={16} />
-            </button>
-          </form>
-
-          {/* Toggle */}
-          <div style={{ textAlign: 'center' }}>
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              style={{ background: 'none', border: 'none', color: 'var(--brand-500)', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer' }}
-            >
-              {isLogin ? "Don't have an enterprise account? Register here" : "Already have an account? Sign in here"}
-            </button>
           </div>
-
-          {/* Security Footer */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            paddingTop: '12px',
-            borderTop: '1px solid var(--border-subtle)',
-            fontSize: '0.72rem',
-            color: 'var(--text-dim)'
-          }}>
-            <ShieldCheck size={15} style={{ color: 'var(--success-500)' }} />
-            <span>PyJWT HS256 Protected • Enterprise SOC2 Ready</span>
-          </div>
-
         </div>
+      </main>
 
-      </div>
+      {/* Subtle Footer Terminal Status */}
+      <footer
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          width: '100%',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 32px 24px 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.68rem',
+          color: 'rgba(255, 255, 255, 0.4)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+          paddingTop: '16px'
+        }}
+      >
+        <div>
+          © 2026 AI Powered Sales Intelligence Forecasting Inc. All rights reserved.
+        </div>
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <span>LATENCY: 42MS</span>
+          <span>REGION: GLOBAL_EDGE</span>
+          <span>STATUS: ALL SYSTEMS NOMINAL</span>
+        </div>
+      </footer>
     </div>
   );
 };

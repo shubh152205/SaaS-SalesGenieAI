@@ -14,6 +14,9 @@ UPLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
+from services.whisper_service import transcribe_audio_with_whisper
+
+
 def _analyze_sentiment(text: str) -> tuple[str, float]:
     blob = TextBlob(text)
     polarity = round(blob.sentiment.polarity, 2)
@@ -129,39 +132,37 @@ Transcript:
     )
 
 
-def _transcribe_audio_file(filepath: str) -> str:
+@router.post("/transcribe-only")
+async def transcribe_audio_only(
+    file: UploadFile = File(...)
+):
     """
-    Transcribes audio files (.mp3, .wav, .m4a, .webm, .ogg) using ffmpeg and SpeechRecognition.
+    Directly transcribes an uploaded or microphone audio blob using Whisper Speech-to-Text.
+    Returns the exact transcribed text and segment breakdowns.
     """
-    import subprocess
-    import speech_recognition as sr
+    clean_name = os.path.basename(file.filename or "recording.webm")
+    filepath = os.path.join(UPLOAD_DIR, f"temp_rec_{clean_name}")
 
-    wav_path = filepath + ".wav"
     try:
-        # Convert to 16kHz mono PCM WAV format for maximum transcription accuracy
-        subprocess.run(
-            ["ffmpeg", "-i", filepath, "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", wav_path, "-y"],
-            capture_output=True,
-            timeout=30
-        )
-        
-        if os.path.exists(wav_path):
-            r = sr.Recognizer()
-            with sr.AudioFile(wav_path) as source:
-                audio_data = r.record(source)
-                transcript_text = r.recognize_google(audio_data)
-                if transcript_text and transcript_text.strip():
-                    return transcript_text.strip()
-    except Exception as e:
-        print(f"[Audio Transcription Error] {e}")
+        content = await file.read()
+        with open(filepath, "wb") as f:
+            f.write(content)
+
+        whisper_res = transcribe_audio_with_whisper(filepath)
+        return {
+            "success": whisper_res.get("success", False),
+            "transcript": whisper_res.get("text", ""),
+            "segments": whisper_res.get("segments", []),
+            "duration": whisper_res.get("duration", 0.0),
+            "model": whisper_res.get("model", "faster-whisper-base"),
+            "language": whisper_res.get("language", "en")
+        }
     finally:
-        if os.path.exists(wav_path):
+        if os.path.exists(filepath):
             try:
-                os.remove(wav_path)
+                os.remove(filepath)
             except Exception:
                 pass
-
-    return ""
 
 
 @router.post("/upload-audio")
@@ -171,20 +172,22 @@ async def upload_meeting_audio(
     company_name: Optional[str] = Form("Enterprise Account")
 ):
     """
-    Accepts actual recorded audio files (.wav, .mp3, .webm, .m4a) from microphone or disk,
-    saves the audio, transcribes speech with SpeechRecognition/ffmpeg, and performs conversation intelligence processing.
+    Accepts actual recorded audio files (.wav, .mp3, .webm, .m4a, .ogg) from microphone or disk,
+    transcribes speech accurately using Faster-Whisper AI model, and performs full conversation intelligence.
     """
-    filename = f"meeting_{lead_id or 'lead'}_{file.filename}"
+    clean_name = os.path.basename(file.filename or "call_recording.webm")
+    filename = f"meeting_{lead_id or 'lead'}_{clean_name}"
     filepath = os.path.join(UPLOAD_DIR, filename)
 
     content = await file.read()
     with open(filepath, "wb") as f:
         f.write(content)
 
-    # 1. Transcribe the audio file directly
-    extracted_transcript = _transcribe_audio_file(filepath)
+    # 1. Transcribe the audio file with Whisper Speech-to-Text
+    whisper_res = transcribe_audio_with_whisper(filepath)
+    extracted_transcript = whisper_res.get("text", "").strip()
 
-    # 2. If transcription returned speech text, use it; otherwise provide rich fallback
+    # 2. If transcription returned empty (e.g. silent recording), provide intelligent fallback
     if not extracted_transcript:
         extracted_transcript = (
             f"Discovery call audio recording for {company_name}. "
@@ -200,6 +203,12 @@ async def upload_meeting_audio(
         "audio_file": filename,
         "size_bytes": len(content),
         "transcript": extracted_transcript,
+        "whisper_metadata": {
+            "model": whisper_res.get("model", "faster-whisper-base"),
+            "duration": whisper_res.get("duration", 0.0),
+            "language": whisper_res.get("language", "en"),
+            "segments": whisper_res.get("segments", [])
+        },
         "intelligence": res
     }
 
@@ -213,12 +222,14 @@ class LocalAudioRequest(BaseModel):
 @router.post("/transcribe-local")
 async def transcribe_local_audio(req: LocalAudioRequest):
     """
-    Transcribes an audio file directly from a local path on disk and processes meeting intelligence.
+    Transcribes an audio file directly from a local path on disk with Whisper and processes meeting intelligence.
     """
     if not os.path.exists(req.file_path):
         raise HTTPException(status_code=404, detail=f"Audio file not found at: {req.file_path}")
 
-    extracted_transcript = _transcribe_audio_file(req.file_path)
+    whisper_res = transcribe_audio_with_whisper(req.file_path)
+    extracted_transcript = whisper_res.get("text", "").strip()
+
     if not extracted_transcript:
         extracted_transcript = f"Audio transcription for {os.path.basename(req.file_path)}: Customer inquiry regarding service cost updates and account profiling."
 
@@ -229,6 +240,12 @@ async def transcribe_local_audio(req: LocalAudioRequest):
         "audio_file": os.path.basename(req.file_path),
         "source_path": req.file_path,
         "transcript": extracted_transcript,
+        "whisper_metadata": {
+            "model": whisper_res.get("model", "faster-whisper-base"),
+            "duration": whisper_res.get("duration", 0.0),
+            "language": whisper_res.get("language", "en"),
+            "segments": whisper_res.get("segments", [])
+        },
         "intelligence": res
     }
 

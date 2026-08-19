@@ -160,15 +160,15 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
         }}>
           <span style={{
             fontSize: size > 44 ? '0.72rem' : '0.65rem',
-            background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+            background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#ffffff',
             padding: '2px 7px',
             borderRadius: '5px',
             fontWeight: 800,
             letterSpacing: '0.05em',
-            boxShadow: '0 2px 8px rgba(6, 182, 212, 0.35)'
+            boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)'
           }}>
-            SaaS
+            AI
           </span>
           <span style={{
             background: 'linear-gradient(135deg, var(--text-main) 30%, var(--brand-400) 100%)',
@@ -176,7 +176,7 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
           }}>
-            SalesGenie
+            Sales Intelligence
           </span>
           <span style={{
             fontSize: size > 44 ? '0.75rem' : '0.68rem',
@@ -188,7 +188,7 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             letterSpacing: '0.04em',
             boxShadow: '0 2px 10px rgba(79, 70, 229, 0.4)'
           }}>
-            AI
+            Forecasting
           </span>
         </div>
         {showSubtitle && (
@@ -204,7 +204,7 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             gap: '5px'
           }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brand-400)', display: 'inline-block' }} />
-            The AI Brain Spark
+            AI Powered Predictive Revenue Ops
           </div>
         )}
       </div>

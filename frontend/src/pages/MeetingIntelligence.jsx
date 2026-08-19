@@ -132,9 +132,9 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
   const handleStartRecording = async () => {
     audioChunksRef.current = [];
     setLiveSpeechText('');
-    setRecordingStatus('Initializing speech recognition and microphone...');
+    setRecordingStatus('Initializing microphone for Whisper AI transcription...');
     
-    // Initialize Web Speech API if supported
+    // Initialize Web Speech API if supported for live visual feedback
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       try {
@@ -158,15 +158,29 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
         recognition.start();
         speechRecognitionRef.current = recognition;
       } catch (speechErr) {
-        console.warn('SpeechRecognition failed to start:', speechErr);
+        console.warn('SpeechRecognition interim listener failed to start:', speechErr);
       }
     }
 
-    // Initialize MediaRecorder for audio capture
+    // Initialize MediaRecorder for high-fidelity audio capture
     try {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const recorder = new MediaRecorder(stream);
+        
+        let mimeType = 'audio/webm';
+        if (typeof MediaRecorder.isTypeSupported === 'function') {
+          if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+            mimeType = 'audio/webm;codecs=opus';
+          } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+            mimeType = 'audio/webm';
+          } else if (MediaRecorder.isTypeSupported('audio/ogg')) {
+            mimeType = 'audio/ogg';
+          } else if (MediaRecorder.isTypeSupported('audio/wav')) {
+            mimeType = 'audio/wav';
+          }
+        }
+
+        const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
         
         recorder.ondataavailable = (e) => {
           if (e.data && e.data.size > 0) {
@@ -179,22 +193,22 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
         };
 
         mediaRecorderRef.current = recorder;
-        recorder.start(1000);
+        recorder.start(250); // Slice audio into 250ms chunks
       }
       
       setIsRecording(true);
-      setRecordingStatus('Listening... Speak into your microphone to convert speech to text in real time.');
+      setRecordingStatus('Recording audio live... Faster-Whisper AI model will transcribe on stop.');
     } catch (micErr) {
-      console.warn('Microphone error or permission denied:', micErr);
-      // Even if mic hardware is blocked, speech or simulation mode will continue
+      console.warn('Microphone permission or hardware error:', micErr);
       setIsRecording(true);
-      setRecordingStatus('Simulating live speech stream (or speak if mic is enabled)...');
+      setRecordingStatus('Microphone capture fallback mode. Speak or simulate speech stream.');
     }
   };
 
   const handleStopRecording = async () => {
     setIsRecording(false);
-    setRecordingStatus('Analyzing conversation transcript with NVIDIA NIM AI & NLP extractor...');
+    setIsProcessing(true);
+    setRecordingStatus('Finalizing audio buffer for Faster-Whisper transcription...');
     
     if (speechRecognitionRef.current) {
       try {
@@ -202,17 +216,54 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
       } catch (e) {}
     }
 
-    if (mediaRecorderRef.current) {
+    const recorder = mediaRecorderRef.current;
+    if (recorder && recorder.state !== 'inactive') {
       try {
-        mediaRecorderRef.current.stop();
+        recorder.stop();
       } catch (e) {}
     }
 
-    // Determine final transcript
-    const capturedTranscript = liveSpeechText.trim() || 
-      'Discovery briefing with engineering executive. Discussed manual sales pipeline latency, sub-100ms ML scoring, and automated cold email generation. Budget is confirmed up to $120,000 for Q3 rollout. Next step is delivering technical PoC sandbox and customized MSA pricing proposal by next Tuesday.';
+    // Brief delay to ensure MediaRecorder flushes last ondataavailable chunk
+    await new Promise((resolve) => setTimeout(resolve, 350));
 
-    await submitTranscriptForProcessing(capturedTranscript);
+    const selectedLead = leads.find((l) => l.id === Number(selectedLeadId)) || leads[0] || { id: 1, company_name: 'Enterprise Account', contact_name: 'Lead Executive' };
+
+    // If audio chunks were captured by MediaRecorder, send the audio Blob to Faster-Whisper endpoint
+    if (audioChunksRef.current && audioChunksRef.current.length > 0) {
+      try {
+        setRecordingStatus('Transcribing voice audio using Faster-Whisper AI & extracting CRM intelligence...');
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('file', audioBlob, 'mic_recording.webm');
+        formData.append('lead_id', selectedLead.id);
+        formData.append('company_name', selectedLead.company_name);
+
+        const res = await api.post('/api/meetings/upload-audio', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        await fetchMeetings();
+        if (res.data?.intelligence) {
+          setSelectedMeeting(res.data.intelligence);
+        }
+        showToast('Whisper AI transcribed audio and extracted action items!');
+      } catch (err) {
+        console.error('Whisper transcription failed, falling back to text process:', err);
+        const capturedTranscript = liveSpeechText.trim() || 
+          'Discovery briefing with engineering executive. Discussed sales pipeline latency, sub-100ms ML scoring, and automated cold email generation. Budget is confirmed up to $120,000 for Q3 rollout. Next step is delivering technical PoC sandbox and customized MSA pricing proposal by next Tuesday.';
+        await submitTranscriptForProcessing(capturedTranscript);
+      } finally {
+        setIsProcessing(false);
+        setRecordingStatus('');
+        setLiveSpeechText('');
+        audioChunksRef.current = [];
+      }
+    } else {
+      // Fallback if no audio chunks available (e.g. simulated mode or restricted browser)
+      const capturedTranscript = liveSpeechText.trim() || 
+        'Executive discovery call with engineering team. Confirmed 30 sales seats budget of $120,000 ARR. They requested a dedicated SOC2 security whitepaper and technical sandbox by next Tuesday.';
+      await submitTranscriptForProcessing(capturedTranscript);
+    }
   };
 
   const handleSimulateLiveSpeech = () => {
@@ -259,12 +310,12 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
     }
   };
 
-  // 2. Direct Audio File Upload (.mp3, .wav)
+  // 2. Direct Audio File Upload (.mp3, .wav, .m4a, .webm, .ogg)
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setIsProcessing(true);
-    setRecordingStatus(`Transcribing speech from ${file.name} using speech recognition...`);
+    setRecordingStatus(`Transcribing speech from ${file.name} using Faster-Whisper AI...`);
     
     const selectedLead = leads.find((l) => l.id === Number(selectedLeadId)) || leads[0];
     const formData = new FormData();
@@ -280,7 +331,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
       if (res.data?.intelligence) {
         setSelectedMeeting(res.data.intelligence);
       }
-      showToast(`Successfully transcribed ${file.name} and extracted action items!`);
+      showToast(`Whisper STT: Successfully transcribed ${file.name}!`);
     } catch (err) {
       console.error('File upload error:', err);
       showToast('Error transcribing audio file.');
@@ -294,7 +345,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
   const handleTranscribeLocalPath = async (filePath) => {
     const path = filePath || '/home/askshubh/Downloads/archive/Infosys internship/Sales Call example 1 [4ostqJD3Psc].mp3';
     setIsProcessing(true);
-    setRecordingStatus(`Transcribing local audio file: ${path}...`);
+    setRecordingStatus(`Transcribing local audio file with Faster-Whisper: ${path}...`);
 
     const selectedLead = leads.find((l) => l.id === Number(selectedLeadId)) || leads[0];
     try {
@@ -307,7 +358,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
       if (res.data?.intelligence) {
         setSelectedMeeting(res.data.intelligence);
       }
-      showToast('Local audio transcribed & analyzed successfully!');
+      showToast('Whisper STT: Local audio transcribed & analyzed successfully!');
     } catch (err) {
       console.error('Local audio transcription error:', err);
       showToast('Could not transcribe local audio path.');
@@ -788,7 +839,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
                       Discovery Call: {selectedMeeting.lead_name}
                     </h3>
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      Audio Source: {selectedMeeting.audio_filename} • Analyzed via NVIDIA NIM & TextBlob
+                      Audio Source: {selectedMeeting.audio_filename} • Transcribed via Faster-Whisper STT & Analyzed via NVIDIA NIM
                     </p>
                   </div>
 
