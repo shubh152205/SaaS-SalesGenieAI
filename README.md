@@ -1,36 +1,41 @@
-# 🧞‍♂️ SaaS SalesGenie AI — Autonomous B2B SaaS Sales & Predictive Lead Intelligence Platform
+# 🧞‍♂️ SaaS AI Powered Sales Intelligence Forecasting
 
 <div align="center">
 
 ![SaaS SalesGenie AI Banner](screenshots/dashboard_overview.png)
 
-[![Domain: B2B SaaS](https://img.shields.io/badge/Domain-B2B_SaaS_(Software_as_a_Service)-465fff.svg?logo=cloud&logoColor=white)](https://github.com/shubh152205/SaaS-SalesGenieAI)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React 18](https://img.shields.io/badge/React-18.2.0-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-5.0.12-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
-[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4.0-F7931E.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
+[![Domain: B2B SaaS](https://img.shields.io/badge/Domain-B2B_SaaS-465fff.svg?logo=cloud&logoColor=white)](https://github.com/shubh152205/SaaS-SalesGenieAI)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.0-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React 19](https://img.shields.io/badge/React-19.2.8-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
+[![Vite 8](https://img.shields.io/badge/Vite-8.2.0-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.5.1-F7931E.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
 [![NVIDIA NIM](https://img.shields.io/badge/NVIDIA_NIM-Llama_3.1_70B-76B900.svg?logo=nvidia&logoColor=white)](https://www.nvidia.com/en-us/ai-data-science/products/nim/)
+[![Faster-Whisper](https://img.shields.io/badge/Faster--Whisper-1.2.1_INT8-FF6F00.svg?logo=openai&logoColor=white)](https://github.com/SYSTRAN/faster-whisper)
 [![Pytest](https://img.shields.io/badge/Pytest-22_Tests_Passed-0A9EDC.svg?logo=pytest&logoColor=white)](https://pytest.org)
-[![SQLite WAL](https://img.shields.io/badge/Database-SQLite_WAL_Indexed-003B57.svg?logo=sqlite&logoColor=white)](https://sqlite.org)
+[![SQLite WAL](https://img.shields.io/badge/Database-SQLite_WAL-003B57.svg?logo=sqlite&logoColor=white)](https://sqlite.org)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED.svg?logo=docker&logoColor=white)](https://docker.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**An enterprise-grade, full-stack B2B SaaS (Software as a Service) CRM, Supervised ML Lead Scoring Engine, Audio Meeting Intelligence System, and Agentic NVIDIA NIM Outreach Orchestrator.**
+**An enterprise-grade, full-stack B2B SaaS CRM platform combining Supervised ML Lead Scoring, Real-Time Faster-Whisper Call Intelligence, and Agentic NVIDIA NIM Outreach Orchestration — deployed via Docker on Render (backend) and Vercel (frontend).**
 
-[🚀 Quick Start](#-quick-start-guide) • [🌟 Core SaaS Modules](#-core-saas-project-modules) • [🏗️ Architecture](#-system-architecture) • [📊 Live Screenshots](#-application-screenshots) • [🧪 Test Suite](#-automated-testing--quality-assurance) • [📽️ SaaS Slide Deck](#-powerpoint-presentation-deck)
+[🚀 Quick Start](#-quick-start-guide) • [🌟 Core Modules](#-core-saas-modules) • [🏗️ Architecture](#%EF%B8%8F-system-architecture) • [📸 Screenshots](#-application-screenshots) • [🐳 Deployment](#-cloud-deployment) • [📡 API Reference](#-api-reference) • [🧪 Tests](#-automated-testing--quality-assurance)
 
 </div>
 
 ---
 
-## 🎯 Domain Specialization: B2B SaaS (Software as a Service)
+## 🎯 Domain: B2B SaaS (Software as a Service)
 
-**SaaS SalesGenie AI** is engineered exclusively for the **Software as a Service (SaaS)** ecosystem. In modern SaaS companies, revenue growth relies on converting free trial signups into high-ACV enterprise annual contracts, accelerating Product-Led Growth (PLG), minimizing Customer Acquisition Cost (CAC), and preventing deal stalls. 
+**SaaS AI Powered Sales Intelligence Forecasting** is built exclusively for the **Software as a Service** ecosystem, where revenue growth depends on converting trial signups into high-ACV enterprise contracts, accelerating Product-Led Growth (PLG), minimizing Customer Acquisition Cost (CAC), and preventing deal stalls.
 
-SaaS SalesGenie AI solves these specific pain points by unifying:
-1. **SaaS Lead Intent Scoring**: Evaluating API usage, demo requests, funding stages (Seed, Series A–D, Public SaaS), and technographic stack fit.
-2. **SaaS Contract Benchmarking**: Cosine similarity matching against historical Closed Won SaaS contract structures ($50k–$300k ARR).
-3. **SaaS Demo Meeting Intelligence**: Audio transcription extracting SaaS technical objections, SOC2 security requirements, and custom integration requests.
-4. **Agentic SaaS Outbound**: NVIDIA NIM `meta/llama-3.1-70b-instruct` generating hyper-personalized cold emails, 48h follow-up cadences, and LinkedIn InMails referencing existing SaaS tools (e.g., Snowflake, Datadog, Stripe, AWS).
+The platform unifies four critical revenue operations pillars:
+
+| Pillar | Capability |
+| :--- | :--- |
+| **ML Lead Scoring** | 120-tree Random Forest evaluating API usage, demo requests, funding stages (Seed → Series D → Public), and technographic stack fit |
+| **Deal Benchmarking** | TF-IDF + Cosine Similarity matching against historical Closed Won SaaS contracts ($50k–$300k ARR) |
+| **Call Intelligence** | Faster-Whisper INT8 STT transcription with VAD, sentiment polarity analysis, and autonomous action item extraction |
+| **Agentic Outreach** | NVIDIA NIM `meta/llama-3.1-70b-instruct` generating hyper-personalized cold emails, 48h follow-up cadences, and LinkedIn InMails |
 
 ---
 
@@ -38,20 +43,20 @@ SaaS SalesGenie AI solves these specific pain points by unifying:
 
 <div align="center">
 
-| Executive SaaS KPI Dashboard (Milestone 4) | ML SaaS Lead Intelligence & Scoring |
+| Executive SaaS KPI Dashboard | ML Lead Intelligence & Scoring |
 | :---: | :---: |
 | ![Dashboard Overview](screenshots/dashboard_overview.png) | ![Lead Intelligence](screenshots/lead_intelligence.png) |
-| *6-Card KPI Suite, Active Pipeline ARR ($1.86M+), AI Follow-up Urgency* | *100-Tree Random Forest intent scores & SaaS contract benchmarking* |
+| *6-Card KPI Suite, Active Pipeline ARR ($1.86M+), AI Follow-up Urgency* | *120-Tree Random Forest intent scores & SaaS contract benchmarking* |
 
-| 5-Stage SaaS Kanban Deal Pipeline | Agentic AI SaaS Outreach (NVIDIA NIM) |
+| 5-Stage Kanban Deal Pipeline | Agentic AI Outreach (NVIDIA NIM) |
 | :---: | :---: |
 | ![Deal Pipeline](screenshots/deal_pipeline.png) | ![AI Outreach](screenshots/ai_outreach.png) |
-| *$1.86M active pipeline visualization & deal stage progression* | *Llama 3.1 70B cold emails, follow-up cadences & LinkedIn InMails* |
+| *$1.86M active pipeline visualization & stage progression* | *Llama 3.1 70B cold emails, follow-up cadences & LinkedIn InMails* |
 
-| SaaS Call & Demo Intelligence | Light/Dark Theme Switcher |
+| Call & Demo Intelligence | Light/Dark Theme System |
 | :---: | :---: |
-| ![Meeting Intelligence](screenshots/meeting_intelligence.png) | ![Light Theme UI](screenshots/dashboard.png) |
-| *Live mic recording, NLP sentiment polarity & action items* | *High-fidelity TailAdmin design system in full Light & Dark mode* |
+| ![Meeting Intelligence](screenshots/meeting_intelligence.png) | ![Light Theme](screenshots/dashboard.png) |
+| *Faster-Whisper STT, live mic recording, NLP sentiment & action items* | *High-fidelity design system with full Light & Dark mode support* |
 
 </div>
 
@@ -59,120 +64,130 @@ SaaS SalesGenie AI solves these specific pain points by unifying:
 
 ## 🏗️ System Architecture
 
-SalesGenie AI is structured into a clean, 4-tier decoupled architecture designed for high throughput, sub-15ms ML inference latency, and enterprise SaaS reliability:
-
 ```mermaid
 graph TD
-    subgraph "1. Client & Presentation Tier (Vite + React 18)"
-        UI[TailAdmin SaaS UI System]
-        Charts[Recharts ARR Data Visualization]
-        AuthC[PyJWT Bearer Auth Context]
-        ThemeC[Light / Dark Theme Engine]
+    subgraph "1. Client & Presentation Tier"
+        UI["React 19 + Vite 8 SPA"]
+        Charts["Recharts Data Visualization"]
+        Auth_C["JWT Bearer Auth Context"]
+        Theme_C["Light / Dark Theme Engine"]
+        DnD["@dnd-kit Kanban Board"]
     end
 
-    subgraph "2. API Gateway & Security Tier (FastAPI Async)"
-        Router[Asynchronous REST Router]
-        AuthSec[PyJWT HS256 & PBKDF2 Password Hasher]
-        Cache[In-Memory Metric Cache & CORS Middleware]
+    subgraph "2. API Gateway & Security Tier"
+        Gateway["FastAPI 0.115 Async Gateway"]
+        JWT_Auth["PyJWT HS256 + PBKDF2 Password Hasher"]
+        CORS["CORS Middleware (Vercel + Render Origins)"]
+        Scheduler["APScheduler Background Tasks"]
     end
 
-    subgraph "3. SaaS Intelligence & Machine Learning Tier"
-        RF[RandomForestClassifier - 100 Trees]
-        TFIDF[TF-IDF Vectorizer + Cosine Similarity Matcher]
-        NLP[TextBlob NLP Sentiment Engine]
-        AudioProc[Speech Audio Parser & Chunk Transcriber]
+    subgraph "3. Intelligence & ML Tier"
+        RF["RandomForestClassifier — 120 Trees"]
+        TFIDF["TF-IDF Vectorizer + Cosine Similarity"]
+        Whisper["Faster-Whisper STT (INT8 / VAD)"]
+        NLP["TextBlob Sentiment Engine"]
+        ffmpeg["FFmpeg Audio Normalizer (16kHz Mono PCM)"]
     end
 
     subgraph "4. Generative AI & Data Tier"
-        NIM[NVIDIA NIM Cloud - meta/llama-3.1-70b-instruct]
-        Fallback[Deterministic Offline SaaS Fallback Engine]
-        DB[(SQLite Relational DB - WAL Mode & 7 B-Tree Indexes)]
+        NIM["NVIDIA NIM — meta/llama-3.1-70b-instruct"]
+        Fallback["Deterministic Offline Fallback Engine"]
+        DB[("SQLite WAL — 7 B-Tree Indexes")]
     end
 
-    UI --> Router
-    Charts --> Router
-    AuthC --> AuthSec
-    Router --> RF
-    Router --> TFIDF
-    Router --> NLP
-    Router --> AudioProc
-    Router --> NIM
+    UI --> Gateway
+    Charts --> Gateway
+    Auth_C --> JWT_Auth
+    DnD --> Gateway
+    Gateway --> RF
+    Gateway --> TFIDF
+    Gateway --> Whisper
+    Whisper --> ffmpeg
+    Gateway --> NLP
+    Gateway --> NIM
     NIM -. Fallback .-> Fallback
     RF --> DB
     TFIDF --> DB
-    Router --> DB
+    Gateway --> DB
+    Scheduler --> DB
 ```
 
 ---
 
-## 🚀 Core SaaS Project Modules
+## 🌟 Core SaaS Modules
 
-### 1. 📊 Executive SaaS KPI Dashboard & Analytics (Milestone 4)
-- **6-Card Executive SaaS KPI Suite**:
-  - 💰 **Active Pipeline ARR**: Real-time aggregation of all active B2B SaaS opportunities ($1.86M+).
-  - 🔥 **Hot SaaS Leads**: Instant count and filtering of high-intent enterprise accounts (Score $\ge 80$).
-  - 📈 **Conversion Win Rate**: Dynamic calculation of Won vs. Lost closed accounts.
-  - 💵 **Average Deal Size (ACV)**: Segment-level calculation across enterprise accounts ($98,210).
-  - ⏱️ **Avg Response Time**: Real-time tracking of sales response velocity (2.4 hours, -18% MoM).
-  - 📅 **Avg Sales Cycle**: Average deal velocity in days (28 days vs 42-day industry benchmark).
-- **Timeframe Filtering**: High-speed cached analytics across **Monthly**, **Quarterly**, and **Yearly** periods.
+### 1. 📊 Executive KPI Dashboard & Analytics
+
+- **6-Card KPI Suite**: Active Pipeline ARR ($1.86M+), Hot Leads Count, Conversion Win Rate, Average Deal Size (ACV), Avg Response Time, Avg Sales Cycle Duration.
+- **Timeframe Filtering**: Cached analytics across Monthly, Quarterly, and Yearly periods.
 - **AI Follow-up Priority Panel**: Prescriptive urgency triage (`🔴 Critical`, `🟡 Moderate`, `🟢 Healthy`) driven by engagement recency and lead value.
-- **Automation Module**: Background task monitor and manual triggers for Daily Follow-up Email Digests and ML Retraining.
+- **ML Metrics Dashboard**: Live model accuracy, feature importance rankings, and retraining status.
+- **Automation Module**: APScheduler background tasks for Daily Follow-up Email Digests and automated ML model retraining.
 
-### 2. 🎯 Machine Learning SaaS Lead Scoring Engine (`RandomForestClassifier`)
-- **100 Decision Estimators** trained on high-intent conversion signals:
-  - **Demo Requests** (Intent Weight: +25)
-  - **Company Growth & Funding Rounds** (Series A–D, Public SaaS)
-  - **Website Visits & Product Usage** (Weight: +18)
-  - **Email Opens & Engagement** (Weight: +15)
-  - **Technographic Alignment** with SalesGenie platform capabilities (Python, FastAPI, AWS, Snowflake, React, etc.)
-  - **Recency of Engagement & Inactivity Days**
-- **Actionable Output**: Instant scoring (0–100), conversion probability percentages, recommendation badges (🔥 Hot Lead, ✅ Qualified, 🌡️ Warm, ❄️ Cold), and prescriptive next-step actions.
+### 2. 🎯 ML Lead Scoring Engine (`RandomForestClassifier`)
 
-### 3. 🔍 SaaS Deal Benchmarking & Vector Similarity Matching
-- **TF-IDF Vectorizer + `linear_kernel` Cosine Similarity**: Compares incoming accounts against historical Closed Won SaaS contract benchmarks to calculate similarity percentages and match deal structures.
+- **120 Decision Estimators** trained on high-intent conversion signals:
+  - Demo Requests (Intent Weight: +25)
+  - Company Growth & Funding Rounds (Seed → Series A–D → Public)
+  - Website Visits & Product Usage (+18)
+  - Email Opens & Engagement (+15)
+  - Technographic Alignment (Python, FastAPI, AWS, Snowflake, React, etc.)
+  - Recency of Engagement & Inactivity Days
+- **Output**: Score (0–100), conversion probability, recommendation badges (🔥 Hot Lead, ✅ Qualified, 🌡️ Warm, ❄️ Cold), and prescriptive next-step actions.
 
-### 4. 🤖 Agentic AI SaaS Outreach Engine (NVIDIA NIM)
-- **Primary LLM**: `meta/llama-3.1-70b-instruct` (NVIDIA NIM API integration).
-- **Zero-Retention Inference**: High-privacy enterprise inference with deterministic offline fallback generation.
-- **Tailored Cadences**:
-  - **AI Cold Emails**: Personalized funding round congratulatory hooks, explicit tech stack alignment, and 65% efficiency reduction metrics.
-  - **Follow-up Cadences**: High-velocity 48-72h value-driven follow-ups.
-  - **LinkedIn InMail**: High-converting peer-to-peer executive connection notes.
-  - **Industry Strategy Generator**: Channel mix, timing, and tailored case study recommendations.
+### 3. 🔍 Deal Benchmarking & Vector Similarity Matching
 
-### 5. 🎙️ SaaS Call & Demo Intelligence
-- **Audio File Upload & Live Microphone Recording**: Handles `.wav`, `.mp3`, `.webm`, and `.m4a` files.
-- **AI Call Summarization & Action Item Extraction**: Automatically extracts 3-5 concrete next steps for sales engineering teams.
-- **TextBlob Sentiment Analysis**: Calculates polarity scores and classifies sentiment into Positive, Neutral, or Negative.
+- **TF-IDF Vectorizer + `linear_kernel` Cosine Similarity**: Compares incoming accounts against historical Closed Won SaaS contract structures.
+- Returns similarity percentages, matched deal profiles, and benchmark metrics.
 
-### 6. 📋 5-Stage SaaS Kanban Deal Pipeline
-- Visual pipeline stages: `New Lead` ➔ `Qualified` ➔ `Proposal` ➔ `Negotiation` ➔ `Closed Won`.
-- Quick-action stage progression and deal value aggregations.
+### 4. 🤖 Agentic AI Outreach Engine (NVIDIA NIM)
 
-### 7. 🔐 Enterprise Authentication & Database Optimization
-- **Stateless JWT (HS256)** authentication with Bearer token interceptor.
+- **Primary LLM**: `meta/llama-3.1-70b-instruct` via NVIDIA NIM API.
+- **Zero-Retention Inference** with deterministic offline fallback generation.
+- **Cadence Types**:
+  - **Cold Emails**: Personalized funding-round congratulatory hooks, tech-stack alignment, and efficiency metrics.
+  - **48–72h Follow-ups**: High-velocity value-driven follow-ups.
+  - **LinkedIn InMail**: Executive peer-to-peer connection notes.
+  - **Industry Strategy**: Channel mix, timing, and tailored case study recommendations.
+
+### 5. 🎙️ Call & Demo Intelligence (Faster-Whisper STT)
+
+- **Faster-Whisper Engine**: `base` model with INT8 quantization on CPU, beam search decoding, and Voice Activity Detection (VAD).
+- **FFmpeg Audio Pipeline**: Automatic conversion of `.webm`, `.mp3`, `.m4a`, `.ogg`, `.wav`, `.flac` → 16kHz mono PCM WAV.
+- **Live Microphone Recording**: High-fidelity `MediaRecorder` audio capture streamed to the backend Whisper engine.
+- **AI Call Summarization**: NVIDIA NIM or TextBlob extraction of 3–5 concrete action items per call.
+- **Sentiment Analysis**: TextBlob polarity scoring with Positive / Neutral / Negative classification.
+
+### 6. 📋 5-Stage Kanban Deal Pipeline
+
+- Drag-and-drop stages: `New Lead` → `Qualified` → `Proposal` → `Negotiation` → `Closed Won`.
+- Powered by `@dnd-kit` with quick-action stage progression and per-stage deal value aggregations.
+
+### 7. 🔐 Authentication & Database
+
+- **Stateless JWT (HS256)** with Bearer token interceptor via Axios.
 - **PBKDF2-HMAC-SHA256** password hashing with cryptographically secure random salts.
-- **1-Click Instant Demo Login** for evaluation (`demo@salesgenie.ai` / `password123`).
-- **Optimized SQLite Schema**: WAL mode with 7 performance indexes and 60+ pre-seeded enterprise SaaS accounts (Snowflake, Datadog, Stripe, Twilio, Elastic, GitLab, etc.).
+- **1-Click Instant Demo Login**: `demo@salesgenie.ai` / `password123`.
+- **SQLite WAL Mode**: 7 performance B-Tree indexes, 60+ pre-seeded enterprise SaaS accounts (Snowflake, Datadog, Stripe, Twilio, Elastic, GitLab, etc.).
 
 ---
 
-## 🛠️ Tech Stack & Dependencies
+## 🛠️ Tech Stack
 
-| Tier | Technology | Description |
+| Tier | Technology | Purpose |
 | :--- | :--- | :--- |
-| **Domain** | B2B SaaS (Software as a Service) | Revenue acceleration, trial-to-paid conversion & pipeline velocity |
-| **Frontend** | React 18, Vite, React Router, Recharts, Lucide Icons, Axios | High-performance SPA with TailAdmin Light/Dark theme system |
-| **Backend & API** | Python 3.11+, FastAPI, Uvicorn, Pydantic v2 | Asynchronous, typed RESTful API gateway |
-| **Authentication** | PyJWT (HS256) + PBKDF2-HMAC-SHA256 | Secure stateless auth & token headers |
-| **Database** | SQLite Relational (WAL Mode) | 60+ pre-seeded B2B SaaS accounts with 7 performance indexes |
-| **ML Lead Scoring** | Scikit-Learn `RandomForestClassifier` | 100-tree conversion prediction & feature importance scoring |
-| **Deal Matcher** | Scikit-Learn `TfidfVectorizer` + Cosine Similarity | Closed won benchmark matching |
-| **AI LLMs** | NVIDIA NIM API (`meta/llama-3.1-70b-instruct`) | Asynchronous B2B cold email & meeting intelligence |
-| **Sentiment Analysis**| TextBlob | NLP polarity calculation for discovery calls |
-| **Automated Testing** | Pytest (22 Unit Tests) | 100% pass rate on ML & recommendation engines |
-| **Presentation** | Python-PPTX | Automated 12-slide Widescreen Light Theme Presentation generator |
+| **Frontend** | React 19, Vite 8, React Router 7, Recharts, Lucide Icons, Axios, @dnd-kit | High-performance SPA with Light/Dark theme system |
+| **Backend** | Python 3.11+, FastAPI 0.115, Uvicorn, Pydantic v2, APScheduler | Asynchronous typed REST API with background task scheduling |
+| **Authentication** | PyJWT (HS256) + PBKDF2-HMAC-SHA256 | Stateless auth & secure password hashing |
+| **Database** | SQLite (WAL Mode) + 7 B-Tree Indexes | Relational store with 60+ pre-seeded SaaS accounts |
+| **ML Lead Scoring** | Scikit-Learn `RandomForestClassifier` (120 trees) | Conversion prediction & feature importance analysis |
+| **Deal Matching** | Scikit-Learn `TfidfVectorizer` + Cosine Similarity | Closed Won benchmark similarity scoring |
+| **Speech-to-Text** | Faster-Whisper 1.2.1 (INT8 / CPU / VAD) + FFmpeg | Real-time audio transcription with voice activity detection |
+| **Generative AI** | NVIDIA NIM API (`meta/llama-3.1-70b-instruct`) | Agentic B2B cold email, follow-up & InMail synthesis |
+| **NLP Sentiment** | TextBlob | Polarity scoring for discovery calls |
+| **Containerization** | Docker (Python 3.11-slim + FFmpeg + Whisper model pre-cache) | Production-ready container with cached ML weights |
+| **Hosting** | Render (Backend Docker) + Vercel (Frontend SPA) | Cloud deployment with SPA routing rewrites |
+| **Testing** | Pytest (22 unit tests) | ML engine, auth, schema & pipeline validation |
 
 ---
 
@@ -180,77 +195,184 @@ graph TD
 
 ### Option 1: One-Click Startup Script (Recommended)
 
-To start both the FastAPI backend and React frontend with a single command:
-
 ```bash
+chmod +x start.sh
 ./start.sh
 ```
 
-- **Frontend Application:** [http://localhost:5173](http://localhost:5173)
-- **FastAPI Interactive API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Backend Health Check:** [http://localhost:8000/api/dashboard/kpis](http://localhost:8000/api/dashboard/kpis)
+| Service | URL |
+| :--- | :--- |
+| **Frontend App** | [http://localhost:5173](http://localhost:5173) |
+| **FastAPI Docs (Swagger)** | [http://localhost:8000/docs](http://localhost:8000/docs) |
+| **Health Check** | [http://localhost:8000/](http://localhost:8000/) |
 
----
+### Option 2: Manual Setup
 
-### Option 2: Manual Step-by-Step Setup
+#### Backend:
 
-#### 1. Backend Setup:
 ```bash
 cd backend
 python3 -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python3 database.py        # Initialize SQLite database with seed records
+python3 database.py             # Initialize SQLite with 60+ seed records
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-#### 2. Frontend Setup:
+#### Frontend:
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
+### Option 3: Docker
+
+```bash
+docker build -t salesgenie-backend -f backend/Dockerfile .
+docker run -p 8000:8000 -e PORT=8000 salesgenie-backend
+```
+
 ---
 
-## 🔑 Demo Access Credentials
+## 🔑 Demo Credentials
 
-| Field | Demo Account Value |
+| Field | Value |
 | :--- | :--- |
 | **Email** | `demo@salesgenie.ai` |
 | **Password** | `password123` |
-| **Instant Access** | Click **"⚡ 1-Click Instant Demo Login"** on the login screen |
+| **Instant Access** | Click **"⚡ 1-Click Demo"** on the login screen |
 
 ---
 
-## 📡 API Reference Overview
+## 🐳 Cloud Deployment
+
+### Backend → Render (Docker)
+
+1. Create a **Web Service** on [render.com](https://render.com) → connect the GitHub repo.
+2. Configure:
+
+   | Setting | Value |
+   | :--- | :--- |
+   | **Environment** | Docker |
+   | **Root Directory** | *(leave empty)* |
+   | **Dockerfile Path** | `Dockerfile` |
+   | **Plan** | Free |
+
+3. Add environment variables:
+
+   | Key | Value |
+   | :--- | :--- |
+   | `PORT` | `8000` |
+   | `NVIDIA_API_KEY` | *(your NVIDIA NIM key, optional)* |
+   | `WHISPER_MODEL_NAME` | `base` |
+
+4. Deploy. The build pre-caches the Whisper model so cold starts are minimized.
+
+### Frontend → Vercel
+
+1. Import the repo on [vercel.com](https://vercel.com).
+2. Configure:
+
+   | Setting | Value |
+   | :--- | :--- |
+   | **Framework** | Vite |
+   | **Root Directory** | `frontend` |
+   | **Build Command** | `npm run build` |
+   | **Output Directory** | `dist` |
+
+3. Add environment variable:
+
+   | Key | Value |
+   | :--- | :--- |
+   | `VITE_API_URL` | `https://<your-render-service>.onrender.com` |
+
+4. Deploy. SPA routing is pre-configured via `vercel.json`.
+
+---
+
+## 📡 API Reference
+
+### Authentication (`/api/auth`)
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `POST` | `/api/auth/login` | Authenticate user & return JWT Bearer token |
-| `POST` | `/api/auth/register` | Register new sales user account |
+| `POST` | `/api/auth/register` | Register new user & return JWT token |
+| `POST` | `/api/auth/login` | Authenticate & return JWT Bearer token |
 | `GET` | `/api/auth/me` | Fetch authenticated user profile |
-| `GET` | `/api/dashboard/kpis` | Fetch 6-Card KPI metrics with period filtering |
-| `GET` | `/api/dashboard/followup-priorities` | Prescriptive AI follow-up recommendations |
-| `POST` | `/api/dashboard/trigger-automation` | Trigger daily email digest & ML retraining |
-| `GET` | `/api/crm/leads` | Retrieve B2B SaaS lead directory with ML scores |
-| `POST` | `/api/crm/leads` | Create new prospect with automatic feature extraction |
-| `GET` | `/api/crm/pipeline` | Fetch 5-stage Kanban deals grouped by stage |
-| `POST` | `/api/ml/score` | Compute RandomForest intent score & conversion probability |
-| `POST` | `/api/ml/similar-deals` | Calculate Cosine Similarity against Closed Won deals |
-| `POST` | `/api/outreach/generate-email` | NVIDIA NIM AI cold email generator |
-| `POST` | `/api/outreach/generate-followup` | NVIDIA NIM 48h follow-up cadence generator |
-| `POST` | `/api/outreach/generate-linkedin` | NVIDIA NIM executive LinkedIn InMail generator |
-| `POST` | `/api/meetings/upload-audio` | Upload call audio for transcription & sentiment analysis |
+
+### CRM (`/api/crm`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/crm/leads` | List all leads with ML scores |
+| `GET` | `/api/crm/leads/{lead_id}` | Fetch single lead details |
+| `POST` | `/api/crm/leads` | Create new prospect with auto feature extraction |
+| `PATCH` | `/api/crm/leads/{lead_id}/stage` | Update lead pipeline stage |
+| `DELETE` | `/api/crm/leads/{lead_id}` | Remove lead from system |
+| `GET` | `/api/crm/pipeline` | Fetch 5-stage Kanban pipeline grouped by stage |
+| `PATCH` | `/api/crm/deals/{deal_id}/stage` | Update deal stage position |
+
+### ML Engine (`/api/ml`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/ml/score` | Compute Random Forest intent score |
+| `POST` | `/api/ml/score-lead` | Score a specific lead by features |
+| `POST` | `/api/ml/similar-deals` | Calculate Cosine Similarity vs Closed Won deals |
+| `GET` | `/api/ml/similar-deals/{lead_id}` | Get similar deals for a specific lead |
+| `GET` | `/api/ml/recommendation/{lead_id}` | Get prescriptive next-action recommendation |
+| `GET` | `/api/ml/metrics` | Fetch model accuracy & feature importances |
+
+### AI Outreach (`/api/outreach`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/outreach/generate-email` | NVIDIA NIM cold email generator |
+| `POST` | `/api/outreach/generate-followup` | 48h follow-up cadence generator |
+| `POST` | `/api/outreach/generate-linkedin` | Executive LinkedIn InMail generator |
+| `POST` | `/api/outreach/generate-outreach` | Unified outreach endpoint |
+| `GET` | `/api/outreach/strategy/{lead_id}` | Industry-specific outreach strategy |
+
+### Meeting Intelligence (`/api/meetings`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/meetings/upload-audio` | Upload audio → Whisper STT + sentiment + action items |
+| `POST` | `/api/meetings/transcribe-only` | Audio file → raw transcription only |
+| `POST` | `/api/meetings/transcribe-local` | Transcribe from local file path |
+| `POST` | `/api/meetings/process-transcript` | Process existing transcript text for NLP analysis |
+| `GET` | `/api/meetings/` | List all meeting records |
+| `GET` | `/api/meetings/summary` | Get meeting summary statistics |
+| `DELETE` | `/api/meetings/{meeting_id}` | Delete a meeting record |
+
+### Dashboard (`/api/dashboard`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/dashboard/kpis` | Fetch 6-Card KPI metrics (period filtering) |
+| `GET` | `/api/dashboard/funnel` | Pipeline funnel stage aggregations |
+| `GET` | `/api/dashboard/followup-priorities` | AI follow-up urgency rankings |
+| `GET` | `/api/dashboard/activity` | Recent activity feed |
+| `GET` | `/api/dashboard/automation-status` | Background automation status |
+| `POST` | `/api/dashboard/automation/trigger-followup` | Trigger follow-up email digest |
+| `GET` | `/api/dashboard/ml-metrics` | Live ML model performance metrics |
+
+### Automation (`/api/automation`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/automation/send-followup-digest` | Send batch follow-up email digest |
+| `GET` | `/api/automation/status` | Automation scheduler status |
 
 ---
 
 ## 🧪 Automated Testing & Quality Assurance
 
-The platform includes a comprehensive 22-test automated unit test suite in `backend/tests/test_engine.py` verifying all scoring boundaries, similarity computations, and recommendation thresholds:
+The platform includes a 22-test automated unit test suite validating all ML scoring boundaries, similarity computations, authentication flows, and recommendation thresholds:
 
 ```bash
-# Run test suite from repository root
 pytest backend/tests/test_engine.py -v
 ```
 
@@ -275,7 +397,7 @@ backend/tests/test_engine.py::test_sentiment_analysis_positive PASSED     [ 63%]
 backend/tests/test_engine.py::test_sentiment_analysis_negative PASSED     [ 68%]
 backend/tests/test_engine.py::test_sentiment_analysis_neutral PASSED      [ 72%]
 backend/tests/test_engine.py::test_jwt_token_generation_and_decode PASSED [ 77%]
-backend/tests/test_engine.py::test_password_hashing_verification PASSED    [ 81%]
+backend/tests/test_engine.py::test_password_hashing_verification PASSED   [ 81%]
 backend/tests/test_engine.py::test_database_schema_integrity PASSED       [ 86%]
 backend/tests/test_engine.py::test_nim_fallback_generator PASSED          [ 90%]
 backend/tests/test_engine.py::test_pydantic_schema_validation PASSED      [ 95%]
@@ -286,98 +408,124 @@ backend/tests/test_engine.py::test_full_pipeline_sync PASSED              [100%]
 
 ---
 
-## 📽️ PowerPoint Presentation Deck (B2B SaaS Domain)
+## 🔧 Environment Variables
 
-A full 12-slide Widescreen PowerPoint Presentation & **Interactive Animated Web Deck** are included in the repository:
+### Backend (`.env`)
 
-- 🌐 **Interactive Animated Web Presentation:** [`presentation.html`](presentation.html) *(Collective OS luxury design, 3D animated transitions, speaker notes, live ML simulation widgets)*
-- 📄 **PowerPoint Presentation File:** [`SalesGenie_AI_Final_Presentation.pptx`](SalesGenie_AI_Final_Presentation.pptx)
-- 📝 **Slide Transcript & Speech Notes:** [`salesgenie_ppt_presentation_deck.md`](salesgenie_ppt_presentation_deck.md)
-- 🛠️ **Generator Script:** `python3 generate_presentation.py`
+```env
+PORT=8000
+NVIDIA_API_KEY=nvapi-...           # Optional — enables NIM LLM outreach (falls back to deterministic engine)
+WHISPER_MODEL_NAME=base            # Options: tiny, base, small, medium, large-v3
+JWT_SECRET=your-secret-key
+```
 
-### 12-Slide SaaS Structure:
-1. **Slide 1: Title** – Project title, presenter details, and core stack summary (B2B SaaS Domain).
-2. **Slide 2: Project Introduction** – The B2B SaaS Sales Intelligence Revolution.
-3. **Slide 3: Problem Statement** – 4 core bottlenecks in B2B SaaS sales (trial qualification, generic outreach, lost demo insights, follow-up delays).
-4. **Slide 4: Project Overview** – Autonomous B2B SaaS Revenue Solution & 4 pillars.
-5. **Slide 5: System Architecture** – 4-tier architectural flow diagram for B2B SaaS.
-6. **Slide 6: Tech Stack** – Modern frameworks, ML algorithms, and LLM microservices for SaaS.
-7. **Slide 7: Core Modules** – All 6 project modules combined on one structured slide.
-8. **Slide 8: Output Screenshots** – 5 live Light Mode SaaS application screenshots.
-9. **Slide 9: Advantages & Challenges** – Key SaaS benefits vs. engineering mitigations on one slide.
-10. **Slide 10: Project Impact** – Real-world SaaS business value for SDRs/AEs, RevOps, and C-Suite.
-11. **Slide 11: Conclusion** – Delivery milestone checkmarks and project achievements in SaaS.
-12. **Slide 12: Thank You** – Closing slide open for Q&A with live demonstration links.
+### Frontend (`.env` or Vercel)
+
+```env
+VITE_API_URL=http://localhost:8000  # Local dev
+# VITE_API_URL=https://your-backend.onrender.com  # Production
+```
 
 ---
 
-## 📁 Repository Directory Layout
+## 📽️ Presentation Deck
+
+A full 12-slide Widescreen PowerPoint & Interactive Animated Web Deck are included:
+
+| Asset | File |
+| :--- | :--- |
+| 🌐 Interactive Web Presentation | [`presentation.html`](presentation.html) |
+| 📄 PowerPoint File | [`SalesGenie_AI_Final_Presentation.pptx`](SalesGenie_AI_Final_Presentation.pptx) |
+| 🛠️ Generator Script | `python3 generate_presentation.py` |
+
+**Slide Structure:** Title → Introduction → Problem Statement → Project Overview → Architecture → Tech Stack → Core Modules → Screenshots → Advantages & Challenges → Impact → Conclusion → Thank You / Q&A.
+
+---
+
+## 📁 Repository Structure
 
 ```
 salesgenie/
-├── .gitignore                           # Excludes dependencies, pycache, and logs
-├── README.md                            # Comprehensive platform documentation (SaaS Domain)
-├── SalesGenie_AI_Final_Presentation.pptx# 12-slide Light Theme PowerPoint Presentation (SaaS)
-├── capture_screenshots.js               # Puppeteer script for 2x Retina Light Mode screenshots
-├── generate_presentation.py             # Python-PPTX widescreen presentation generator
-├── start.sh                             # Unified one-click startup bash script
-├── screenshots/                         # Live application screenshots
-│   ├── dashboard_overview.png
-│   ├── lead_intelligence.png
-│   ├── deal_pipeline.png
-│   ├── ai_outreach.png
-│   └── meeting_intelligence.png
+├── Dockerfile                        # Root-level Docker build (for Render with empty Root Dir)
+├── render.yaml                       # Render Infrastructure-as-Code blueprint
+├── start.sh                          # One-click local startup script
+├── README.md                         # This file
+├── DESIGN.md                         # Design system documentation
+├── PRODUCT.md                        # Product specification
+│
 ├── backend/
-│   ├── auth.py                          # PBKDF2 hashing & PyJWT token utilities
-│   ├── database.py                      # SQLite WAL schema & 60+ B2B SaaS seed records
-│   ├── main.py                          # FastAPI ASGI application & middleware
-│   ├── requirements.txt                 # Backend Python dependencies
+│   ├── Dockerfile                    # Backend Docker build (for Render with Root Dir = backend)
+│   ├── requirements.txt              # Python dependencies
+│   ├── main.py                       # FastAPI ASGI app, CORS, router registration
+│   ├── auth.py                       # PBKDF2 hashing & PyJWT token utilities
+│   ├── database.py                   # SQLite WAL schema, indexes & 60+ SaaS seed records
+│   ├── scheduler.py                  # APScheduler background automation tasks
 │   ├── ml/
-│   │   ├── engine.py                    # RandomForest & TF-IDF Cosine Similarity engine
-│   │   ├── salesgenie_rf_model.pkl      # Serialized 100-tree Random Forest model
-│   │   └── similar_deals.pkl            # Vector similarity benchmark matrix
+│   │   └── engine.py                 # RandomForest scorer & TF-IDF Cosine Similarity engine
 │   ├── models/
-│   │   └── schemas.py                   # Pydantic v2 validation models
+│   │   └── schemas.py                # Pydantic v2 request/response models
 │   ├── routers/
-│   │   ├── auth.py                      # /api/auth endpoints
-│   │   ├── crm.py                       # /api/crm endpoints
-│   │   ├── dashboard.py                 # /api/dashboard Milestone 4 KPI endpoints
-│   │   ├── meetings.py                  # /api/meetings call intelligence endpoints
-│   │   ├── ml.py                        # /api/ml scoring endpoints
-│   │   └── outreach.py                  # /api/outreach NVIDIA NIM generation endpoints
+│   │   ├── auth.py                   # /api/auth — register, login, profile
+│   │   ├── crm.py                    # /api/crm — leads CRUD & pipeline
+│   │   ├── dashboard.py              # /api/dashboard — KPIs, funnel, follow-up priorities
+│   │   ├── ml.py                     # /api/ml — scoring, similarity, recommendations
+│   │   ├── outreach.py               # /api/outreach — NVIDIA NIM email/InMail generation
+│   │   ├── meetings.py               # /api/meetings — Whisper STT, sentiment, summaries
+│   │   └── automation.py             # /api/automation — scheduled email digest tasks
 │   ├── services/
-│   │   └── nim_client.py                # Async NVIDIA NIM Llama 3.1 70B client & fallback
+│   │   ├── nim_client.py             # Async NVIDIA NIM Llama 3.1 70B client & fallback
+│   │   └── whisper_service.py        # Faster-Whisper singleton, FFmpeg converter, VAD
 │   └── tests/
-│       └── test_engine.py               # 22-test automated unit test suite
-└── frontend/
-    ├── index.html                       # HTML5 entry point
-    ├── vite.config.js                   # Vite configuration
-    ├── package.json                     # Frontend dependencies
-    └── src/
-        ├── App.jsx                      # Main router & layout provider
-        ├── index.css                    # TailAdmin theme styling & design tokens
-        ├── api/
-        │   └── client.js                # Axios HTTP client with Bearer auth interceptor
-        ├── context/
-        │   ├── AuthContext.jsx          # JWT authentication state management
-        │   └── ThemeContext.jsx         # Light / Dark theme context provider
-        ├── components/
-        │   ├── Navbar.jsx               # Navigation bar with theme toggle & user profile
-        │   └── Sidebar.jsx              # Navigation menu with real-time indicators
-        └── pages/
-            ├── Dashboard.jsx            # Executive KPI suite & Recharts trends
-            ├── LeadIntelligence.jsx     # B2B SaaS Lead Directory & ML intent scores
-            ├── DealPipeline.jsx         # 5-Stage Kanban board
-            ├── AIOutreach.jsx           # NVIDIA NIM email, cadence & InMail generator
-            ├── MeetingIntelligence.jsx  # Audio upload, live recording & NLP sentiment
-            ├── AuthPage.jsx             # 1-Click Instant Demo Login screen
-            └── Settings.jsx             # ML hyperparameters & database status
+│       └── test_engine.py            # 22-test automated unit test suite
+│
+├── frontend/
+│   ├── vercel.json                   # Vercel SPA routing rewrites
+│   ├── index.html                    # HTML5 entry point
+│   ├── vite.config.js                # Vite build configuration
+│   ├── package.json                  # Frontend dependencies (React 19, Vite 8, etc.)
+│   └── src/
+│       ├── App.jsx                   # Main router & layout provider
+│       ├── index.css                 # Design system tokens & global styling
+│       ├── api/
+│       │   └── client.js             # Axios HTTP client with JWT Bearer interceptor
+│       ├── context/
+│       │   ├── AuthContext.jsx        # JWT authentication state management
+│       │   └── ThemeContext.jsx        # Light / Dark theme context provider
+│       ├── components/
+│       │   ├── Navbar.jsx             # Navigation bar with theme toggle & user profile
+│       │   ├── Sidebar.jsx            # Navigation menu with real-time status indicators
+│       │   ├── SalesGenieLogo.jsx      # SVG brand lockup with animated pulse glow
+│       │   └── TextToSpeechPlayer.jsx  # Audio playback component for TTS
+│       └── pages/
+│           ├── AuthPage.jsx           # 3D ASCII Torus Knot login with 1-Click Demo
+│           ├── Dashboard.jsx          # Executive KPI suite & Recharts visualizations
+│           ├── LeadIntelligence.jsx    # Lead directory with ML intent scores
+│           ├── DealPipeline.jsx       # 5-Stage drag-and-drop Kanban board
+│           ├── AIOutreach.jsx         # NVIDIA NIM email, cadence & InMail generator
+│           ├── MeetingIntelligence.jsx # Whisper STT, live recording & NLP sentiment
+│           └── Settings.jsx           # ML hyperparameters & system configuration
+│
+└── screenshots/                       # Application screenshots for README
+    ├── dashboard_overview.png
+    ├── lead_intelligence.png
+    ├── deal_pipeline.png
+    ├── ai_outreach.png
+    ├── meeting_intelligence.png
+    └── dashboard.png
 ```
 
 ---
 
-## 📄 License & Contributing
+## 📄 License
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
+Distributed under the **MIT License**. See `LICENSE` for details.
 
-Developed with ❤️ by the **SaaS SalesGenie AI Engineering Team**.
+---
+
+<div align="center">
+
+**Built with ❤️ by the SaaS AI Powered Sales Intelligence Forecasting Team**
+
+*Autonomous CRM agents that close, forecast, and scale.*
+
+</div>
