@@ -43,20 +43,39 @@ The platform unifies four critical revenue operations pillars:
 
 <div align="center">
 
-| Executive SaaS KPI Dashboard | ML Lead Intelligence & Scoring |
-| :---: | :---: |
-| ![Dashboard Overview](screenshots/dashboard_overview.png) | ![Lead Intelligence](screenshots/lead_intelligence.png) |
-| *6-Card KPI Suite, Active Pipeline ARR ($1.86M+), AI Follow-up Urgency* | *120-Tree Random Forest intent scores & SaaS contract benchmarking* |
+### 🔐 3D ASCII Torus Knot Authentication Gateway
+![Auth Page](screenshots/auth_page.png)
+*Enterprise Compute Terminal Login with 1-Click Instant Demo Authentication & Animated 3D Geometry*
 
-| 5-Stage Kanban Deal Pipeline | Agentic AI Outreach (NVIDIA NIM) |
-| :---: | :---: |
-| ![Deal Pipeline](screenshots/deal_pipeline.png) | ![AI Outreach](screenshots/ai_outreach.png) |
-| *$1.86M active pipeline visualization & stage progression* | *Llama 3.1 70B cold emails, follow-up cadences & LinkedIn InMails* |
+<br/>
 
-| Call & Demo Intelligence | Light/Dark Theme System |
+### 📊 Executive SaaS KPI Dashboard & Analytics
+| 🌙 Dark Mode (Default) | ☀️ Light Mode |
 | :---: | :---: |
-| ![Meeting Intelligence](screenshots/meeting_intelligence.png) | ![Light Theme](screenshots/dashboard.png) |
-| *Faster-Whisper STT, live mic recording, NLP sentiment & action items* | *High-fidelity design system with full Light & Dark mode support* |
+| ![Dashboard Overview Dark](screenshots/dashboard_overview.png) | ![Dashboard Overview Light](screenshots/dashboard_light.png) |
+| *Active Pipeline ARR ($1.86M+), Win Rates & Priority Triage* | *Seamless Light Mode with Dynamic Contrast Adaptation* |
+
+<br/>
+
+### 🎯 Supervised ML Lead Scoring & 5-Stage Kanban Pipeline
+| 🧠 ML Lead Intelligence | 📋 5-Stage Kanban Deal Pipeline |
+| :---: | :---: |
+| ![Lead Intelligence](screenshots/lead_intelligence.png) | ![Deal Pipeline](screenshots/deal_pipeline.png) |
+| *120-Tree Random Forest Scoring & TF-IDF Deal Matching* | *@dnd-kit Drag-and-Drop Stage Transitions ($1.86M ARR)* |
+
+<br/>
+
+### 🤖 Generative AI Outreach & Call Intelligence
+| ⚡ Agentic NVIDIA NIM Outreach | 🎙️ Faster-Whisper Call Intelligence |
+| :---: | :---: |
+| ![AI Outreach](screenshots/ai_outreach.png) | ![Meeting Intelligence](screenshots/meeting_intelligence.png) |
+| *Llama 3.1 70B Cold Emails, Cadences & InMails* | *INT8 STT Transcription, Mic Capture & Action Item NLP* |
+
+<br/>
+
+### ⚙️ System Settings & Model Hyperparameters
+![Settings View](screenshots/settings_view.png)
+*Machine Learning Feature Weights, NVIDIA NIM API Status & Faster-Whisper Engine Configurations*
 
 </div>
 
@@ -506,12 +525,16 @@ salesgenie/
 │           └── Settings.jsx           # ML hyperparameters & system configuration
 │
 └── screenshots/                       # Application screenshots for README
-    ├── dashboard_overview.png
-    ├── lead_intelligence.png
-    ├── deal_pipeline.png
-    ├── ai_outreach.png
-    ├── meeting_intelligence.png
-    └── dashboard.png
+    ├── auth_page.png                 # 3D Torus login screen
+    ├── dashboard_overview.png        # Executive KPI dashboard (Dark)
+    ├── dashboard_light.png           # Executive KPI dashboard (Light)
+    ├── lead_intelligence.png         # ML lead scoring table
+    ├── leads_light.png               # ML lead scoring table (Light)
+    ├── deal_pipeline.png             # 5-Stage Kanban board
+    ├── pipeline_light.png            # 5-Stage Kanban board (Light)
+    ├── ai_outreach.png               # NVIDIA NIM email generator
+    ├── meeting_intelligence.png      # Faster-Whisper STT interface
+    └── settings_view.png             # System & ML settings
 ```
 
 ---
