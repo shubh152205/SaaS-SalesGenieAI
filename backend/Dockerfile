@@ -10,15 +10,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Copy requirements FIRST (Docker layer cache optimization)
-# Path is relative to repo root since Render uses repo root as Docker context
-COPY backend/requirements.txt ./requirements.txt
+# Render sets build context to the Root Directory (backend/), so paths are relative to backend/
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download and cache Whisper base model to prevent cold-start delays
 RUN python3 -c "from faster_whisper import WhisperModel; WhisperModel('base', device='cpu', compute_type='int8')"
 
-# Copy entire backend source code
-COPY backend/ .
+# Copy all backend source code
+COPY . .
 
 # Ensure uploads directory exists
 RUN mkdir -p uploads
