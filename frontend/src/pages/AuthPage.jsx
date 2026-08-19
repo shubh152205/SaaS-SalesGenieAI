@@ -436,6 +436,21 @@ const AuthPage = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span
+            style={{
+              fontSize: '0.65rem',
+              background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
+              color: '#ffffff',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              fontWeight: 800,
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: '0.05em',
+              marginTop: '2px'
+            }}
+          >
+            SaaS
+          </span>
+          <span
             className="font-display"
             style={{
               fontSize: '1.65rem',
@@ -1131,7 +1146,7 @@ const AuthPage = () => {
         }}
       >
         <div>
-          © 2026 AI Powered Sales Intelligence Forecasting Inc. All rights reserved.
+          © 2026 SaaS AI Powered Sales Intelligence Forecasting Inc. All rights reserved.
         </div>
         <div style={{ display: 'flex', gap: '20px' }}>
           <span>LATENCY: 42MS</span>

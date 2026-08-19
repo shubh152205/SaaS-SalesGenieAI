@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# Install system dependencies (ffmpeg is required for Whisper STT audio conversion)
+# Install system dependencies (ffmpeg required for Whisper STT audio conversion)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     curl \
@@ -9,17 +9,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy requirements and install python packages
-COPY requirements.txt .
+# Copy requirements FIRST (Docker layer cache optimization)
+# Path is relative to repo root since Render uses repo root as Docker context
+COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download and cache Whisper base model to prevent cold-start delays
 RUN python3 -c "from faster_whisper import WhisperModel; WhisperModel('base', device='cpu', compute_type='int8')"
 
-# Copy backend codebase
-COPY . .
+# Copy entire backend source code
+COPY backend/ .
 
-# Ensure upload directory exists
+# Ensure uploads directory exists
 RUN mkdir -p uploads
 
 ENV PORT=8000

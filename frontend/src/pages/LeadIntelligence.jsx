@@ -88,7 +88,7 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="Lead Intelligence & Intent Scoring"
-        subtitle="AI Powered Sales Intelligence Forecasting — 120-Tree Random Forest Prediction & Cosine Vector Similarity Matching"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — 120-Tree Random Forest Prediction & Cosine Vector Similarity Matching"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />

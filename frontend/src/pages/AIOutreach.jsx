@@ -90,7 +90,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
         temperature: temperature
       });
 
-      const generatedSubject = res.data.subject || `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue with AI Powered Sales Intelligence Forecasting`;
+      const generatedSubject = res.data.subject || `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue with SaaS AI Powered Sales Intelligence Forecasting`;
       const generatedBody = res.data.body || res.data.content || '';
       setSubject(generatedSubject);
       startTypewriter(generatedBody);
@@ -99,7 +99,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
       // Enterprise Fallback response
       const selectedLead = leads.find((l) => l.id === parseInt(selectedLeadId)) || leads[0];
       const fallbackSubject = `Scaling ${selectedLead?.company_name || 'Enterprise'} Revenue Operations in Q3`;
-      const fallbackBody = `Hi ${selectedLead?.contact_name || 'Decision Maker'},\n\nI noticed ${selectedLead?.company_name || 'your team'} is scaling your ${selectedLead?.industry || 'B2B'} infrastructure following your recent milestones.\n\nWith AI Powered Sales Intelligence Forecasting, we've helped similar high-growth teams achieve 28.4% faster conversion velocity using our autonomous lead scoring and cold outreach engine powered by ${model}.\n\nWould you be open to a 10-minute briefing this Thursday to review our benchmark analysis for ${selectedLead?.company_name || 'your company'}?\n\nBest regards,\nAI Powered Sales Intelligence Forecasting Team`;
+      const fallbackBody = `Hi ${selectedLead?.contact_name || 'Decision Maker'},\n\nI noticed ${selectedLead?.company_name || 'your team'} is scaling your ${selectedLead?.industry || 'B2B'} infrastructure following your recent milestones.\n\nWith SaaS AI Powered Sales Intelligence Forecasting, we've helped similar high-growth teams achieve 28.4% faster conversion velocity using our autonomous lead scoring and cold outreach engine powered by ${model}.\n\nWould you be open to a 10-minute briefing this Thursday to review our benchmark analysis for ${selectedLead?.company_name || 'your company'}?\n\nBest regards,\nAI Powered Sales Intelligence Forecasting Team`;
       setSubject(fallbackSubject);
       startTypewriter(fallbackBody);
     } finally {
@@ -118,7 +118,7 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="AI Outreach Generation Engine"
-        subtitle="AI Powered Sales Intelligence Forecasting — NVIDIA NIM (Llama 3.1 70B & 3.3 70B) Hyper-Personalized Pitch Synthesis"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — NVIDIA NIM (Llama 3.1 70B & 3.3 70B) Hyper-Personalized Pitch Synthesis"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />

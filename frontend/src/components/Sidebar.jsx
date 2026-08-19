@@ -137,7 +137,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   letterSpacing: '-0.02em',
                   lineHeight: 1.2
                 }}>
-                  Sales Intelligence <span style={{ color: 'var(--accent)', fontSize: '0.78rem' }}>Forecasting</span>
+                  SaaS Sales Intelligence <span style={{ color: 'var(--accent)', fontSize: '0.78rem' }}>Forecasting</span>
                 </span>
                 <span style={{
                   fontSize: '0.62rem',
@@ -146,7 +146,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   letterSpacing: '0.04em',
                   textTransform: 'uppercase'
                 }}>
-                  AI Powered Revenue Ops
+                  SaaS AI Powered Revenue Ops
                 </span>
               </div>
             )}

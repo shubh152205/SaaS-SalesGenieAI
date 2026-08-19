@@ -418,7 +418,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="Call Intelligence & Meeting Analytics"
-        subtitle="SaaS-SalesGenie AI Speech-to-Text, Sentiment Polarity & Autonomous Action Item Extraction"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — Faster-Whisper STT, Sentiment Polarity & Autonomous Action Item Extraction"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />

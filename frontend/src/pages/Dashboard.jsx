@@ -210,7 +210,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: 'var(--background)' }}>
       <Navbar
         title="Overview"
-        subtitle="SalesOps Real-Time Revenue Intelligence"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — Real-Time Revenue Intelligence"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />

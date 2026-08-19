@@ -23,7 +23,7 @@ const Settings = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="Settings & Model Configurations"
-        subtitle="SaaS-SalesGenie AI System Parameters, NVIDIA NIM Orchestration & Security Credentials"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — System Parameters, NVIDIA NIM Orchestration & Security Credentials"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />
@@ -48,7 +48,7 @@ const Settings = ({ collapsed, setCollapsed }) => {
             </div>
             <div>
               <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
-                SaaS-SalesGenie AI Workspace Infrastructure
+                SaaS AI Powered Sales Intelligence Forecasting — Workspace Infrastructure
               </h2>
               <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
                 Active Production Cluster: NVIDIA NIM Llama 3.1 70B • 120-Tree Random Forest • SQLite WAL

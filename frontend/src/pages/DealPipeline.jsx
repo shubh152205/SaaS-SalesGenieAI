@@ -131,7 +131,7 @@ const DealPipeline = ({ collapsed, setCollapsed }) => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Navbar
         title="Deal Pipeline & Opportunity Kanban"
-        subtitle="AI Powered Sales Intelligence Forecasting — Autonomous Opportunity Routing & Multi-Stage Kanban"
+        subtitle="SaaS AI Powered Sales Intelligence Forecasting — Autonomous Opportunity Routing & Multi-Stage Kanban"
         collapsed={collapsed}
         setCollapsed={setCollapsed}
       />

@@ -160,6 +160,18 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
         }}>
           <span style={{
             fontSize: size > 44 ? '0.72rem' : '0.65rem',
+            background: 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)',
+            color: '#ffffff',
+            padding: '2px 7px',
+            borderRadius: '5px',
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            boxShadow: '0 2px 8px rgba(14, 165, 233, 0.35)'
+          }}>
+            SaaS
+          </span>
+          <span style={{
+            fontSize: size > 44 ? '0.72rem' : '0.65rem',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#ffffff',
             padding: '2px 7px',
@@ -204,7 +216,7 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             gap: '5px'
           }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brand-400)', display: 'inline-block' }} />
-            AI Powered Predictive Revenue Ops
+            SaaS AI Powered Predictive Revenue Ops
           </div>
         )}
       </div>
