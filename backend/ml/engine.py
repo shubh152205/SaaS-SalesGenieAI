@@ -77,8 +77,9 @@ class LeadScorer:
         feature_cols = ["email_opens", "website_visits", "demo_requested",
                         "size_enc", "industry_enc", "funding_enc", "days_since_contact"]
         X = df[feature_cols].fillna(0)
-        y = df["converted"]
+        y = np.asarray(df["converted"], dtype=np.int64)
 
+        self.model = RandomForestClassifier(n_estimators=100, random_state=42)
         self.model.fit(X, y)
         self.is_trained = True
 

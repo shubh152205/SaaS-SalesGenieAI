@@ -146,71 +146,71 @@ def seed_data():
 
     # 60+ Global Verified Real-World B2B SaaS & Tech Leaders
     leads = [
-        # ── US & Global Enterprise B2B SaaS Giants ──
+        # ── US & Global Enterprise B2B SaaS Giants (Closed Won & Active) ──
         ("Stripe Billing & Connect", "Patrick Collison", "CEO & Co-Founder", "patrick@stripe.com", "+1-415-555-0101",
          "Software / B2B SaaS", "Enterprise", "$14B ARR", "South San Francisco, CA", "USA", "Series H / Pre-IPO",
          json.dumps(["Ruby", "Go", "Java", "AWS", "Kafka", "PostgreSQL", "Snowflake"]),
-         36, 52, 1, "2026-08-05", "Negotiation", 450000, "Won", 99.2, "🔥 Hot Lead", "Deploying global sales automation across North America and EMEA sales teams."),
+         36, 52, 1, "2026-08-05", "Closed Won", 450000, "Won", 99.2, "🔥 Hot Lead", "Deploying global sales automation across North America and EMEA sales teams."),
 
         ("Datadog Cloud Monitoring", "Olivier Pomel", "CEO & Co-Founder", "o.pomel@datadog.com", "+1-212-555-0102",
          "Cloud Infrastructure", "Enterprise", "$2.1B ARR", "New York, NY", "USA", "Public",
          json.dumps(["Go", "Python", "Kubernetes", "Kafka", "AWS", "GCP", "PostgreSQL"]),
-         32, 48, 1, "2026-08-04", "Negotiation", 320000, "Won", 98.6, "🔥 Hot Lead", "Enterprise sales engineering team evaluating real-time meeting intelligence."),
+         32, 48, 1, "2026-08-04", "Closed Won", 320000, "Won", 98.6, "🔥 Hot Lead", "Enterprise sales engineering team evaluating real-time meeting intelligence."),
 
         ("Snowflake Data Cloud", "Sridhar Ramaswamy", "CEO", "sridhar.r@snowflake.com", "+1-406-555-0103",
          "Cloud Infrastructure", "Enterprise", "$2.8B ARR", "Bozeman, MT", "USA", "Public",
          json.dumps(["C++", "Java", "Python", "AWS", "Azure", "GCP", "Snowflake"]),
-         29, 44, 1, "2026-08-03", "Proposal", 380000, "Won", 97.8, "🔥 Hot Lead", "Integrating sales pipeline telemetry directly with native Snowflake data sharing."),
+         29, 44, 1, "2026-08-03", "Closed Won", 380000, "Won", 97.8, "🔥 Hot Lead", "Integrating sales pipeline telemetry directly with native Snowflake data sharing."),
 
         ("Canva Enterprise", "Cameron Adams", "Chief Product Officer", "cameron@canva.com", "+61-2-5550-0104",
          "Software / B2B SaaS", "Enterprise", "$2.3B ARR", "Sydney", "Australia", "Series G",
          json.dumps(["TypeScript", "React", "Node.js", "Java", "AWS", "Kubernetes"]),
-         28, 39, 1, "2026-08-02", "Proposal", 220000, "Won", 96.5, "🔥 Hot Lead", "Scaling B2B enterprise workspace licenses to 5,000+ Fortune 500 corporate accounts."),
+         28, 39, 1, "2026-08-02", "Closed Won", 220000, "Won", 96.5, "🔥 Hot Lead", "Scaling B2B enterprise workspace licenses to 5,000+ Fortune 500 corporate accounts."),
 
         ("Figma Collaborative Design", "Dylan Field", "CEO & Co-Founder", "dylan@figma.com", "+1-415-555-0105",
          "Software / B2B SaaS", "Enterprise", "$700M ARR", "San Francisco, CA", "USA", "Series E",
          json.dumps(["TypeScript", "Rust", "WebAssembly", "React", "AWS", "C++"]),
-         26, 38, 1, "2026-08-01", "Negotiation", 275000, "Won", 97.0, "🔥 Hot Lead", "Rolling out automated outbound cadences for enterprise design systems."),
+         26, 38, 1, "2026-08-01", "Closed Won", 275000, "Won", 97.0, "🔥 Hot Lead", "Rolling out automated outbound cadences for enterprise design systems."),
 
         ("HubSpot CRM Platform", "Yamini Rangan", "CEO", "yamini@hubspot.com", "+1-617-555-0106",
          "Software / B2B SaaS", "Enterprise", "$2.2B ARR", "Cambridge, MA", "USA", "Public",
          json.dumps(["Java", "Python", "React", "Kafka", "AWS", "PostgreSQL"]),
-         31, 46, 1, "2026-07-29", "Proposal", 290000, "Won", 98.0, "🔥 Hot Lead", "Evaluating bidirectional sync between SalesGenie scoring and HubSpot CRM."),
+         31, 46, 1, "2026-07-29", "Closed Won", 290000, "Won", 98.0, "🔥 Hot Lead", "Evaluating bidirectional sync between SalesGenie scoring and HubSpot CRM."),
 
         ("Cloudflare Security & Edge", "Matthew Prince", "CEO & Co-Founder", "m.prince@cloudflare.com", "+1-415-555-0107",
          "Cybersecurity SaaS", "Enterprise", "$1.4B ARR", "San Francisco, CA", "USA", "Public",
          json.dumps(["Rust", "Go", "C++", "Lua", "BGP", "Kubernetes"]),
-         34, 49, 1, "2026-07-28", "Negotiation", 310000, "Won", 98.4, "🔥 Hot Lead", "CISO approved security review for SalesGenie AI zero-retention meeting notes."),
+         34, 49, 1, "2026-07-28", "Closed Won", 310000, "Won", 98.4, "🔥 Hot Lead", "CISO approved security review for SalesGenie AI zero-retention meeting notes."),
 
         ("MongoDB Enterprise Advanced", "Dev Ittycheria", "President & CEO", "dev@mongodb.com", "+1-212-555-0108",
          "Cloud Infrastructure", "Enterprise", "$1.7B ARR", "New York, NY", "USA", "Public",
          json.dumps(["C++", "Go", "Python", "Kubernetes", "AWS", "MongoDB"]),
-         27, 41, 1, "2026-07-27", "Proposal", 260000, "Won", 96.2, "🔥 Hot Lead", "Deploying predictive intent model to prioritize high-value database migration deals."),
+         27, 41, 1, "2026-07-27", "Closed Won", 260000, "Won", 96.2, "🔥 Hot Lead", "Deploying predictive intent model to prioritize high-value database migration deals."),
 
         ("Twilio Communications", "Khozema Shipchandler", "CEO", "khozema@twilio.com", "+1-415-555-0109",
          "Software / B2B SaaS", "Enterprise", "$4.1B ARR", "San Francisco, CA", "USA", "Public",
          json.dumps(["Java", "Python", "Scala", "AWS", "Kafka", "Redis"]),
-         30, 43, 1, "2026-07-26", "Proposal", 280000, "Won", 97.4, "🔥 Hot Lead", "Connecting AI audio processing engine to Twilio Voice SIP trunking."),
+         30, 43, 1, "2026-07-26", "Closed Won", 280000, "Won", 97.4, "🔥 Hot Lead", "Connecting AI audio processing engine to Twilio Voice SIP trunking."),
 
         ("Elastic Search & Observability", "Ash Kulkarni", "CEO", "ash@elastic.co", "+1-650-555-0110",
          "Artificial Intelligence", "Enterprise", "$1.2B ARR", "Mountain View, CA", "USA", "Public",
          json.dumps(["Java", "Scala", "Python", "Kubernetes", "GCP", "Elasticsearch"]),
-         25, 37, 1, "2026-07-25", "Proposal", 240000, "Won", 95.8, "🔥 Hot Lead", "Vector similarity deal matching against 100,000+ enterprise search opportunities."),
+         25, 37, 1, "2026-07-25", "Closed Won", 240000, "Won", 95.8, "🔥 Hot Lead", "Vector similarity deal matching against 100,000+ enterprise search opportunities."),
 
         ("GitLab DevSecOps", "Sid Sijbrandij", "CEO & Co-Founder", "sid@gitlab.com", "+1-415-555-0111",
          "Software / B2B SaaS", "Enterprise", "$580M ARR", "San Francisco, CA", "USA", "Public",
          json.dumps(["Ruby", "Go", "Vue.js", "PostgreSQL", "GCP", "Kubernetes"]),
-         24, 35, 1, "2026-07-24", "Proposal", 210000, "Won", 95.0, "🔥 Hot Lead", "Remote-first global sales team using AI outreach generation for enterprise deals."),
+         24, 35, 1, "2026-07-24", "Closed Won", 210000, "Won", 95.0, "🔥 Hot Lead", "Remote-first global sales team using AI outreach generation for enterprise deals."),
 
         ("SentinelOne Singularity", "Tomer Weingarten", "CEO & Co-Founder", "tomer@sentinelone.com", "+1-650-555-0112",
          "Cybersecurity SaaS", "Enterprise", "$620M ARR", "Mountain View, CA", "USA", "Public",
          json.dumps(["C++", "Python", "Rust", "Kafka", "AWS", "PostgreSQL"]),
-         29, 42, 1, "2026-07-23", "Negotiation", 265000, "Won", 96.8, "🔥 Hot Lead", "SOC2 compliance confirmed; integrating with enterprise threat intelligence pipelines."),
+         29, 42, 1, "2026-07-23", "Closed Won", 265000, "Won", 96.8, "🔥 Hot Lead", "SOC2 compliance confirmed; integrating with enterprise threat intelligence pipelines."),
 
         ("HashiCorp Cloud Platform", "Dave McJannet", "CEO", "dave@hashicorp.com", "+1-415-555-0113",
          "Cloud Infrastructure", "Enterprise", "$590M ARR", "San Francisco, CA", "USA", "Public",
          json.dumps(["Go", "Terraform", "Vault", "Consul", "AWS", "Azure"]),
-         27, 39, 1, "2026-07-22", "Proposal", 250000, "Won", 96.0, "🔥 Hot Lead", "Automating multi-cloud infrastructure sales cycles across 150 enterprise SDRs."),
+         27, 39, 1, "2026-07-22", "Closed Won", 250000, "Won", 96.0, "🔥 Hot Lead", "Automating multi-cloud infrastructure sales cycles across 150 enterprise SDRs."),
 
         # ── High-Growth Modern B2B SaaS Scale-Ups ──
         ("Vercel Cloud Platform", "Guillermo Rauch", "CEO & Founder", "rauchg@vercel.com", "+1-415-555-0114",
@@ -246,28 +246,28 @@ def seed_data():
         ("Redis Labs", "Rowan Trollope", "CEO", "rowan@redis.com", "+1-415-555-0120",
          "Data Infrastructure", "Enterprise", "$180M ARR", "Mountain View, CA", "USA", "Series G",
          json.dumps(["C", "Python", "Go", "Redis", "AWS", "Azure", "Kubernetes"]),
-         24, 35, 1, "2026-07-29", "Negotiation", 155000, "Won", 94.6, "🔥 Hot Lead", "Closed won. Used Cosine Vector Similar Deals against in-memory caching enterprise accounts."),
+         24, 35, 1, "2026-07-29", "Closed Won", 155000, "Won", 94.6, "🔥 Hot Lead", "Closed won. Used Cosine Vector Similar Deals against in-memory caching enterprise accounts."),
 
-        # ── Historical Closed Lost / Cold Leads for Training Contrast ──
+        # ── Inbound / Early Inquiries & Contrast Leads ──
         ("TinyApp Studio", "Tim Cookson", "Owner", "tim@tinyapp.io", "+1-555-0401",
          "Mobile Apps", "Small", "$400K ARR", "Portland, OR", "USA", "Seed",
          json.dumps(["Swift", "Kotlin", "Firebase"]),
-         1, 2, 0, "2026-04-01", "New Lead", 4000, "Lost", 18.0, "❄️ Cold Lead", "Budget too small. Requires self-serve tier ($49/mo)."),
+         1, 2, 0, "2026-08-05", "New Lead", 4000, "Lost", 18.0, "❄️ Cold Lead", "Budget too small. Requires self-serve tier ($49/mo)."),
 
         ("Legacy Forms Co", "Bob Miller", "Operations Manager", "bob@legacyforms.com", "+1-555-0402",
          "Media / Print", "Small", "$1.5M ARR", "Nashville, TN", "USA", "N/A",
          json.dumps(["WordPress", "PHP", "MySQL"]),
-         2, 3, 0, "2026-03-15", "New Lead", 6000, "Lost", 22.0, "❄️ Cold Lead", "No engineering team, no fit for B2B SaaS intelligence."),
+         2, 3, 0, "2026-08-03", "New Lead", 6000, "Lost", 22.0, "❄️ Cold Lead", "No engineering team, no fit for B2B SaaS intelligence."),
 
         ("SoloDev Platform", "Dave Wilson", "Sole Proprietor", "dave@solodev.co", "+1-555-0403",
          "Software", "Small", "$600K ARR", "Austin, TX", "USA", "Seed",
          json.dumps(["React", "Node.js"]),
-         2, 4, 0, "2026-05-20", "New Lead", 5000, "Lost", 24.5, "❄️ Cold Lead", "Not hiring SDRs or AEs at this time."),
+         2, 4, 0, "2026-07-28", "New Lead", 5000, "Lost", 24.5, "❄️ Cold Lead", "Not hiring SDRs or AEs at this time."),
         
         ("DefunctLabs", "Sam Altman Jr", "Ex-Founder", "sam@defunctlabs.com", "+1-555-0404",
          "Artificial Intelligence", "Small", "$800K ARR", "San Francisco, CA", "USA", "Seed",
          json.dumps(["Python", "FastAPI"]),
-         3, 4, 0, "2026-06-01", "New Lead", 8000, "Lost", 26.0, "❄️ Cold Lead", "Pivoting business model."),
+         3, 4, 0, "2026-08-04", "New Lead", 8000, "Lost", 26.0, "❄️ Cold Lead", "Pivoting business model."),
 
         # ── Additional Active B2B SaaS Accounts ──
         ("DevSecOps Solutions", "Suresh Raina", "VP Cloud Security", "suresh@devsecops.io", "+91-80-5550-0501",

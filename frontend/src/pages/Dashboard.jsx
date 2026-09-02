@@ -66,6 +66,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
   const [revenueTrend, setRevenueTrend] = useState([]);
   const [loading, setLoading] = useState(true);
   const [timeframe, setTimeframe] = useState('Monthly');
+  const [trendMode, setTrendMode] = useState('month'); // 'day' | 'month' | 'year'
   const [tableSearch, setTableSearch] = useState('');
   const [selectedRows, setSelectedRows] = useState({});
   const [triggeringAuto, setTriggeringAuto] = useState(false);
@@ -73,21 +74,21 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
 
-  const PERIOD_MAP = { 'Monthly': 'monthly', 'Quarterly': 'quarterly', 'Yearly': 'yearly' };
+  const PERIOD_MAP = { 'Monthly': 'monthly', 'Quarterly': 'quarterly', 'Yearly': 'yearly', 'Day': 'day', 'Month': 'month', 'Year': 'year' };
 
   const DEFAULT_REVENUE_TREND = [
-    { month: 'Jan', revenue: 186000, target: 180000 },
-    { month: 'Feb', revenue: 205000, target: 190000 },
-    { month: 'Mar', revenue: 237000, target: 200000 },
-    { month: 'Apr', revenue: 273000, target: 220000 },
-    { month: 'May', revenue: 290000, target: 240000 },
-    { month: 'Jun', revenue: 314000, target: 250000 },
-    { month: 'Jul', revenue: 352000, target: 270000 },
-    { month: 'Aug', revenue: 389000, target: 290000 },
-    { month: 'Sep', revenue: 421000, target: 310000 },
-    { month: 'Oct', revenue: 458000, target: 330000 },
-    { month: 'Nov', revenue: 492000, target: 350000 },
-    { month: 'Dec', revenue: 547000, target: 380000 },
+    { label: 'Jan', revenue: 186000, target: 180000, deals: 4 },
+    { label: 'Feb', revenue: 205000, target: 190000, deals: 5 },
+    { label: 'Mar', revenue: 237000, target: 200000, deals: 6 },
+    { label: 'Apr', revenue: 273000, target: 220000, deals: 7 },
+    { label: 'May', revenue: 290000, target: 240000, deals: 8 },
+    { label: 'Jun', revenue: 314000, target: 250000, deals: 9 },
+    { label: 'Jul', revenue: 2740000, target: 2500000, deals: 15 },
+    { label: 'Aug', revenue: 3020000, target: 2750000, deals: 19 },
+    { label: 'Sep', revenue: 3280000, target: 2900000, deals: 21 },
+    { label: 'Oct', revenue: 3540000, target: 3150000, deals: 23 },
+    { label: 'Nov', revenue: 3820000, target: 3400000, deals: 26 },
+    { label: 'Dec', revenue: 4250000, target: 3750000, deals: 30 },
   ];
 
   const DEFAULT_FUNNEL = [
@@ -105,7 +106,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
     fetchLeads();
     fetchFollowupPriorities();
     fetchActivityFeed();
-  }, [timeframe]);
+  }, [timeframe, trendMode]);
 
   useEffect(() => {
     if (toast) {
@@ -120,19 +121,30 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
       const period = PERIOD_MAP[timeframe] || 'monthly';
       const [kpiRes, funnelRes] = await Promise.all([
         api.get(`/api/dashboard/kpis?period=${period}`),
-        api.get(`/api/dashboard/funnel?period=${period}`),
+        api.get(`/api/dashboard/funnel?period=${trendMode}`),
       ]);
       setKpis(kpiRes.data);
       const funnel = funnelRes.data;
       setFunnelData(funnel.funnel || []);
       setIndustryData(funnel.industry_distribution || []);
-      const trend = (funnel.revenue_trend || []).map((t) => ({
-        month: t.month
-          ? new Date(`${t.month}-01`).toLocaleString('en-US', { month: 'short' })
-          : t.month,
-        revenue: t.revenue || 0,
-        target: Math.round((t.revenue || 0) * 0.9 + 20000),
-      }));
+      
+      const rawTrend = funnel.revenue_trend || [];
+      const trend = rawTrend.map((t) => {
+        let label = t.label || t.month || t.date || '';
+        if (t.month && !t.label) {
+          try {
+            label = new Date(`${t.month}-01`).toLocaleString('en-US', { month: 'short' });
+          } catch {
+            label = t.month;
+          }
+        }
+        return {
+          label: label || 'N/A',
+          revenue: t.revenue || 0,
+          target: t.target || Math.round((t.revenue || 0) * 0.9 + 20000),
+          deals: t.deals || 0
+        };
+      });
       setRevenueTrend(trend.length > 0 ? trend : DEFAULT_REVENUE_TREND);
     } catch (err) {
       console.warn('Dashboard fetch fallback', err);
@@ -386,20 +398,63 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
           
           {/* Revenue Trend Area Chart */}
           <div className="tail-card" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Revenue Trend</h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Monthly performance vs target</p>
+                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>
+                  {trendMode === 'day' ? 'Daily sales velocity & deal volume' : trendMode === 'year' ? 'Annual ARR trajectory & projections' : 'Monthly performance vs target'}
+                </p>
               </div>
               
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '0.75rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--chart-1)' }} />
-                  <span style={{ color: 'var(--muted-foreground)' }}>Revenue</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                {/* ── Day / Month / Year Interactive Toggle ── */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  backgroundColor: 'var(--secondary)',
+                  padding: '3px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border)'
+                }}>
+                  {[
+                    { key: 'day', label: 'Day' },
+                    { key: 'month', label: 'Month' },
+                    { key: 'year', label: 'Year' }
+                  ].map((mode) => {
+                    const active = trendMode === mode.key;
+                    return (
+                      <button
+                        key={mode.key}
+                        onClick={() => setTrendMode(mode.key)}
+                        style={{
+                          padding: '4px 12px',
+                          fontSize: '0.725rem',
+                          fontWeight: active ? 700 : 500,
+                          color: active ? 'var(--foreground)' : 'var(--muted-foreground)',
+                          backgroundColor: active ? 'var(--card)' : 'transparent',
+                          borderRadius: 'var(--radius-sm)',
+                          border: 'none',
+                          boxShadow: active ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                      >
+                        {mode.label}
+                      </button>
+                    );
+                  })}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
-                  <span style={{ color: 'var(--muted-foreground)' }}>Target</span>
+
+                {/* Legend */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--chart-1)' }} />
+                    <span style={{ color: 'var(--muted-foreground)' }}>Revenue</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
+                    <span style={{ color: 'var(--muted-foreground)' }}>Target</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -418,7 +473,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} />
+                  <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} tickFormatter={(val) => `$${val / 1000}k`} />
                   <Tooltip
                     contentStyle={{
@@ -430,7 +485,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                       boxShadow: "var(--shadow-lg)"
                     }}
                     labelStyle={{ color: "var(--foreground)", fontWeight: 600 }}
-                    formatter={(val) => [`$${Number(val).toLocaleString()}`, '']}
+                    formatter={(val, name) => [`$${Number(val).toLocaleString()}`, name === 'revenue' ? 'Revenue' : 'Target Pace']}
                   />
                   <Area type="monotone" dataKey="revenue" stroke="var(--chart-1)" strokeWidth={2} fill="url(#revenueGradient)" />
                   <Area type="monotone" dataKey="target" stroke="var(--accent)" strokeWidth={2} fill="url(#targetGradient)" />

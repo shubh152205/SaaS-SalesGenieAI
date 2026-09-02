@@ -18,7 +18,9 @@ import {
   Layers,
   Radar,
   Activity,
-  Target
+  Target,
+  X,
+  Building2
 } from 'lucide-react';
 import api from '../api/client';
 import Navbar from '../components/Navbar';
@@ -35,23 +37,109 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
   const [similarDeals, setSimilarDeals] = useState([]);
   const [mlScoreBreakdown, setMlScoreBreakdown] = useState(null);
   const [scoringLeadId, setScoringLeadId] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [submittingLead, setSubmittingLead] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const [newLeadForm, setNewLeadForm] = useState({
+    company_name: '',
+    contact_name: '',
+    designation: 'VP of Engineering',
+    email: '',
+    phone: '+1-555-0199',
+    industry: 'Software / B2B SaaS',
+    company_size: 'Medium',
+    annual_revenue: '$20M ARR',
+    location: 'San Francisco, CA',
+    funding_stage: 'Series B',
+    tech_stack: 'Python, React, AWS, PostgreSQL',
+    deal_value: 85000,
+    website_visits: 16,
+    email_opens: 10,
+    demo_requested: 1,
+    stage: 'New Lead',
+    status: 'Open',
+    notes: 'Evaluating automated sales intelligence and ML deal forecasting.'
+  });
 
   useEffect(() => {
     fetchLeads();
   }, []);
 
-  const fetchLeads = async () => {
+  const fetchLeads = async (selectId = null) => {
     try {
       setLoading(true);
-      const res = await api.get('/api/crm/leads');
-      setLeads(res.data.items || []);
-      if (res.data.items && res.data.items.length > 0) {
-        handleSelectLead(res.data.items[0]);
+      const res = await api.get('/api/crm/leads?limit=50');
+      const items = res.data.items || [];
+      setLeads(items);
+      if (items.length > 0) {
+        if (selectId) {
+          const match = items.find((l) => l.id === selectId) || items[0];
+          handleSelectLead(match);
+        } else if (!selectedLead) {
+          handleSelectLead(items[0]);
+        }
       }
     } catch (err) {
       console.warn('Leads fetch error', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateLead = async (e) => {
+    e.preventDefault();
+    if (!newLeadForm.company_name.trim() || !newLeadForm.contact_name.trim()) {
+      setFormError('Please provide both Company Name and Primary Contact Name.');
+      return;
+    }
+
+    setSubmittingLead(true);
+    setFormError('');
+    try {
+      const payload = {
+        ...newLeadForm,
+        deal_value: Number(newLeadForm.deal_value) || 50000,
+        website_visits: Number(newLeadForm.website_visits) || 0,
+        email_opens: Number(newLeadForm.email_opens) || 0,
+        demo_requested: Number(newLeadForm.demo_requested) || 0,
+        tech_stack: newLeadForm.tech_stack
+          ? newLeadForm.tech_stack.split(',').map((t) => t.trim()).filter(Boolean)
+          : ['Python', 'AWS']
+      };
+
+      const res = await api.post('/api/crm/leads', payload);
+      setShowAddModal(false);
+      
+      // Reset form
+      setNewLeadForm({
+        company_name: '',
+        contact_name: '',
+        designation: 'VP of Engineering',
+        email: '',
+        phone: '+1-555-0199',
+        industry: 'Software / B2B SaaS',
+        company_size: 'Medium',
+        annual_revenue: '$20M ARR',
+        location: 'San Francisco, CA',
+        funding_stage: 'Series B',
+        tech_stack: 'Python, React, AWS, PostgreSQL',
+        deal_value: 85000,
+        website_visits: 16,
+        email_opens: 10,
+        demo_requested: 1,
+        stage: 'New Lead',
+        status: 'Open',
+        notes: 'Evaluating automated sales intelligence and ML deal forecasting.'
+      });
+
+      // Refresh and select newly created lead
+      await fetchLeads(res.data.id);
+    } catch (err) {
+      console.error('Create lead error', err);
+      setFormError(err.response?.data?.detail || 'Failed to create lead. Please check inputs.');
+    } finally {
+      setSubmittingLead(false);
     }
   };
 
@@ -170,7 +258,15 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
               {filteredLeads.length} Profiles Loaded
             </span>
             <button
-              onClick={fetchLeads}
+              onClick={() => setShowAddModal(true)}
+              className="btn btn-primary btn-sm"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}
+            >
+              <Plus size={15} />
+              <span>Add New Company</span>
+            </button>
+            <button
+              onClick={() => fetchLeads()}
               className="btn btn-secondary btn-sm"
               style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}
             >
@@ -400,6 +496,335 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
         </div>
 
       </div>
+
+      {/* ── Add New Company Lead Modal ── */}
+      {showAddModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.65)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+          animation: 'fadeIn 0.2s ease-out'
+        }}>
+          <div
+            className="tail-card"
+            style={{
+              width: '100%',
+              maxWidth: '680px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: '28px',
+              borderRadius: 'var(--radius-2xl)',
+              boxShadow: 'var(--shadow-2xl)',
+              border: '1px solid var(--border)',
+              backgroundColor: 'var(--card)',
+              position: 'relative'
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'rgba(79, 70, 229, 0.12)',
+                  color: 'var(--accent)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Building2 size={20} />
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0, color: 'var(--foreground)' }}>
+                    Add New Company Lead
+                  </h2>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>
+                    Enter company parameters to trigger real-time Random Forest scoring & deal benchmarking
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowAddModal(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--muted-foreground)',
+                  cursor: 'pointer',
+                  padding: '6px',
+                  borderRadius: 'var(--radius-md)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {formError && (
+              <div style={{
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                color: '#ef4444',
+                fontSize: '0.8125rem',
+                marginBottom: '16px'
+              }}>
+                {formError}
+              </div>
+            )}
+
+            {/* Form Fields */}
+            <form onSubmit={handleCreateLead} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              
+              {/* Row 1: Company Name & Contact Name */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Company Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Acme Cloud Systems"
+                    value={newLeadForm.company_name}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, company_name: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Primary Decision Maker *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Sarah Jenkins"
+                    value={newLeadForm.contact_name}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, contact_name: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Designation & Work Email */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Job Title / Designation
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. CTO / VP Engineering"
+                    value={newLeadForm.designation}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, designation: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Work Email Address
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="e.g. sarah@acmecloud.com"
+                    value={newLeadForm.email}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, email: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Row 3: Industry & Company Size */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Industry Sector
+                  </label>
+                  <select
+                    value={newLeadForm.industry}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, industry: e.target.value })}
+                    className="select-field"
+                    style={{ height: '38px', width: '100%' }}
+                  >
+                    <option value="Software / B2B SaaS">Software / B2B SaaS</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+                    <option value="FinTech SaaS">FinTech SaaS</option>
+                    <option value="Cybersecurity SaaS">Cybersecurity SaaS</option>
+                    <option value="Data Infrastructure">Data Infrastructure</option>
+                    <option value="Developer Tools">Developer Tools</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Company Scale / Funding
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <select
+                      value={newLeadForm.company_size}
+                      onChange={(e) => setNewLeadForm({ ...newLeadForm, company_size: e.target.value })}
+                      className="select-field"
+                      style={{ height: '38px' }}
+                    >
+                      <option value="Small">Small (1-50)</option>
+                      <option value="Medium">Medium (50-250)</option>
+                      <option value="Enterprise">Enterprise (250+)</option>
+                    </select>
+
+                    <select
+                      value={newLeadForm.funding_stage}
+                      onChange={(e) => setNewLeadForm({ ...newLeadForm, funding_stage: e.target.value })}
+                      className="select-field"
+                      style={{ height: '38px' }}
+                    >
+                      <option value="Seed">Seed</option>
+                      <option value="Series A">Series A</option>
+                      <option value="Series B">Series B</option>
+                      <option value="Series C">Series C</option>
+                      <option value="Series D">Series D</option>
+                      <option value="Public">Public</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 4: Deal Value & Telemetry (Visits & Opens) */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Target Deal Value ($)
+                  </label>
+                  <input
+                    type="number"
+                    min="1000"
+                    step="1000"
+                    placeholder="95000"
+                    value={newLeadForm.deal_value}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, deal_value: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Website Views
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={newLeadForm.website_visits}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, website_visits: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                    Email Opens
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={newLeadForm.email_opens}
+                    onChange={(e) => setNewLeadForm({ ...newLeadForm, email_opens: e.target.value })}
+                    className="tail-input"
+                    style={{ height: '38px', width: '100%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Row 5: Demo Requested Checkbox & Tech Stack */}
+              <div>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                  Tech Stack (comma-separated tags)
+                </label>
+                <input
+                  type="text"
+                  placeholder="Python, React, AWS, PostgreSQL, Kafka, Snowflake"
+                  value={newLeadForm.tech_stack}
+                  onChange={(e) => setNewLeadForm({ ...newLeadForm, tech_stack: e.target.value })}
+                  className="tail-input"
+                  style={{ height: '38px', width: '100%' }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                <input
+                  type="checkbox"
+                  id="demoReqCheck"
+                  checked={newLeadForm.demo_requested === 1}
+                  onChange={(e) => setNewLeadForm({ ...newLeadForm, demo_requested: e.target.checked ? 1 : 0 })}
+                  style={{ width: '16px', height: '16px', accentColor: 'var(--accent)', cursor: 'pointer' }}
+                />
+                <label htmlFor="demoReqCheck" style={{ fontSize: '0.8125rem', color: 'var(--foreground)', cursor: 'pointer' }}>
+                  Prospect has submitted a <strong>Demo Request</strong> (+24 Intent Boost)
+                </label>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '6px' }}>
+                  Sales & Opportunity Notes
+                </label>
+                <textarea
+                  rows="2"
+                  placeholder="Key pain points, current vendor bottlenecks, team expansion..."
+                  value={newLeadForm.notes}
+                  onChange={(e) => setNewLeadForm({ ...newLeadForm, notes: e.target.value })}
+                  className="tail-input"
+                  style={{ width: '100%', resize: 'none', padding: '8px 12px' }}
+                />
+              </div>
+
+              {/* Modal Actions */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="btn btn-secondary"
+                  style={{ padding: '8px 16px', fontSize: '0.8125rem' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingLead}
+                  className="btn btn-primary"
+                  style={{ padding: '8px 20px', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Sparkles size={16} />
+                  <span>{submittingLead ? 'Scoring Lead...' : 'Save & Score with ML'}</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
