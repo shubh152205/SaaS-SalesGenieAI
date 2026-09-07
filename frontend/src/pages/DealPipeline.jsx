@@ -25,7 +25,6 @@ import {
 } from 'lucide-react';
 import api from '../api/client';
 import Navbar from '../components/Navbar';
-import pipelineVelocityImg from '../assets/pipeline_velocity.jpg';
 
 const DealPipeline = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
@@ -138,61 +137,62 @@ const DealPipeline = ({ collapsed, setCollapsed }) => {
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
-        {/* Visual Velocity Hero Banner */}
-        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
-          <img src={pipelineVelocityImg} alt="Pipeline Velocity Visual" />
-          <div className="image-banner-overlay">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                padding: '12px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
-                color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(99, 102, 241, 0.45)'
-              }}>
-                <Kanban size={24} />
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
-                    High-Velocity Revenue Funnel
-                  </h2>
-                  <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
-                    +34% MoM Velocity
-                  </span>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.8)', margin: '4px 0 0' }}>
-                  Autonomous lead stage progression with ML intent triggers & NVIDIA NIM engagement scoring.
-                </p>
-              </div>
+        {/* Pipeline Controls & Telemetry Header */}
+        <div className="tail-card page-header-strip">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--secondary)',
+              color: 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              <Kanban size={20} />
             </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>
+                  Deal Pipeline &amp; Opportunity Kanban
+                </h2>
+                <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
+                  {totalDealsCount} Active Opportunities
+                </span>
+              </div>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>
+                Autonomous lead stage progression with ML intent triggers &amp; velocity scoring.
+              </p>
+            </div>
+          </div>
 
-            {/* Quick Filter Pill Buttons */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button
-                onClick={() => setFilterMode('all')}
-                className={`btn btn-sm ${filterMode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ fontSize: '0.75rem', padding: '6px 12px' }}
-              >
-                All Deals ({totalDealsCount})
-              </button>
-              <button
-                onClick={() => setFilterMode('hot')}
-                className={`btn btn-sm ${filterMode === 'hot' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ fontSize: '0.75rem', padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '4px' }}
-              >
-                <Flame size={13} style={{ color: '#f43f5e' }} />
-                <span>Hot Leads (≥80)</span>
-              </button>
-              <button
-                onClick={() => setFilterMode('high_value')}
-                className={`btn btn-sm ${filterMode === 'high_value' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ fontSize: '0.75rem', padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '4px' }}
-              >
-                <DollarSign size={13} style={{ color: '#10b981' }} />
-                <span>Enterprise (&gt;$50k)</span>
-              </button>
-            </div>
+          {/* Quick Filter Pill Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setFilterMode('all')}
+              className={`btn btn-sm ${filterMode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ fontSize: '0.75rem', padding: '6px 14px' }}
+            >
+              All Deals ({totalDealsCount})
+            </button>
+            <button
+              onClick={() => setFilterMode('hot')}
+              className={`btn btn-sm ${filterMode === 'hot' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ fontSize: '0.75rem', padding: '6px 14px', display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <Flame size={13} style={{ color: 'var(--accent)' }} />
+              <span>Hot Leads (≥80)</span>
+            </button>
+            <button
+              onClick={() => setFilterMode('high_value')}
+              className={`btn btn-sm ${filterMode === 'high_value' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ fontSize: '0.75rem', padding: '6px 14px', display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <DollarSign size={13} style={{ color: 'var(--accent)' }} />
+              <span>Enterprise (&gt;$50k)</span>
+            </button>
           </div>
         </div>
 

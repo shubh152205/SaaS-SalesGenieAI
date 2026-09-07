@@ -30,7 +30,6 @@ import {
 import Navbar from '../components/Navbar';
 import TextToSpeechPlayer from '../components/TextToSpeechPlayer';
 import api from '../api/client';
-import meetingSpectrogramImg from '../assets/meeting_spectrogram.jpg';
 
 
 const SAMPLE_CALL_PROMPTS = [
@@ -446,43 +445,7 @@ const MeetingIntelligence = ({ collapsed, setCollapsed }) => {
       )}
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        
-        {/* Visual Audio Spectrogram Showcase Banner */}
-        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
-          <img src={meetingSpectrogramImg} alt="AI Speech Intelligence Spectrogram" />
-          <div className="image-banner-overlay">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                padding: '12px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
-                color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(16, 185, 129, 0.45)'
-              }}>
-                <Headphones size={24} />
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
-                    AI Speech & Meeting Intelligence Studio
-                  </h2>
-                  <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
-                    Live NLP Engine
-                  </span>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
-                  Real-time microphone audio transcription, speaker sentiment analysis, and autonomous CRM task generation.
-                </p>
-              </div>
-            </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span className="badge badge-cyan" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 700 }}>
-                {meetings.length} Calls Processed
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Top Control Bar & Live Capture Engine */}
 

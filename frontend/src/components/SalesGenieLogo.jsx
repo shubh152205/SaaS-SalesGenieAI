@@ -5,7 +5,7 @@ import React from 'react';
  * Pixel-perfect SVG vector recreation of the neural constellation brain spark emblem
  * with dynamic glow, multi-stage radial gradients, and animated pulse effects.
  */
-export const SalesGenieBrainSparkIcon = ({ size = 50, className = '', animated = true, style = {} }) => {
+export const SalesGenieBrainSparkIcon = ({ size = 54, className = '', animated = true, style = {} }) => {
   return (
     <div
       className={`salesgenie-logo-wrapper ${animated ? 'logo-pulse-glow' : ''} ${className}`}
@@ -27,8 +27,8 @@ export const SalesGenieBrainSparkIcon = ({ size = 50, className = '', animated =
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{
-          borderRadius: size > 40 ? '14px' : '10px',
-          boxShadow: '0 8px 24px -4px rgba(79, 70, 229, 0.45), 0 0 16px rgba(6, 182, 212, 0.3)',
+          borderRadius: size > 40 ? '16px' : '10px',
+          boxShadow: '0 8px 26px -4px rgba(79, 70, 229, 0.5), 0 0 20px rgba(6, 182, 212, 0.35)',
           overflow: 'hidden'
         }}
       >
@@ -143,27 +143,27 @@ export const SalesGenieBrainSparkIcon = ({ size = 50, className = '', animated =
 /**
  * Full SaaS-SalesGenie AI Brand Lockup
  */
-export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className = '' }) => {
+export const SalesGenieFullLogo = ({ size = 60, showSubtitle = true, className = '' }) => {
   return (
-    <div className={`salesgenie-full-logo ${className}`} style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+    <div className={`salesgenie-full-logo ${className}`} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
       <SalesGenieBrainSparkIcon size={size} />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{
-          fontSize: size > 44 ? '1.35rem' : '1.15rem',
+          fontSize: size > 48 ? '1.55rem' : '1.3rem',
           fontWeight: 900,
           color: 'var(--text-main)',
-          letterSpacing: '-0.025em',
-          lineHeight: '1.15',
+          letterSpacing: '-0.03em',
+          lineHeight: '1.2',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '9px'
         }}>
           <span style={{
-            fontSize: size > 44 ? '0.72rem' : '0.65rem',
+            fontSize: size > 48 ? '0.8rem' : '0.72rem',
             background: 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)',
             color: '#ffffff',
-            padding: '2px 7px',
-            borderRadius: '5px',
+            padding: '3px 8px',
+            borderRadius: '6px',
             fontWeight: 800,
             letterSpacing: '0.05em',
             boxShadow: '0 2px 8px rgba(14, 165, 233, 0.35)'
@@ -171,11 +171,11 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             SaaS
           </span>
           <span style={{
-            fontSize: size > 44 ? '0.72rem' : '0.65rem',
+            fontSize: size > 48 ? '0.8rem' : '0.72rem',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#ffffff',
-            padding: '2px 7px',
-            borderRadius: '5px',
+            padding: '3px 8px',
+            borderRadius: '6px',
             fontWeight: 800,
             letterSpacing: '0.05em',
             boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)'
@@ -188,14 +188,14 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
             WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
           }}>
-            Sales Intelligence
+            SalesGenie
           </span>
           <span style={{
-            fontSize: size > 44 ? '0.75rem' : '0.68rem',
+            fontSize: size > 48 ? '0.82rem' : '0.74rem',
             background: 'linear-gradient(135deg, #4f46e5 0%, #ec4899 100%)',
             color: '#ffffff',
-            padding: '2px 8px',
-            borderRadius: '5px',
+            padding: '3px 9px',
+            borderRadius: '6px',
             fontWeight: 800,
             letterSpacing: '0.04em',
             boxShadow: '0 2px 10px rgba(79, 70, 229, 0.4)'
@@ -205,18 +205,18 @@ export const SalesGenieFullLogo = ({ size = 52, showSubtitle = true, className =
         </div>
         {showSubtitle && (
           <div style={{
-            fontSize: '0.68rem',
+            fontSize: '0.78rem',
             color: 'var(--brand-400)',
             fontWeight: 700,
-            letterSpacing: '0.14em',
+            letterSpacing: '0.12em',
             textTransform: 'uppercase',
-            marginTop: '3px',
+            marginTop: '4px',
             display: 'flex',
             alignItems: 'center',
-            gap: '5px'
+            gap: '6px'
           }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brand-400)', display: 'inline-block' }} />
-            SaaS AI Powered Predictive Revenue Ops
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--brand-400)', display: 'inline-block' }} />
+            Autonomous Revenue Intelligence OS
           </div>
         )}
       </div>

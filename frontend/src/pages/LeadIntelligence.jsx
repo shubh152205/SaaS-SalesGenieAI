@@ -25,7 +25,6 @@ import {
 import api from '../api/client';
 import Navbar from '../components/Navbar';
 import TextToSpeechPlayer from '../components/TextToSpeechPlayer';
-import leadRadarImg from '../assets/lead_radar.jpg';
 
 const LeadIntelligence = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
@@ -183,57 +182,21 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
-        {/* Visual Radar Banner Showcase */}
-        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
-          <img src={leadRadarImg} alt="AI Account Intelligence Radar" />
-          <div className="image-banner-overlay">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                padding: '12px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
-                color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(6, 182, 212, 0.45)'
-              }}>
-                <Radar size={24} />
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
-                    Predictive Account Intelligence Radar
-                  </h2>
-                  <span className="badge badge-cyan" style={{ fontSize: '0.72rem' }}>
-                    Real-Time Telemetry
-                  </span>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
-                  Continuous B2B buyer intent scoring, tech stack extraction, and vectorized similar deal matching.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span className="badge badge-emerald" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 700 }}>
-                114 High-Intent Detected
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Top Control Bar */}
-        <div className="tail-card" style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', borderRadius: 'var(--radius-xl)' }}>
+        <div className="tail-card" style={{ padding: '18px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', borderRadius: 'var(--radius-xl)' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', flex: 1 }}>
             {/* Search */}
-            <div style={{ position: 'relative', minWidth: '280px' }}>
-              <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+            <div style={{ position: 'relative', minWidth: '300px' }}>
+              <Search size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
               <input
                 type="text"
                 placeholder="Search across 50+ pre-seeded leads..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="tail-input"
-                style={{ paddingLeft: '36px', height: '40px' }}
+                style={{ paddingLeft: '40px', height: '44px', fontSize: '0.9375rem' }}
               />
             </div>
 
@@ -242,7 +205,7 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
               value={industryFilter}
               onChange={(e) => setIndustryFilter(e.target.value)}
               className="select-field"
-              style={{ width: 'auto', minWidth: '180px', height: '40px' }}
+              style={{ width: 'auto', minWidth: '200px', height: '44px', fontSize: '0.9375rem' }}
             >
               <option value="">All Industries</option>
               <option value="Software / B2B SaaS">Software / B2B SaaS</option>
@@ -253,24 +216,24 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
             </select>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span className="badge badge-indigo">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span className="badge badge-indigo" style={{ fontSize: '0.8rem', padding: '6px 12px' }}>
               {filteredLeads.length} Profiles Loaded
             </span>
             <button
               onClick={() => setShowAddModal(true)}
-              className="btn btn-primary btn-sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}
+              className="btn btn-primary"
+              style={{ display: 'flex', alignItems: 'center', gap: '7px', fontWeight: 700, height: '44px', padding: '0 18px', fontSize: '0.88rem' }}
             >
-              <Plus size={15} />
+              <Plus size={16} />
               <span>Add New Company</span>
             </button>
             <button
               onClick={() => fetchLeads()}
-              className="btn btn-secondary btn-sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}
+              className="btn btn-secondary"
+              style={{ display: 'flex', alignItems: 'center', gap: '7px', fontWeight: 600, height: '44px', padding: '0 16px', fontSize: '0.88rem' }}
             >
-              <RefreshCw size={14} />
+              <RefreshCw size={15} />
               <span>Refresh</span>
             </button>
           </div>
@@ -317,29 +280,29 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
                       >
                         <td>
                           <div>
-                            <div style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '0.84rem' }}>
+                            <div style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '0.96rem' }}>
                               {lead.company_name}
                             </div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                               {lead.contact_name} ({lead.email})
                             </div>
                           </div>
                         </td>
 
                         <td>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                          <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>
                             {lead.industry}
                           </span>
                         </td>
 
                         <td>
-                          <span style={{ fontWeight: 800, color: 'var(--success-500)', fontSize: '0.85rem', fontVariantNumeric: 'tabular-nums' }}>
+                          <span style={{ fontWeight: 800, color: 'var(--success-500)', fontSize: '0.96rem', fontVariantNumeric: 'tabular-nums' }}>
                             ${(lead.deal_value || 0).toLocaleString()}
                           </span>
                         </td>
 
                         <td>
-                          <span className={`badge ${isHot ? 'badge-rose' : lead.lead_score >= 60 ? 'badge-cyan' : 'badge-indigo'}`} style={{ fontSize: '0.72rem', padding: '2px 7px', fontWeight: 700 }}>
+                          <span className={`badge ${isHot ? 'badge-rose' : lead.lead_score >= 60 ? 'badge-cyan' : 'badge-indigo'}`} style={{ fontSize: '0.8rem', padding: '3px 8px', fontWeight: 700 }}>
                             {lead.lead_score} / 100
                           </span>
                         </td>
@@ -351,9 +314,9 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
                               navigate('/outreach', { state: { lead } });
                             }}
                             className="btn btn-primary btn-sm"
-                            style={{ padding: '4px 10px', fontSize: '0.72rem', gap: '4px', whiteSpace: 'nowrap', fontWeight: 700 }}
+                            style={{ padding: '6px 12px', fontSize: '0.82rem', gap: '5px', whiteSpace: 'nowrap', fontWeight: 700 }}
                           >
-                            <Send size={11} />
+                            <Send size={13} />
                             <span>Outreach</span>
                           </button>
                         </td>
@@ -373,48 +336,48 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
               <div className="tail-card tail-card-glow animate-entrance" style={{ borderRadius: 'var(--radius-xl)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                   <div>
-                    <span className="badge badge-indigo" style={{ marginBottom: '6px' }}>
+                    <span className="badge badge-indigo" style={{ marginBottom: '8px', fontSize: '0.8rem' }}>
                       {selectedLead.funding_stage || 'Series B'}
                     </span>
-                    <h3 className="text-title-md" style={{ fontWeight: 900 }}>{selectedLead.company_name}</h3>
-                    <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+                    <h3 className="text-title-lg" style={{ fontWeight: 900, letterSpacing: '-0.025em' }}>{selectedLead.company_name}</h3>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '2px' }}>
                       Contact: {selectedLead.contact_name} • {selectedLead.email}
                     </p>
                   </div>
 
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '1.6rem', fontWeight: 900, color: selectedLead.lead_score >= 80 ? '#f43f5e' : 'var(--brand-500)' }}>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, lineHeight: 1, color: selectedLead.lead_score >= 80 ? '#f43f5e' : 'var(--brand-500)' }}>
                       {selectedLead.lead_score}
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 700 }}>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 700, marginTop: '4px' }}>
                       Intent Score
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px', background: 'var(--bg-card-subtle)', padding: '14px', borderRadius: '12px', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '18px', background: 'var(--bg-card-subtle)', padding: '16px', borderRadius: '14px', border: '1px solid var(--border-subtle)' }}>
                   <div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Website Visits</div>
-                    <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>{selectedLead.website_visits || 12} views</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Website Visits</div>
+                    <div style={{ fontWeight: 800, fontSize: '1.08rem' }}>{selectedLead.website_visits || 12} views</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Email Opens</div>
-                    <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>{selectedLead.email_opens || 6} opens</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Email Opens</div>
+                    <div style={{ fontWeight: 800, fontSize: '1.08rem' }}>{selectedLead.email_opens || 6} opens</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Deal Value</div>
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: 'var(--success-500)' }}>${(selectedLead.deal_value || 0).toLocaleString()}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Deal Value</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.08rem', color: 'var(--success-500)' }}>${(selectedLead.deal_value || 0).toLocaleString()}</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Conversion Probability</div>
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: 'var(--brand-500)' }}>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 600 }}>Conversion Probability</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.08rem', color: 'var(--brand-500)' }}>
                       {mlScoreBreakdown ? `${(mlScoreBreakdown.conversion_probability * 100).toFixed(0)}%` : `${selectedLead.lead_score}%`}
                     </div>
                   </div>
                 </div>
 
                 {/* Text-to-Speech Voice Briefing */}
-                <div style={{ marginBottom: '16px' }}>
+                <div style={{ marginBottom: '18px' }}>
                   <TextToSpeechPlayer
                     text={`Account briefing for ${selectedLead.company_name}. In the ${selectedLead.industry} sector, contact person is ${selectedLead.contact_name}. Estimated deal value is $${(selectedLead.deal_value || 0).toLocaleString()} with funding tier ${selectedLead.funding_stage || 'Series B'}. Machine learning intent score is ${selectedLead.lead_score} out of 100 with high closing probability. Recommended next step: Deploy tailored NVIDIA NIM cold outreach to key stakeholders.`}
                     title={`AI Audio Brief: ${selectedLead.company_name}`}
@@ -426,9 +389,9 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
                 <button
                   onClick={() => navigate('/outreach', { state: { lead: selectedLead } })}
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '12px', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  style={{ width: '100%', padding: '14px', fontSize: '0.96rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 >
-                  <Sparkles size={16} />
+                  <Sparkles size={18} />
                   <span>Draft NVIDIA NIM Outreach for {selectedLead.company_name}</span>
                 </button>
               </div>
@@ -800,12 +763,12 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
               </div>
 
               {/* Modal Actions */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '12px', borderTop: '1px solid var(--border-subtle)', paddingTop: '18px' }}>
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
                   className="btn btn-secondary"
-                  style={{ padding: '8px 16px', fontSize: '0.8125rem' }}
+                  style={{ padding: '9px 18px', fontSize: '0.88rem', fontWeight: 600 }}
                 >
                   Cancel
                 </button>
@@ -813,7 +776,7 @@ const LeadIntelligence = ({ collapsed, setCollapsed }) => {
                   type="submit"
                   disabled={submittingLead}
                   className="btn btn-primary"
-                  style={{ padding: '8px 20px', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  style={{ padding: '9px 22px', fontSize: '0.92rem', fontWeight: 750, display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
                   <Sparkles size={16} />
                   <span>{submittingLead ? 'Scoring Lead...' : 'Save & Score with ML'}</span>

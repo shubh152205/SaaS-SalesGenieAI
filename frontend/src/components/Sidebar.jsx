@@ -79,8 +79,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
     <aside
       className={`sidebar-wrapper ${collapsed ? 'collapsed' : ''}`}
       style={{
-        width: collapsed ? '72px' : '260px',
-        minWidth: collapsed ? '72px' : '260px',
+        width: collapsed ? '80px' : '280px',
+        minWidth: collapsed ? '80px' : '280px',
         backgroundColor: 'var(--sidebar)',
         borderRight: '1px solid var(--sidebar-border)',
         display: 'flex',
@@ -89,15 +89,14 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         height: '100vh',
         position: 'sticky',
         top: 0,
-        zIndex: 40,
-        transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+        zIndex: 40
       }}
     >
       {/* ── Top Header with Brand Logo ── */}
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto' }}>
         
         <div style={{
-          height: '64px',
+          height: '76px',
           display: 'flex',
           alignItems: 'center',
           padding: collapsed ? '0 16px' : '0 20px',
@@ -110,43 +109,62 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '12px'
+              gap: '14px'
             }}
           >
             <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: 'var(--radius-md)',
+              width: '48px',
+              height: '48px',
+              borderRadius: '14px',
               backgroundColor: 'var(--accent-light)',
               color: 'var(--accent)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
-              border: '1px solid rgba(16, 185, 129, 0.25)'
+              border: '1.5px solid rgba(16, 185, 129, 0.35)',
+              boxShadow: '0 4px 16px -2px rgba(16, 185, 129, 0.25)'
             }}>
-              <SalesGenieBrainSparkIcon size={26} />
+              <SalesGenieBrainSparkIcon size={40} />
             </div>
 
             {!collapsed && (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  color: 'var(--sidebar-foreground)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.2
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '7px'
                 }}>
-                  SaaS Sales Intelligence <span style={{ color: 'var(--accent)', fontSize: '0.78rem' }}>Forecasting</span>
-                </span>
+                  <span style={{
+                    fontWeight: 800,
+                    fontSize: '1.15rem',
+                    color: 'var(--sidebar-foreground)',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.15
+                  }}>
+                    SalesGenie
+                  </span>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
+                    color: '#ffffff',
+                    padding: '2px 6px',
+                    borderRadius: '5px',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em'
+                  }}>
+                    AI
+                  </span>
+                </div>
                 <span style={{
-                  fontSize: '0.62rem',
+                  fontSize: '0.74rem',
                   color: 'var(--muted-foreground)',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase'
+                  fontWeight: 700,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  marginTop: '3px'
                 }}>
-                  SaaS AI Powered Revenue Ops
+                  Sales Intelligence <span style={{ color: 'var(--accent)', fontWeight: 800 }}>OS</span>
                 </span>
               </div>
             )}
@@ -154,15 +172,15 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         </div>
 
         {/* ── Navigation Items ── */}
-        <nav style={{ padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <nav style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {!collapsed && (
             <div style={{
-              fontSize: '0.6875rem',
-              fontWeight: 700,
+              fontSize: '0.76rem',
+              fontWeight: 800,
               color: 'var(--muted-foreground)',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              padding: '0 10px',
+              padding: '0 12px',
               marginBottom: '8px'
             }}>
               Navigation
@@ -181,13 +199,13 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: collapsed ? 'center' : 'space-between',
-                  padding: collapsed ? '10px' : '9px 12px',
+                  padding: collapsed ? '11px' : '10px 14px',
                   borderRadius: 'var(--radius-md)',
                   color: isActive ? 'var(--sidebar-foreground)' : 'var(--muted-foreground)',
                   backgroundColor: isActive ? 'var(--sidebar-accent)' : 'transparent',
                   textDecoration: 'none',
-                  fontSize: '0.875rem',
-                  fontWeight: isActive ? 600 : 500,
+                  fontSize: '0.94rem',
+                  fontWeight: isActive ? 700 : 500,
                   position: 'relative',
                   transition: 'all 0.15s ease'
                 })}
@@ -201,8 +219,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                         left: 0,
                         top: '50%',
                         transform: 'translateY(-50%)',
-                        width: '3px',
-                        height: '20px',
+                        width: '3.5px',
+                        height: '22px',
                         borderRadius: '0 4px 4px 0',
                         backgroundColor: 'var(--accent)'
                       }} />
@@ -210,7 +228,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <Icon
-                        size={19}
+                        size={20}
                         style={{
                           color: isActive ? 'var(--accent)' : 'inherit',
                           flexShrink: 0,
@@ -224,9 +242,9 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                       <span
                         className={`badge ${item.badgeClass}`}
                         style={{
-                          fontSize: '0.68rem',
-                          padding: '2px 7px',
-                          fontWeight: 600
+                          fontSize: '0.74rem',
+                          padding: '3px 8px',
+                          fontWeight: 700
                         }}
                       >
                         {item.badge}
@@ -242,22 +260,22 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         {/* ── Active Copilot Status Card ── */}
         {!collapsed && (
           <div style={{
-            margin: 'auto 12px 14px',
-            padding: '14px',
+            margin: 'auto 14px 16px',
+            padding: '16px',
             borderRadius: 'var(--radius-lg)',
             backgroundColor: 'var(--sidebar-accent)',
             border: '1px solid var(--sidebar-border)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="pulse-dot" style={{ backgroundColor: 'var(--accent)' }} />
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--sidebar-foreground)' }}>
+                <span style={{ fontSize: '0.84rem', fontWeight: 750, color: 'var(--sidebar-foreground)' }}>
                   ML Copilot Active
                 </span>
               </div>
-              <span className="badge badge-emerald" style={{ fontSize: '0.625rem' }}>94.2%</span>
+              <span className="badge badge-emerald" style={{ fontSize: '0.7rem' }}>94.2%</span>
             </div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)', lineHeight: 1.4 }}>
+            <div style={{ fontSize: '0.74rem', color: 'var(--muted-foreground)', lineHeight: 1.45 }}>
               Random Forest 120-Tree + NIM Llama 3.1
             </div>
           </div>
@@ -267,11 +285,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
 
       {/* ── Bottom Section: User Profile & Collapse Toggle ── */}
       <div style={{
-        padding: '12px',
+        padding: '14px',
         borderTop: '1px solid var(--sidebar-border)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
+        gap: '10px',
         backgroundColor: 'var(--sidebar)'
       }}>
         
@@ -280,32 +298,32 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '6px 8px',
+          padding: '8px 10px',
           borderRadius: 'var(--radius-md)',
           backgroundColor: collapsed ? 'transparent' : 'var(--sidebar-accent)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
             <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: 'var(--radius-sm)',
-              background: 'linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%)',
-              color: '#ffffff',
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--primary)',
+              color: 'var(--primary-foreground)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontWeight: 700,
-              fontSize: '0.78rem',
+              fontWeight: 800,
+              fontSize: '0.85rem',
               flexShrink: 0
             }}>
               {user?.name ? user.name.slice(0, 2).toUpperCase() : 'JD'}
             </div>
             {!collapsed && (
               <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--sidebar-foreground)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--sidebar-foreground)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                   {user?.name || 'Sales Director'}
                 </div>
-                <div style={{ fontSize: '0.6875rem', color: 'var(--muted-foreground)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--muted-foreground)', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                   {user?.email || 'demo@salesgenie.ai'}
                 </div>
               </div>
@@ -321,13 +339,13 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 border: 'none',
                 color: 'var(--destructive)',
                 cursor: 'pointer',
-                padding: '5px',
+                padding: '6px',
                 borderRadius: 'var(--radius-sm)',
                 display: 'flex',
                 alignItems: 'center'
               }}
             >
-              <LogOut size={15} />
+              <LogOut size={16} />
             </button>
           )}
         </div>
@@ -342,22 +360,22 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            padding: '7px',
+            padding: '8px',
             borderRadius: 'var(--radius-md)',
             background: 'transparent',
             border: '1px solid var(--sidebar-border)',
             color: 'var(--muted-foreground)',
             cursor: 'pointer',
-            fontSize: '0.8125rem',
-            fontWeight: 500,
+            fontSize: '0.85rem',
+            fontWeight: 600,
             transition: 'all 0.15s ease'
           }}
         >
           {collapsed ? (
-            <ChevronRight size={16} />
+            <ChevronRight size={18} />
           ) : (
             <>
-              <ChevronLeft size={16} />
+              <ChevronLeft size={18} />
               <span>Collapse</span>
             </>
           )}

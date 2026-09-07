@@ -37,18 +37,18 @@ const Navbar = ({
 
   return (
     <header style={{
-      height: '64px',
+      height: '70px',
       borderBottom: '1px solid var(--border)',
       backgroundColor: 'var(--bg-header)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
       position: 'sticky',
       top: 0,
       zIndex: 30,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 24px',
+      padding: '0 28px',
       transition: 'background-color 0.2s ease, border-color 0.2s ease'
     }}>
       
@@ -61,7 +61,7 @@ const Navbar = ({
               background: 'var(--secondary)',
               border: '1px solid var(--border)',
               color: 'var(--foreground)',
-              padding: '7px',
+              padding: '8px',
               borderRadius: 'var(--radius-md)',
               cursor: 'pointer',
               display: 'flex',
@@ -70,17 +70,17 @@ const Navbar = ({
             }}
             title="Toggle Sidebar"
           >
-            <Menu size={16} />
+            <Menu size={18} />
           </button>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <h1 style={{
-            fontSize: '1.2rem',
-            fontWeight: 700,
+            fontSize: '1.38rem',
+            fontWeight: 800,
             color: 'var(--foreground)',
             margin: 0,
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.025em'
           }}>
             {title}
           </h1>
@@ -89,15 +89,15 @@ const Navbar = ({
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '3px 10px',
+            padding: '4px 12px',
             borderRadius: 'var(--radius-full)',
             backgroundColor: 'var(--secondary)',
             color: 'var(--muted-foreground)',
-            fontSize: '0.75rem',
-            fontWeight: 500,
+            fontSize: '0.82rem',
+            fontWeight: 600,
             border: '1px solid var(--border)'
           }}>
-            <Calendar size={12} style={{ color: 'var(--accent)' }} />
+            <Calendar size={13} style={{ color: 'var(--accent)' }} />
             <span>Last 30 days</span>
           </div>
         </div>
@@ -111,10 +111,9 @@ const Navbar = ({
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          width: searchFocused ? '240px' : '180px',
-          transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          width: '240px'
         }}>
-          <Search size={14} style={{ position: 'absolute', left: '10px', color: 'var(--muted-foreground)', pointerEvents: 'none' }} />
+          <Search size={15} style={{ position: 'absolute', left: '12px', color: 'var(--muted-foreground)', pointerEvents: 'none' }} />
           <input
             type="text"
             placeholder="Search leads, deals..."
@@ -122,14 +121,14 @@ const Navbar = ({
             onBlur={() => setSearchFocused(false)}
             style={{
               width: '100%',
-              height: '36px',
-              paddingLeft: '32px',
+              height: '40px',
+              paddingLeft: '36px',
               paddingRight: '12px',
               borderRadius: 'var(--radius-md)',
               backgroundColor: 'var(--secondary)',
               border: `1px solid ${searchFocused ? 'var(--accent)' : 'var(--border)'}`,
               color: 'var(--foreground)',
-              fontSize: '0.8125rem',
+              fontSize: '0.88rem',
               outline: 'none',
               transition: 'all 0.2s ease'
             }}
@@ -141,15 +140,15 @@ const Navbar = ({
           onClick={() => navigate('/outreach')}
           className="btn btn-primary"
           style={{
-            height: '36px',
-            padding: '0 14px',
-            fontSize: '0.8125rem',
+            height: '40px',
+            padding: '0 16px',
+            fontSize: '0.88rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '6px'
+            gap: '7px'
           }}
         >
-          <Sparkles size={14} />
+          <Sparkles size={15} />
           <span>AI Outreach</span>
         </button>
 
@@ -158,8 +157,8 @@ const Navbar = ({
           onClick={toggleTheme}
           title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           style={{
-            width: '36px',
-            height: '36px',
+            width: '40px',
+            height: '40px',
             borderRadius: 'var(--radius-md)',
             backgroundColor: 'var(--secondary)',
             border: '1px solid var(--border)',
@@ -172,9 +171,9 @@ const Navbar = ({
           }}
         >
           {isDark ? (
-            <Sun size={16} style={{ color: '#fbbf24' }} />
+            <Sun size={18} style={{ color: '#fbbf24' }} />
           ) : (
-            <Moon size={16} style={{ color: '#10b981' }} />
+            <Moon size={18} style={{ color: '#10b981' }} />
           )}
         </button>
 
@@ -261,8 +260,8 @@ const Navbar = ({
             <div style={{
               width: '100%',
               height: '100%',
-              background: 'linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%)',
-              color: '#ffffff',
+              backgroundColor: 'var(--primary)',
+              color: 'var(--primary-foreground)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

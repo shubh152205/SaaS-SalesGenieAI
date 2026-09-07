@@ -264,15 +264,15 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
         }}>
           
           {/* Card 1: Total Pipeline Revenue */}
-          <div className="tail-card group" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+          <div className="tail-card group" style={{ padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+              <span style={{ fontSize: '0.95rem', color: 'var(--muted-foreground)', fontWeight: 600 }}>
                 Total Revenue
               </span>
               <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-md)',
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--secondary)',
                 color: 'var(--muted-foreground)',
                 display: 'flex',
@@ -280,30 +280,30 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <DollarSign size={18} />
+                <DollarSign size={20} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
-              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+              <div className="tabular-mono" style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.025em', lineHeight: 1 }}>
                 ${(kpis.pipeline_value || 2450000).toLocaleString()}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
-                <TrendingUp size={14} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.88rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={15} />
                 <span>+12.5%</span>
               </div>
             </div>
           </div>
 
           {/* Card 2: Conversion Rate */}
-          <div className="tail-card group" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+          <div className="tail-card group" style={{ padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+              <span style={{ fontSize: '0.95rem', color: 'var(--muted-foreground)', fontWeight: 600 }}>
                 Conversion Rate
               </span>
               <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-md)',
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--secondary)',
                 color: 'var(--muted-foreground)',
                 display: 'flex',
@@ -311,30 +311,30 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <TrendingUp size={18} />
+                <TrendingUp size={20} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
-              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+              <div className="tabular-mono" style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.025em', lineHeight: 1 }}>
                 {kpis.conversion_rate || 24.8}%
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
-                <TrendingUp size={14} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.88rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={15} />
                 <span>+3.2%</span>
               </div>
             </div>
           </div>
 
           {/* Card 3: Active Deals */}
-          <div className="tail-card group" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+          <div className="tail-card group" style={{ padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+              <span style={{ fontSize: '0.95rem', color: 'var(--muted-foreground)', fontWeight: 600 }}>
                 Active Deals
               </span>
               <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-md)',
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--secondary)',
                 color: 'var(--muted-foreground)',
                 display: 'flex',
@@ -342,30 +342,30 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <Target size={18} />
+                <Target size={20} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
-              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+              <div className="tabular-mono" style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.025em', lineHeight: 1 }}>
                 {kpis.open_deals || 32}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
-                <TrendingUp size={14} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.88rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+                <TrendingUp size={15} />
                 <span>+18.4%</span>
               </div>
             </div>
           </div>
 
           {/* Card 4: Hot Leads (Score >= 80) */}
-          <div className="tail-card group" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', fontWeight: 500 }}>
+          <div className="tail-card group" style={{ padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+              <span style={{ fontSize: '0.95rem', color: 'var(--muted-foreground)', fontWeight: 600 }}>
                 Hot Leads (Score ≥ 80)
               </span>
               <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-md)',
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--secondary)',
                 color: 'var(--muted-foreground)',
                 display: 'flex',
@@ -373,14 +373,14 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                 justifyContent: 'center',
                 flexShrink: 0
               }}>
-                <Flame size={18} style={{ color: 'var(--accent)' }} />
+                <Flame size={20} style={{ color: 'var(--accent)' }} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px' }}>
-              <div className="tabular-mono" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                {kpis.hot_leads} <span style={{ fontSize: '1rem', color: 'var(--muted-foreground)', fontWeight: 400 }}>/ {kpis.total_leads}</span>
+              <div className="tabular-mono" style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--foreground)', letterSpacing: '-0.025em', lineHeight: 1 }}>
+                {kpis.hot_leads} <span style={{ fontSize: '1.1rem', color: 'var(--muted-foreground)', fontWeight: 400 }}>/ {kpis.total_leads}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.88rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '2px' }}>
                 <span className="pulse-dot" style={{ backgroundColor: 'var(--accent)' }} />
                 <span>Ready for demo</span>
               </div>
@@ -397,11 +397,11 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
         }}>
           
           {/* Revenue Trend Area Chart */}
-          <div className="tail-card" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+          <div className="tail-card" style={{ padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
               <div>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Revenue Trend</h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--foreground)', margin: 0 }}>Revenue Trend</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--muted-foreground)', margin: '3px 0 0' }}>
                   {trendMode === 'day' ? 'Daily sales velocity & deal volume' : trendMode === 'year' ? 'Annual ARR trajectory & projections' : 'Monthly performance vs target'}
                 </p>
               </div>
@@ -412,7 +412,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   backgroundColor: 'var(--secondary)',
-                  padding: '3px',
+                  padding: '4px',
                   borderRadius: 'var(--radius-md)',
                   border: '1px solid var(--border)'
                 }}>
@@ -427,9 +427,9 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                         key={mode.key}
                         onClick={() => setTrendMode(mode.key)}
                         style={{
-                          padding: '4px 12px',
-                          fontSize: '0.725rem',
-                          fontWeight: active ? 700 : 500,
+                          padding: '6px 14px',
+                          fontSize: '0.82rem',
+                          fontWeight: active ? 800 : 600,
                           color: active ? 'var(--foreground)' : 'var(--muted-foreground)',
                           backgroundColor: active ? 'var(--card)' : 'transparent',
                           borderRadius: 'var(--radius-sm)',
@@ -446,7 +446,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                 </div>
 
                 {/* Legend */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.82rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--chart-1)' }} />
                     <span style={{ color: 'var(--muted-foreground)' }}>Revenue</span>
@@ -676,7 +676,7 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
         <div className="tail-card" style={{ padding: '0', overflow: 'hidden' }}>
           
           <div style={{
-            padding: '16px 20px',
+            padding: '18px 24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -685,13 +685,13 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
             gap: '12px'
           }}>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>Recent Deals & Opportunities</h3>
-              <p style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>Live deal progression & intent scores</p>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--foreground)', margin: 0 }}>Recent Deals & Opportunities</h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--muted-foreground)', margin: '3px 0 0' }}>Live deal progression & intent scores</p>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ position: 'relative', width: '220px' }}>
-                <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
+              <div style={{ position: 'relative', width: '240px' }}>
+                <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
                 <input
                   type="text"
                   placeholder="Filter deals..."
@@ -699,14 +699,14 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                   onChange={(e) => { setTableSearch(e.target.value); setCurrentPage(1); }}
                   style={{
                     width: '100%',
-                    height: '34px',
-                    paddingLeft: '32px',
-                    paddingRight: '10px',
+                    height: '38px',
+                    paddingLeft: '36px',
+                    paddingRight: '12px',
                     borderRadius: 'var(--radius-md)',
                     backgroundColor: 'var(--secondary)',
                     border: '1px solid var(--border)',
                     color: 'var(--foreground)',
-                    fontSize: '0.8125rem',
+                    fontSize: '0.88rem',
                     outline: 'none'
                   }}
                 />
@@ -757,65 +757,65 @@ const Dashboard = ({ collapsed, setCollapsed }) => {
                         </div>
                       </td>
                       <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: 'var(--radius-sm)',
+                            width: '38px',
+                            height: '38px',
+                            borderRadius: 'var(--radius-md)',
                             backgroundColor: 'var(--secondary)',
                             color: 'var(--accent)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontWeight: 700,
-                            fontSize: '0.75rem',
+                            fontWeight: 800,
+                            fontSize: '0.85rem',
                             border: '1px solid var(--border)'
                           }}>
                             {lead.company_name.charAt(0)}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 600, color: 'var(--foreground)', fontSize: '0.85rem' }}>{lead.company_name}</div>
-                            <div className="tabular-mono" style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>DE-{lead.id.toString().padStart(5, '0')}</div>
+                            <div style={{ fontWeight: 700, color: 'var(--foreground)', fontSize: '0.96rem' }}>{lead.company_name}</div>
+                            <div className="tabular-mono" style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)' }}>DE-{lead.id.toString().padStart(5, '0')}</div>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <div style={{ fontSize: '0.8125rem', color: 'var(--foreground)', fontWeight: 500 }}>{lead.contact_name}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>{lead.email}</div>
+                        <div style={{ fontSize: '0.88rem', color: 'var(--foreground)', fontWeight: 600 }}>{lead.contact_name}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--muted-foreground)' }}>{lead.email}</div>
                       </td>
                       <td>
-                        <span style={{ fontSize: '0.8125rem', color: 'var(--muted-foreground)' }}>{lead.industry}</span>
+                        <span style={{ fontSize: '0.88rem', color: 'var(--muted-foreground)' }}>{lead.industry}</span>
                       </td>
                       <td>
-                        <span className="tabular-mono" style={{ fontWeight: 700, color: 'var(--foreground)', fontSize: '0.875rem' }}>
+                        <span className="tabular-mono" style={{ fontWeight: 800, color: 'var(--foreground)', fontSize: '0.96rem' }}>
                           ${(lead.deal_value || 0).toLocaleString()}
                         </span>
                       </td>
                       <td>
-                        <span className={`badge tabular-mono ${lead.lead_score >= 80 ? 'badge-emerald' : lead.lead_score >= 60 ? 'badge-cyan' : 'badge-warning'}`}>
+                        <span className={`badge tabular-mono ${lead.lead_score >= 80 ? 'badge-emerald' : lead.lead_score >= 60 ? 'badge-cyan' : 'badge-warning'}`} style={{ fontSize: '0.78rem', padding: '3px 9px' }}>
                           {lead.lead_score} Score
                         </span>
                       </td>
                       <td>
-                        <span className={`badge ${lead.stage === 'Closed Won' ? 'badge-emerald' : 'badge-cyan'}`}>
+                        <span className={`badge ${lead.stage === 'Closed Won' ? 'badge-emerald' : 'badge-cyan'}`} style={{ fontSize: '0.78rem', padding: '3px 9px' }}>
                           {lead.stage || 'Qualified'}
                         </span>
                       </td>
                       <td>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                           <button
                             onClick={() => navigate('/outreach', { state: { lead } })}
                             title="Generate AI Outreach"
-                            style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', padding: '5px' }}
+                            style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', padding: '6px' }}
                           >
-                            <Send size={15} />
+                            <Send size={16} />
                           </button>
                           <button
                             onClick={() => navigate('/leads')}
                             title="View Profile"
-                            style={{ background: 'none', border: 'none', color: 'var(--muted-foreground)', cursor: 'pointer', padding: '5px' }}
+                            style={{ background: 'none', border: 'none', color: 'var(--muted-foreground)', cursor: 'pointer', padding: '6px' }}
                           >
-                            <Eye size={15} />
+                            <Eye size={16} />
                           </button>
                         </div>
                       </td>

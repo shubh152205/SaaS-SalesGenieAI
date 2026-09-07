@@ -395,11 +395,13 @@ export const TextToSpeechPlayer = ({
           >
             <div
               style={{
-                width: `${isPlaying ? Math.max(5, progress) : 0}%`,
+                width: '100%',
                 height: '100%',
-                background: 'linear-gradient(90deg, var(--brand-500), var(--info-500))',
+                backgroundColor: 'var(--accent)',
                 borderRadius: '3px',
-                transition: 'width 0.25s ease'
+                transform: `scaleX(${isPlaying ? Math.max(0.05, progress / 100) : 0})`,
+                transformOrigin: 'left',
+                transition: 'transform 0.2s ease-out'
               }}
             />
           </div>

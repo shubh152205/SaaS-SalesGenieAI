@@ -20,7 +20,6 @@ import {
 import api from '../api/client';
 import Navbar from '../components/Navbar';
 import TextToSpeechPlayer from '../components/TextToSpeechPlayer';
-import outreachHeroImg from '../assets/outreach_hero.jpg';
 
 const AIOutreach = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
@@ -125,40 +124,41 @@ const AIOutreach = ({ collapsed, setCollapsed }) => {
 
       <div className="page-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
-        {/* Visual Outreach Studio Showcase Banner */}
-        <div className="tail-card image-banner-strip glow-card" style={{ height: '140px' }}>
-          <img src={outreachHeroImg} alt="AI Sales Outreach Studio" />
-          <div className="image-banner-overlay">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                padding: '12px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
-                color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(236, 72, 153, 0.45)'
-              }}>
-                <Send size={24} />
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', margin: 0 }}>
-                    NVIDIA NIM Cold Outreach Studio
-                  </h2>
-                  <span className="badge badge-rose" style={{ fontSize: '0.72rem' }}>
-                    84% Avg Open Rate
-                  </span>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.85)', margin: '4px 0 0' }}>
-                  Hyper-personalized enterprise emails, LinkedIn InMails, and voice scripts with real-time TTS synthesis.
-                </p>
-              </div>
+        {/* Outreach Studio Operational Header */}
+        <div className="tail-card page-header-strip">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--secondary)',
+              color: 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              <Send size={20} />
             </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>
+                  Autonomous Outreach Studio
+                </h2>
+                <span className="badge badge-indigo" style={{ fontSize: '0.72rem' }}>
+                  NVIDIA NIM Llama 3.1 70B
+                </span>
+              </div>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--muted-foreground)', margin: '2px 0 0' }}>
+                Generate contextual sales emails, LinkedIn InMails, and voice scripts with real-time TTS synthesis.
+              </p>
+            </div>
+          </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span className="badge badge-indigo" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 700 }}>
-                Llama-3.1-70b-instruct
-              </span>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span className="badge badge-emerald" style={{ padding: '6px 12px', fontSize: '0.75rem', fontWeight: 600 }}>
+              Live Model Connected
+            </span>
           </div>
         </div>
 
