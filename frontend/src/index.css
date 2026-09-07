@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800;900&family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800&family=Outfit:wght@600;700;800;900&family=Urbanist:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'League Spartan', 'Montserrat', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'League Spartan', 'Montserrat', 'Urbanist', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* SalesOps Light Mode Palette */
@@ -238,26 +239,33 @@ body {
 
 /* Numeric & Monospace precision */
 .tabular-mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-heading), var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-/* Typography Hierarchy */
+/* Typography Hierarchy - Bold Geometric Display (Lemon Milk style) */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
 }
 
-.text-title-xxl { font-size: 2.5rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; }
-.text-title-xl { font-size: 2.1rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.025em; }
-.text-title-lg { font-size: 1.75rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
-.text-title-md { font-size: 1.45rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; }
-.text-title-sm { font-size: 1.25rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+.text-title-xxl { font-family: var(--font-heading); font-size: 2.65rem; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
+.text-title-xl { font-family: var(--font-heading); font-size: 2.2rem; font-weight: 850; line-height: 1.2; letter-spacing: -0.015em; }
+.text-title-lg { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
+.text-title-md { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; line-height: 1.3; letter-spacing: -0.005em; }
+.text-title-sm { font-family: var(--font-heading); font-size: 1.28rem; font-weight: 750; line-height: 1.35; letter-spacing: 0; }
 .text-theme-sm { font-size: 0.95rem; line-height: 1.45; }
 .text-theme-xs { font-size: 0.825rem; line-height: 1.4; }
+
+/* Lemon Milk Geometric Bold Branding Class */
+.font-lemon-bold {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  letter-spacing: 0.025em;
+}
 
 /* App Layout Grid */
 .app-layout {
@@ -410,10 +418,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-nav-section-title {
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
   color: var(--text-dim);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0 16px;
   margin: 18px 0 8px;
@@ -427,7 +436,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-md);
   color: var(--text-muted);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   margin: 2px 10px;
@@ -452,7 +461,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--brand-50) !important;
   color: var(--brand-600) !important;
   border-color: rgba(70, 95, 255, 0.2) !important;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .dark .menu-item-active {
@@ -476,7 +485,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(1.1);
 }
 
-/* High-End Tactile Buttons */
+/* High-End Tactile Buttons - Lemon Milk geometric bold feel */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -485,8 +494,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px 20px;
   border-radius: var(--radius-md);
   font-size: 0.9375rem;
-  font-weight: 600;
-  font-family: var(--font-sans);
+  font-weight: 750;
+  font-family: var(--font-heading);
+  letter-spacing: 0.015em;
   cursor: pointer;
   transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   border: 1px solid transparent;
@@ -560,7 +570,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 4px 11px;
   border-radius: var(--radius-full);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  letter-spacing: 0.025em;
   line-height: 1.3;
 }
 
@@ -718,10 +730,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .tail-table th {
   padding: 14px 20px;
+  font-family: var(--font-heading);
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--text-dim);
   white-space: nowrap;
 }
@@ -737,8 +750,11 @@ h1, h2, h3, h4, h5, h6 {
 /* Compact Table Variant for Multi-Column Split Views */
 .tail-table-compact th {
   padding: 12px 16px;
+  font-family: var(--font-heading);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .tail-table-compact td {
@@ -1107,9 +1123,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .page-header-strip h2 {
-  font-size: 1.25rem !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em !important;
+  font-family: var(--font-heading) !important;
+  font-size: 1.3rem !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.01em !important;
 }
 
 .page-header-strip p {

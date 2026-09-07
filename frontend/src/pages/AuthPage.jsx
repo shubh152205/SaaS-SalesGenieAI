@@ -63,7 +63,7 @@ const AuthPage = () => {
         overflowX: "hidden",
         display: "flex",
         flexDirection: "column",
-        fontFamily: "'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)"
       }}
     >
       {/* Top Navigation Header */}
@@ -84,22 +84,24 @@ const AuthPage = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span
               style={{
+                fontFamily: "var(--font-heading)",
                 fontSize: "0.78rem",
                 backgroundColor: "#465fff",
                 color: "#ffffff",
                 padding: "3px 9px",
                 borderRadius: "9999px",
-                fontWeight: 800,
-                letterSpacing: "0.05em"
+                fontWeight: 900,
+                letterSpacing: "0.06em"
               }}
             >
               SaaS
             </span>
             <span
               style={{
-                fontSize: "1.6rem",
-                fontWeight: 800,
-                letterSpacing: "-0.03em",
+                fontFamily: "var(--font-heading)",
+                fontSize: "1.65rem",
+                fontWeight: 900,
+                letterSpacing: "0.025em",
                 color: "#ffffff"
               }}
             >
@@ -152,10 +154,11 @@ const AuthPage = () => {
           <div>
             <h1
               style={{
+                fontFamily: "var(--font-heading)",
                 fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)",
                 lineHeight: "1.1",
-                letterSpacing: "-0.03em",
-                fontWeight: 800,
+                letterSpacing: "-0.015em",
+                fontWeight: 900,
                 color: "#ffffff",
                 margin: 0
               }}

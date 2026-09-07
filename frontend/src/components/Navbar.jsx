@@ -76,11 +76,12 @@ const Navbar = ({
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <h1 style={{
-            fontSize: '1.38rem',
-            fontWeight: 800,
+            fontFamily: 'var(--font-heading)',
+            fontSize: '1.42rem',
+            fontWeight: 850,
             color: 'var(--foreground)',
             margin: 0,
-            letterSpacing: '-0.025em'
+            letterSpacing: '-0.01em'
           }}>
             {title}
           </h1>
@@ -93,8 +94,9 @@ const Navbar = ({
             borderRadius: 'var(--radius-full)',
             backgroundColor: 'var(--secondary)',
             color: 'var(--muted-foreground)',
+            fontFamily: 'var(--font-heading)',
             fontSize: '0.82rem',
-            fontWeight: 600,
+            fontWeight: 700,
             border: '1px solid var(--border)'
           }}>
             <Calendar size={13} style={{ color: 'var(--accent)' }} />

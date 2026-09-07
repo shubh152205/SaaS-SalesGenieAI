@@ -149,55 +149,62 @@ export const SalesGenieFullLogo = ({ size = 60, showSubtitle = true, className =
       <SalesGenieBrainSparkIcon size={size} />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{
+          fontFamily: 'var(--font-heading)',
           fontSize: size > 48 ? '1.55rem' : '1.3rem',
           fontWeight: 900,
           color: 'var(--text-main)',
-          letterSpacing: '-0.03em',
+          letterSpacing: '0.02em',
           lineHeight: '1.2',
           display: 'flex',
           alignItems: 'center',
           gap: '9px'
         }}>
           <span style={{
+            fontFamily: 'var(--font-heading)',
             fontSize: size > 48 ? '0.8rem' : '0.72rem',
             background: 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)',
             color: '#ffffff',
             padding: '3px 8px',
             borderRadius: '6px',
-            fontWeight: 800,
-            letterSpacing: '0.05em',
+            fontWeight: 900,
+            letterSpacing: '0.06em',
             boxShadow: '0 2px 8px rgba(14, 165, 233, 0.35)'
           }}>
             SaaS
           </span>
           <span style={{
+            fontFamily: 'var(--font-heading)',
             fontSize: size > 48 ? '0.8rem' : '0.72rem',
             background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
             color: '#ffffff',
             padding: '3px 8px',
             borderRadius: '6px',
-            fontWeight: 800,
-            letterSpacing: '0.05em',
+            fontWeight: 900,
+            letterSpacing: '0.06em',
             boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)'
           }}>
             AI
           </span>
           <span style={{
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 900,
             background: 'linear-gradient(135deg, var(--text-main) 30%, var(--brand-400) 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
+            letterSpacing: '0.025em',
             filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
           }}>
             SalesGenie
           </span>
           <span style={{
+            fontFamily: 'var(--font-heading)',
             fontSize: size > 48 ? '0.82rem' : '0.74rem',
             background: 'linear-gradient(135deg, #4f46e5 0%, #ec4899 100%)',
             color: '#ffffff',
             padding: '3px 9px',
             borderRadius: '6px',
-            fontWeight: 800,
-            letterSpacing: '0.04em',
+            fontWeight: 900,
+            letterSpacing: '0.06em',
             boxShadow: '0 2px 10px rgba(79, 70, 229, 0.4)'
           }}>
             Forecasting
@@ -205,10 +212,11 @@ export const SalesGenieFullLogo = ({ size = 60, showSubtitle = true, className =
         </div>
         {showSubtitle && (
           <div style={{
+            fontFamily: 'var(--font-heading)',
             fontSize: '0.78rem',
             color: 'var(--brand-400)',
-            fontWeight: 700,
-            letterSpacing: '0.12em',
+            fontWeight: 800,
+            letterSpacing: '0.14em',
             textTransform: 'uppercase',
             marginTop: '4px',
             display: 'flex',

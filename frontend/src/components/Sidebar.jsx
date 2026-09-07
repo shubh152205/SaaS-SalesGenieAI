@@ -133,38 +133,41 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '7px'
+                  gap: '8px'
                 }}>
                   <span style={{
-                    fontWeight: 800,
-                    fontSize: '1.15rem',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 900,
+                    fontSize: '1.25rem',
                     color: 'var(--sidebar-foreground)',
-                    letterSpacing: '-0.025em',
+                    letterSpacing: '0.02em',
                     lineHeight: 1.15
                   }}>
                     SalesGenie
                   </span>
                   <span style={{
-                    fontSize: '0.72rem',
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '0.74rem',
                     background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
                     color: '#ffffff',
-                    padding: '2px 6px',
+                    padding: '2px 7px',
                     borderRadius: '5px',
-                    fontWeight: 800,
-                    letterSpacing: '0.04em'
+                    fontWeight: 900,
+                    letterSpacing: '0.05em'
                   }}>
                     AI
                   </span>
                 </div>
                 <span style={{
-                  fontSize: '0.74rem',
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '0.72rem',
                   color: 'var(--muted-foreground)',
-                  fontWeight: 700,
-                  letterSpacing: '0.05em',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   marginTop: '3px'
                 }}>
-                  Sales Intelligence <span style={{ color: 'var(--accent)', fontWeight: 800 }}>OS</span>
+                  Sales Intelligence <span style={{ color: 'var(--accent)', fontWeight: 900 }}>OS</span>
                 </span>
               </div>
             )}
@@ -175,10 +178,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         <nav style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {!collapsed && (
             <div style={{
-              fontSize: '0.76rem',
-              fontWeight: 800,
+              fontFamily: 'var(--font-heading)',
+              fontSize: '0.74rem',
+              fontWeight: 850,
               color: 'var(--muted-foreground)',
-              letterSpacing: '0.08em',
+              letterSpacing: '0.1em',
               textTransform: 'uppercase',
               padding: '0 12px',
               marginBottom: '8px'
@@ -205,7 +209,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   backgroundColor: isActive ? 'var(--sidebar-accent)' : 'transparent',
                   textDecoration: 'none',
                   fontSize: '0.94rem',
-                  fontWeight: isActive ? 700 : 500,
+                  fontWeight: isActive ? 750 : 600,
                   position: 'relative',
                   transition: 'all 0.15s ease'
                 })}
